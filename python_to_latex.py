@@ -121,13 +121,30 @@ def export(variables: dict[str, any], config=default_config):
             else:
                 sig_figs = -1
 
+        # Check for faulty values:
+        is_not_faulty = (
+            isinstance(value, (int, float))
+            and value != float("inf")
+            and value != float("-inf")
+            and isinstance(error, (int, float))
+            and error != float("inf")
+            and error != float("-inf")
+        )
+        if not is_not_faulty:
+            export += "\\newcommand*{\\" + camel_case_name + "}{ERROR}\n"
+            print(f"There was an error with the variable {camel_case_name}.")
+            continue
+
         # Deal with the case that the user specified neither error nor sig figs:
         if not has_sig_figs and not has_error:
             sig_figs = config.default_sig_figs
             has_sig_figs = True
 
         # Get exponents:
-        value_exponent = np.floor(np.log10(value))
+        if value == 0:
+            value_exponent = 0
+        else:
+            value_exponent = np.floor(np.log10(value))
         if has_error:
             error_exponent = np.floor(np.log10(error))
 
@@ -143,7 +160,7 @@ def export(variables: dict[str, any], config=default_config):
             error_min_exponent = value_min_exponent
         elif has_error:
             # Get error sig figs:
-            error_first_digit = np.floor(error / 10**error_exponent)
+            error_first_digit = np.round(error / 10**error_exponent)
             if error_first_digit <= 2:
                 error_sig_figs = 2
             else:
@@ -193,6 +210,8 @@ def export(variables: dict[str, any], config=default_config):
         else:
             decimal_places = max(0, -value_min_exponent)
             if has_error:
+                if has_unit:
+                    output += "("
                 output += (
                     round_to_n_decimal_places(
                         value_rounded_normalized * 10**value_exponent, decimal_places
@@ -202,6 +221,8 @@ def export(variables: dict[str, any], config=default_config):
                         error_rounded_normalized * 10**value_exponent, decimal_places
                     )
                 )
+                if has_unit:
+                    output += ")"
             else:
                 output += round_to_n_decimal_places(
                     value_rounded_normalized * 10**value_exponent, decimal_places
@@ -209,7 +230,7 @@ def export(variables: dict[str, any], config=default_config):
 
         # Add unit:
         if has_unit:
-            output += "\\ \\unit{" + unit.replace('/', '\\') + "}"
+            output += "\\ \\unit{" + unit.replace("/", "\\") + "}"
 
         # Add to export:
         export += output + "}\n"
