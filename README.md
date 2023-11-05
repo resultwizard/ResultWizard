@@ -86,7 +86,7 @@ Explanation:
 
 - Variables that start with `result_` automatically get exported.
 - Variables that start with `result_error_` are assumed to carry the corresponding error value.
-- Variables that start with `result_unit_` are assumed to carry the corresponding unit. Unit strings have to be in the language of the LaTeX package `siunitx`. For convenience reasons, `/` is converted to `\`.
+- Variables that start with `result_unit_` are assumed to carry the corresponding unit. Unit strings have to be in the language of the LaTeX package `siunitx`.
 
 This package automatically does the correct rounding for you! To be precise, it uses one or two significant digits for the error value depending on whether the first error digit is less than or equal to 2.
 

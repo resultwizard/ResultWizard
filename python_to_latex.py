@@ -70,7 +70,7 @@ def export(variables: dict[str, any], config=default_config):
     # Iterate through keys:
     for key in keys:
         # Get variable name:
-        name = "".join(key.split("_")[1:])
+        name = key[key.index("_") + 1:]
         camel_case_name = snake_case_to_camel_case(key)
 
         # Create output string:
@@ -230,7 +230,7 @@ def export(variables: dict[str, any], config=default_config):
 
         # Add unit:
         if has_unit:
-            output += "\\ \\unit{" + unit.replace("/", "\\") + "}"
+            output += "\\ \\unit{" + unit + "}"
 
         # Add to export:
         export += output + "}\n"
