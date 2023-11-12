@@ -182,6 +182,9 @@ def export(variables: dict[str, any], config=ExportConfig()):
             error_rounded_normalized = (
                 np.round(error / 10**error_min_exponent) / 10**sig_figs * 10
             )
+        else:
+            if value_min_exponent > 0:
+                use_scientific_notation = True
 
         # Round and normalize value:
         value_rounded_normalized = (
