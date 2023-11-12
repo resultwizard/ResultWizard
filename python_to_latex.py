@@ -5,13 +5,13 @@ import numpy as np
 class ExportConfig:
     def __init__(
         self,
-        identifier: str,
-        error_identifier: str,
-        unit_identifier: str,
-        sig_figs_identifier: str,
-        min_exponent_for_non_scientific_notation: int,
-        max_exponent_for_non_scientific_notation: int,
-        default_sig_figs: int,
+        identifier="result",
+        error_identifier="error",
+        unit_identifier="unit",
+        sig_figs_identifier="sigfigs",
+        min_exponent_for_non_scientific_notation=-2,
+        max_exponent_for_non_scientific_notation=3,
+        default_sig_figs=2,
     ) -> None:
         self.identifier = identifier
         self.error_identifier = error_identifier
@@ -38,9 +38,6 @@ class ExportConfig:
         return self.identifier + "_" + self.sig_figs_identifier + "_"
 
 
-default_config = ExportConfig("result", "error", "unit", "sigfigs", -2, 2, 2)
-
-
 def snake_case_to_camel_case(snake_case_name: str):
     name_parts = snake_case_name.split("_")
     camel_case_name = name_parts[0]
@@ -53,7 +50,7 @@ def round_to_n_decimal_places(v: float, n: int):
     return "{:.{}f}".format(v, int(n))
 
 
-def export(variables: dict[str, any], config=default_config):
+def export(variables: dict[str, any], config=ExportConfig()):
     # Get relevant keys:
     keys = [
         key
@@ -70,7 +67,7 @@ def export(variables: dict[str, any], config=default_config):
     # Iterate through keys:
     for key in keys:
         # Get variable name:
-        name = key[key.index("_") + 1:]
+        name = key[key.index("_") + 1 :]
         camel_case_name = snake_case_to_camel_case(key)
 
         # Create output string:
@@ -120,6 +117,9 @@ def export(variables: dict[str, any], config=default_config):
                 sig_figs = variables[sig_figs_key]
             else:
                 sig_figs = -1
+
+        is_negative = value < 0
+        value = np.abs(value)
 
         # Check for faulty values:
         is_not_faulty = (
@@ -189,10 +189,16 @@ def export(variables: dict[str, any], config=default_config):
         )
 
         # Generate output:
+        if is_negative:
+            sign = "-"
+        else:
+            sign = ""
+
         if use_scientific_notation:
             if has_error:
                 output += (
                     "("
+                    + sign
                     + round_to_n_decimal_places(value_rounded_normalized, sig_figs - 1)
                     + " \\pm "
                     + round_to_n_decimal_places(error_rounded_normalized, sig_figs - 1)
@@ -202,7 +208,8 @@ def export(variables: dict[str, any], config=default_config):
                 )
             else:
                 output += (
-                    round_to_n_decimal_places(value_rounded_normalized, sig_figs - 1)
+                    sign
+                    + round_to_n_decimal_places(value_rounded_normalized, sig_figs - 1)
                     + "\\cdot 10^{"
                     + round_to_n_decimal_places(value_exponent, 0)
                     + "}"
@@ -213,7 +220,8 @@ def export(variables: dict[str, any], config=default_config):
                 if has_unit:
                     output += "("
                 output += (
-                    round_to_n_decimal_places(
+                    sign
+                    + round_to_n_decimal_places(
                         value_rounded_normalized * 10**value_exponent, decimal_places
                     )
                     + " \\pm "
@@ -224,7 +232,7 @@ def export(variables: dict[str, any], config=default_config):
                 if has_unit:
                     output += ")"
             else:
-                output += round_to_n_decimal_places(
+                output += sign + round_to_n_decimal_places(
                     value_rounded_normalized * 10**value_exponent, decimal_places
                 )
 
