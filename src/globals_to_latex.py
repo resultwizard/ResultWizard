@@ -1,6 +1,6 @@
 from src.config import ExportConfig
 from src.helpers import snake_case_to_camel_case
-from src.var_to_latex import var_to_latex
+from src.var_to_latex import var_to_latex_newcommand
 
 
 def globals_to_latex(variables: dict[str, any], config=ExportConfig()) -> str:
@@ -65,6 +65,6 @@ def globals_to_latex(variables: dict[str, any], config=ExportConfig()) -> str:
             else:
                 sig_figs = -1
 
-        export += var_to_latex(camel_case_name, value, error, unit, sig_figs, config)
+        export += var_to_latex_newcommand(camel_case_name, value, error, unit, sig_figs, config)
 
     return export

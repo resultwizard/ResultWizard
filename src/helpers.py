@@ -6,5 +6,9 @@ def snake_case_to_camel_case(snake_case_name: str):
     return camel_case_name
 
 
+def snake_case_to_kebab_case(snake_case_name: str):
+    return snake_case_name.replace("_", "-")
+
+
 def round_to_n_decimal_places(v: float, n: int):
     return "{:.{}f}".format(v, int(n))

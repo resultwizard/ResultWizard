@@ -1,10 +1,31 @@
 import numpy as np
 from src.helpers import round_to_n_decimal_places
 from src.config import ExportConfig
+from src.helpers import snake_case_to_camel_case
+
+
+def var_to_latex_newcommand(
+    name: str,
+    value: float,
+    error: float = 0,
+    unit: str = "",
+    sig_figs: int = -1,
+    config: ExportConfig = ExportConfig(),
+):
+    # Create name:
+    if not name.startswith(config.identifier):
+        name = config.complete_identifier() + name
+    camel_case_name = snake_case_to_camel_case(name)
+
+    latex_str = var_to_latex(value, error, unit, sig_figs, config)
+
+    if latex_str == "ERROR":
+        print(f"There was an error with the variable {name}.")
+
+    return "\\newcommand*{\\" + camel_case_name + "}{" + latex_str + "}\n"
 
 
 def var_to_latex(
-    name: str,
     value: float,
     error: float = 0,
     unit: str = "",
@@ -16,7 +37,7 @@ def var_to_latex(
     has_sig_figs = sig_figs != -1
 
     # Create output string:
-    output = "\\newcommand*{\\" + name + "}{"
+    output = ""
 
     is_negative = value < 0
     value = np.abs(value)
@@ -31,8 +52,7 @@ def var_to_latex(
         and error != float("-inf")
     )
     if not is_not_faulty:
-        print(f"There was an error with the variable {name}.")
-        return "\\newcommand*{\\" + name + "}{ERROR}\n"
+        return "ERROR"
 
     # Deal with the case that the user specified neither error nor sig figs:
     if not has_sig_figs and not has_error:
@@ -142,4 +162,4 @@ def var_to_latex(
     if has_unit:
         output += "\\ \\unit{" + unit + "}"
 
-    return output + "}\n"
+    return output

@@ -5,6 +5,7 @@ class ExportConfig:
         error_identifier="error",
         unit_identifier="unit",
         sig_figs_identifier="sigfigs",
+        table_identifier="table",
         min_exponent_for_non_scientific_notation=-2,
         max_exponent_for_non_scientific_notation=3,
         default_sig_figs=2,
@@ -13,6 +14,7 @@ class ExportConfig:
         self.error_identifier = error_identifier
         self.unit_identifier = unit_identifier
         self.sig_figs_identifier = sig_figs_identifier
+        self.table_identifier = table_identifier
         self.min_exponent_for_non_scientific_notation = (
             min_exponent_for_non_scientific_notation
         )
@@ -32,3 +34,6 @@ class ExportConfig:
 
     def complete_sig_figs_identifier(self):
         return self.identifier + "_" + self.sig_figs_identifier + "_"
+    
+    def complete_table_identifier(self):
+        return self.table_identifier + "_"

@@ -1,8 +1,8 @@
 import os
 from src.config import ExportConfig
 from src.globals_to_latex import globals_to_latex
-from src.var_to_latex import var_to_latex
-from src.helpers import snake_case_to_camel_case
+from src.var_to_latex import var_to_latex_newcommand
+from src.table_to_latex import table_to_latex_newcommand
 
 
 class PythonToLatex:
@@ -18,13 +18,27 @@ class PythonToLatex:
         unit: str = "",
         sig_figs: int = -1,
     ):
-        self._export_str += var_to_latex(
-            snake_case_to_camel_case(self._config.complete_identifier() + name),
+        self._export_str += var_to_latex_newcommand(
+            name,
             value,
             error,
             unit,
             sig_figs,
             self._config,
+        )
+
+    def table(
+        self,
+        name: str,
+        columns: list,
+        caption: str = "",
+        config: ExportConfig = ExportConfig(),
+    ):
+        self._export_str += table_to_latex_newcommand(
+            name,
+            columns,
+            caption,
+            config,
         )
 
     def export(self, path: str, globals: dict[str, any] = {}):
