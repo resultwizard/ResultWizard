@@ -9,6 +9,7 @@ def table_to_latex_newcommand(
     name: str,
     columns: list,
     caption: str = "",
+    float_mode: str = "h!",
     config: ExportConfig = ExportConfig(),
 ):
     # Create name:
@@ -20,7 +21,7 @@ def table_to_latex_newcommand(
         "\\newcommand*{\\"
         + camel_case_name
         + "}{%\n"
-        + table_to_latex(name, columns, caption, config)
+        + table_to_latex(name, columns, caption, float_mode, config)
         + "}\n"
     )
 
@@ -29,6 +30,7 @@ def table_to_latex(
     name: str,
     columns: list,
     caption: str = "",
+    float_mode: str = "h!",
     config: ExportConfig = ExportConfig(),
 ) -> str:
     # Create name:
@@ -47,7 +49,7 @@ def table_to_latex(
     output = ""
 
     # Table header:
-    output += "\\begin{" + "table" + "}[h!]\n"
+    output += "\\begin{" + "table" + "}[" + float_mode + "]\n"
     output += "\\begin{" + "center" + "}\n"
     output += "\\begin{" + "tabular" + "}{|"
     for i in range(len(columns)):

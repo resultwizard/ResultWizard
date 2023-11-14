@@ -32,12 +32,14 @@ class PythonToLatex:
         name: str,
         columns: list,
         caption: str = "",
+        float_mode: str = "h!",
         config: ExportConfig = ExportConfig(),
     ):
         self._export_str += table_to_latex_newcommand(
             name,
             columns,
             caption,
+            float_mode,
             config,
         )
 
