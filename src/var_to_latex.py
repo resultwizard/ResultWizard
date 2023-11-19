@@ -1,12 +1,15 @@
 import numpy as np
-from src.helpers import round_to_n_decimal_places
 from src.config import ExportConfig
-from src.helpers import snake_case_to_camel_case
+from src.helpers import (
+    snake_case_to_camel_case,
+    get_exponent,
+    round_to_n_decimal_places,
+)
 
 
 def var_to_latex_newcommand(
     name: str,
-    value: float,
+    value: float | int,
     error: float = 0,
     unit: str = "",
     sig_figs: int = -1,
@@ -26,7 +29,7 @@ def var_to_latex_newcommand(
 
 
 def var_to_latex(
-    value: float,
+    value: float | int,
     error: float = 0,
     unit: str = "",
     sig_figs: int = -1,
@@ -35,6 +38,13 @@ def var_to_latex(
     has_error = error != 0
     has_unit = unit != ""
     has_sig_figs = sig_figs != -1
+
+    # Allow for int values:
+    if type(value) is int:
+        value = float(value)
+        if not has_error:
+            sig_figs = int(get_exponent(value)) + 1
+            has_sig_figs = True
 
     # Create output string:
     output = ""
@@ -63,9 +73,9 @@ def var_to_latex(
     if value == 0:
         value_exponent = 0
     else:
-        value_exponent = np.floor(np.log10(value))
+        value_exponent = get_exponent(value)
     if has_error:
-        error_exponent = np.floor(np.log10(error))
+        error_exponent = get_exponent(error)
 
     # Should use scientific notation?
     use_scientific_notation = (
@@ -91,24 +101,39 @@ def var_to_latex(
         # Get number of sig figs:
         sig_figs = value_exponent - value_min_exponent + 1
 
-    # Additional calculations if there is an error:
+    # Round and normalize error:
     if has_error:
-        # Use scientific for errors like 120
-        if error_min_exponent > 0:
-            use_scientific_notation = True
-
-        # Round and normalize error:
         error_rounded_normalized = (
             np.round(error / 10**error_min_exponent) / 10**sig_figs * 10
         )
-    else:
-        if value_min_exponent > 0:
-            use_scientific_notation = True
 
     # Round and normalize value:
     value_rounded_normalized = (
         np.round(value / 10**value_min_exponent) / 10**sig_figs * 10
     )
+
+    # Account for rounding like 0.999 -> 1.000 that change value exponent:
+    if has_error:
+        if get_exponent(error_rounded_normalized) > 0:
+            error_exponent += 1
+            error_min_exponent += 1
+            error_rounded_normalized = (
+                np.round(error / 10**error_min_exponent) / 10**sig_figs * 10
+            )
+
+        # Use scientific for errors like 120
+        if error_min_exponent > 0:
+            use_scientific_notation = True
+    else:
+        if get_exponent(value_rounded_normalized) > 0:
+            value_exponent += 1
+            value_min_exponent += 1
+            value_rounded_normalized = (
+                np.round(value / 10**value_min_exponent) / 10**sig_figs * 10
+            )
+
+        if value_min_exponent > 0:
+            use_scientific_notation = True
 
     # Generate output:
     if is_negative:

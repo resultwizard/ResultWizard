@@ -1,4 +1,3 @@
-import numpy as np
 from src.helpers import round_to_n_decimal_places
 from src.config import ExportConfig
 from src.helpers import snake_case_to_camel_case, snake_case_to_kebab_case
@@ -105,17 +104,23 @@ def table_to_latex(
                         sig_figs = sig_figs[i]
                 except:
                     sig_figs = -1
+                try:
+                    unit = column[5]
+                    if type(unit) is list:
+                        unit = unit[i]
+                except:
+                    unit = ""
 
-                output += "$" + var_to_latex(value, error, "", sig_figs, config) + "$"
+                output += "$" + var_to_latex(value, error, unit, sig_figs, config) + "$"
 
         output += "\\\\\n"
 
     # Table footer:
     output += "\\hline\n"
     output += "\\end{" + "tabular" + "}\n"
-    output += "\\end{" + "center" + "}\n"
     if caption != "":
         output += "\\caption{" + caption + "}\n"
+    output += "\\end{" + "center" + "}\n"
     output += "\\label{" + kebab_case_name + "}\n"
     output += "\\end{" + "table" + "}\n"
 

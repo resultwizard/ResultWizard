@@ -13,7 +13,7 @@ class PythonToLatex:
     def var(
         self,
         name: str,
-        value: float,
+        value: float | int,
         error: float = 0,
         unit: str = "",
         sig_figs: int = -1,

@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def snake_case_to_camel_case(snake_case_name: str):
     name_parts = snake_case_name.split("_")
     camel_case_name = name_parts[0]
@@ -12,3 +15,7 @@ def snake_case_to_kebab_case(snake_case_name: str):
 
 def round_to_n_decimal_places(v: float, n: int):
     return "{:.{}f}".format(v, int(n))
+
+
+def get_exponent(v: float):
+    return np.floor(np.log10(v))
