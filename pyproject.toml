@@ -1,0 +1,48 @@
+# See the specification of the pyproject.toml file at:
+# https://packaging.python.org/en/latest/specifications/pyproject-toml/
+
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "valuewizard"
+version = "0.1"
+authors = [
+    { name = "paul019", email = "todo@todo.de" },
+    { name = "Dominic Plein (Splines)", email = "todo@todo.de" },
+]
+description = "Python to LaTeX variable conversion"
+keywords = [
+    "latex",
+    "variable",
+    "science",
+    "results",
+    "rounding",
+    "significant figures",
+    "jupyter",
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Text Processing :: Markup :: LaTeX",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/paul019/ValueWizard"
+Repository = "https://github.com/paul019/ValueWizard"
+Issues = "https://github.com/paul019/ValueWizard/issues"
+Changelog = "https://github.com/paul019/ValueWizard/blob/main/CHANGELOG.md"
