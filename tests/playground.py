@@ -10,10 +10,8 @@
 import valuewizard as wiz
 
 wiz.res("hello", 1.0, 0.42, "m")
-wiz.res("abc", 5.01, 0.12, "T").print()
-wiz.res("hello", 3.14, 0.41, "mm").print()
-
+wiz.res("abc", 5.01, 0.12, "T")
+# shadowing (!)
+wiz.res("hello", 3.14, (0.41, "myerror1"), (0.42, "myerror2"), "mm").print()
 
 wiz.export("my/path.tex")
-# for res in wiz._cache.contents():
-# print(f"Value: {res.value}, Error: {res.error}, Unit: {res.unit}")

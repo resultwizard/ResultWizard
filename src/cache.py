@@ -8,5 +8,5 @@ class _ResultsCache:
     def add(self, name, result: _Result):
         self.cache[name] = result
 
-    def get_all_results(self):
+    def get_all_results(self) -> dict[str, _Result]:
         return self.cache.items()
