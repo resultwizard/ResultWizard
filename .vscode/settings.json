@@ -1,0 +1,31 @@
+{
+    //////////////////////////////////////
+    // Files
+    //////////////////////////////////////
+    "files.exclude": {
+        "**/__pycache__/": true,
+        "**/*.egg-info/": true,
+    },
+    //////////////////////////////////////
+    // Editor
+    //////////////////////////////////////
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 100, // toggle via Alt + Z shortcut
+    "editor.mouseWheelZoom": true,
+    "editor.rulers": [
+        {
+            "column": 80, // soft limit
+            "color": "#e5e5e5"
+        },
+        {
+            "column": 100, // hard limit
+            "color": "#c9c9c9"
+        }
+    ],
+    //////////////////////////////////////
+    // Git
+    //////////////////////////////////////
+    "git.inputValidation": "warn",
+    "git.inputValidationSubjectLength": 50,
+    "git.inputValidationLength": 72,
+}
