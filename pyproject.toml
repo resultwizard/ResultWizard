@@ -51,3 +51,15 @@ Homepage = "https://github.com/paul019/ValueWizard"
 Repository = "https://github.com/paul019/ValueWizard"
 Issues = "https://github.com/paul019/ValueWizard/issues"
 Changelog = "https://github.com/paul019/ValueWizard/blob/main/CHANGELOG.md"
+
+# TODO: Add these checks back
+[tool.pylint."messages control"]
+disable = [
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+]
+
+[tool.pylint.format]
+max-line-length = 100
+max-module-lines = 500

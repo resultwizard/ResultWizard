@@ -1,5 +1,13 @@
 {
     //////////////////////////////////////
+    // Python (linting & formatting)
+    //////////////////////////////////////
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "pylint.importStrategy": "fromEnvironment",
+    //////////////////////////////////////
     // Files
     //////////////////////////////////////
     "files.exclude": {
@@ -9,6 +17,9 @@
     //////////////////////////////////////
     // Editor
     //////////////////////////////////////
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 100, // toggle via Alt + Z shortcut
     "editor.mouseWheelZoom": true,
