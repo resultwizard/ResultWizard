@@ -5,6 +5,9 @@
 requires = ["setuptools>=69.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.package-dir]
+valuewizard = "src"
+
 [project]
 name = "valuewizard"
 version = "0.1"
