@@ -5,7 +5,6 @@
 # [1] https://setuptools.pypa.io/en/latest/userguide/quickstart.html#development-mode
 
 
-import valuewizard.result as wiz
+from valuewizard import res
 
-
-wiz.res(1.0)
+res(42.31415)

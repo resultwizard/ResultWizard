@@ -5,8 +5,10 @@
 requires = ["setuptools>=69.0"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools.package-dir]
-valuewizard = "src"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["valuewizard"]
+namespaces = false
 
 [project]
 name = "valuewizard"
