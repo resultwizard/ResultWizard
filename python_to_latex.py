@@ -33,6 +33,7 @@ class PythonToLatex:
         columns: list,
         caption: str = "",
         float_mode: str = "h!",
+        resize_to_fit_page: bool = False,
         config: ExportConfig = ExportConfig(),
     ):
         self._export_str += table_to_latex_newcommand(
@@ -40,6 +41,7 @@ class PythonToLatex:
             columns,
             caption,
             float_mode,
+            resize_to_fit_page,
             config,
         )
 

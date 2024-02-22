@@ -9,6 +9,7 @@ def table_to_latex_newcommand(
     columns: list,
     caption: str = "",
     float_mode: str = "h!",
+    resize_to_fit_page: bool = False,
     config: ExportConfig = ExportConfig(),
 ):
     # Create name:
@@ -20,7 +21,7 @@ def table_to_latex_newcommand(
         "\\newcommand*{\\"
         + camel_case_name
         + "}{%\n"
-        + table_to_latex(name, columns, caption, float_mode, config)
+        + table_to_latex(name, columns, caption, float_mode, resize_to_fit_page, config)
         + "}\n"
     )
 
@@ -30,6 +31,7 @@ def table_to_latex(
     columns: list,
     caption: str = "",
     float_mode: str = "h!",
+    resize_to_fit_page: bool = False,
     config: ExportConfig = ExportConfig(),
 ) -> str:
     # Create name:
@@ -50,6 +52,8 @@ def table_to_latex(
     # Table header:
     output += "\\begin{" + "table" + "}[" + float_mode + "]\n"
     output += "\\begin{" + "center" + "}\n"
+    if resize_to_fit_page:
+        output += "\\resizebox{\\textwidth}{!}{"
     output += "\\begin{" + "tabular" + "}{|"
     for i in range(len(columns)):
         output += "c|"
@@ -118,6 +122,8 @@ def table_to_latex(
     # Table footer:
     output += "\\hline\n"
     output += "\\end{" + "tabular" + "}\n"
+    if resize_to_fit_page:
+        output += "}"
     if caption != "":
         output += "\\caption{" + caption + "}\n"
     output += "\\end{" + "center" + "}\n"
