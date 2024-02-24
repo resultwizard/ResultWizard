@@ -42,7 +42,7 @@ def var_to_latex(
     # Allow for int values:
     if type(value) is int:
         value = float(value)
-        if not has_error:
+        if not has_error and not has_sig_figs:
             sig_figs = int(get_exponent(value)) + 1
             has_sig_figs = True
 
