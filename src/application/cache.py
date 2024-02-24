@@ -1,4 +1,4 @@
-from result import _Result
+from domain.result import _Result
 
 
 class _ResultsCache:
@@ -9,4 +9,7 @@ class _ResultsCache:
         self.cache[name] = result
 
     def get_all_results(self) -> dict[str, _Result]:
-        return self.cache.items()
+        return self.cache
+
+
+_res_cache = _ResultsCache()

@@ -44,6 +44,8 @@
     //////////////////////////////////////
     "cSpell.words": [
         "github",
-        "pylint"
+        "pylint",
+        "Stringifier",
+        "uncert"
     ],
 }
