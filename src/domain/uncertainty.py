@@ -14,11 +14,6 @@ class _Uncertainty:
     """
 
     def __init__(self, uncertainty: str, is_exact: bool, name=""):
-        if not isinstance(uncertainty, (float, str)):
-            raise TypeError(f"`uncertainty` must be a number-string, not {type(uncertainty)}")
-        if not isinstance(name, str):
-            raise TypeError(f"`name` must be a string, not {type(name)}")
-
         self.uncertainty = _Value(uncertainty, is_exact)
         self.name = name
 

@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+
 class _Value:
     """
     A floating-point value represented as string that is either treated as exact

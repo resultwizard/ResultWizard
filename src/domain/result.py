@@ -1,18 +1,20 @@
 from domain.uncertainty import _Uncertainty
 from domain.value import _Value
 
+from dataclasses import dataclass
 
+
+@dataclass
 class _Result:
     """
     A general-purpose result, i.e. a value that was somehow measured or calculated,
-    along with a unit and optional uncertainties.
+    along with a unit and optional uncertainties (list might be empty).
     """
 
-    def __init__(self, name, value: _Value, unit: str, uncertainties: list[_Uncertainty] = []):
-        self.name = name
-        self.value = value
-        self.uncertainties = uncertainties
-        self.unit = unit
+    name: str
+    value: _Value
+    unit: str
+    uncertainties: list[_Uncertainty]
 
     def __str__(self):
         if len(self.uncertainties) == 0:
