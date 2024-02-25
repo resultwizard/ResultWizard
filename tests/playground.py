@@ -1,4 +1,4 @@
-# TLDR: `pip install -e .` from the root directory of the package
+# TLDR: `pip3 install -e .` from the root directory of the package
 # Then: `python3 ./tests/playground.py`
 #
 # development mode: "setuptools allows you to install a package without
