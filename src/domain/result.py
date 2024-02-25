@@ -14,10 +14,9 @@ class _Result:
         self.uncertainties = uncertainties
         self.unit = unit
 
-    # def print(self):
-    #     uncertainties_str = ", ".join([str(u) for u in self.uncertainties])
-    #     print(f"{self.name}: {self.value.extract()} ± {uncertainties_str} {self.unit}")
-
     def __str__(self):
+        if len(self.uncertainties) == 0:
+            return f"{self.name}: {self.value.extract()} {self.unit}"
+
         uncertainties_str = ", ".join([str(u) for u in self.uncertainties])
         return f"{self.name}: ({self.value.extract()} ± {uncertainties_str}) {self.unit}"

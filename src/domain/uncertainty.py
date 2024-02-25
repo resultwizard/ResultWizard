@@ -23,6 +23,6 @@ class _Uncertainty:
         self.name = name
 
     def __str__(self):
-        if self.name != None:
+        if self.name == "":
             return f"{self.uncertainty.extract()}"
-        return f"{self.uncertainty.extract()} ({self.name})"
+        return f"{self.uncertainty.extract()} {self.name}"

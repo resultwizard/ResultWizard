@@ -9,12 +9,23 @@
 
 import valuewizard as wiz
 
-# wiz.res("hello", 1.0, 0.42, "m")
-# wiz.res("abc", 5.01, 0.12, "T")
-# # shadowing (!)
-# wiz.res("hello", 3.14, (0.41, "myerror1"), (0.42, "myerror2"), "mm").print()
+# TODO: shadowing a variable, give a warning
 
-important_result = wiz.res("important", 1.0, "m", uncert=[0.42]).print()
-# >> important: (1.0 ± 0.42) m
+# EXAMPLES
 
-# wiz.export("my/path.tex")
+wiz.res("important", 1.0, r"\mm").print()
+# important: 1.0 \mm
+
+wiz.res("important", 1.0, 0.01, r"\mm").print()
+# important: (1.0 ± 0.01) \mm
+
+wiz.res("important", 1.0, (0.01, "systematic"), r"\mm").print()
+# important: (1.0 ± 0.01 systematic) \mm
+
+wiz.res("important", 1.0, [(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
+# important: (1.0 ± 0.01 systematic, 0.02 stat) \mm
+
+
+# The following wont' work as we can't have positional arguments (here: unit)
+# after keyword arguments (here: uncert)
+# wiz.res("important", 1.0, uncert=[(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
