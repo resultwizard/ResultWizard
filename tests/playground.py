@@ -9,24 +9,39 @@
 
 import valuewizard as wiz
 
-# TODO: give a warning when a variable is redefined ("shadowed")
+print("#############################")
+print("### Playground")
+print("#############################")
+print()
+
 
 #############################
 # EXAMPLES
 #############################
 
-wiz.res("important", 1.0, r"\mm").print()
-# important: 1.0 \mm
+print("### RESULTS API")
 
-wiz.res("important", 1.0, 0.01, r"\mm").print()
-# important: (1.0 ± 0.01) \mm
+wiz.res("a", 1.0, r"\mm").print()
+# a: 1.0 \mm
 
-wiz.res("important", 1.0, (0.01, "systematic"), r"\mm").print()
-# important: (1.0 ± 0.01 systematic) \mm
+wiz.res("b", 1.0, 0.01, r"\mm").print()
+# b: (1.0 ± 0.01) \mm
 
-wiz.res("important", 1.0, [(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
-# important: (1.0 ± 0.01 systematic, 0.02 stat) \mm
+wiz.res("c", 1.0, (0.01, "systematic"), r"\mm").print()
+# c: (1.0 ± 0.01 systematic) \mm
+
+wiz.res("d", 1.0, [(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
+# d: (1.0 ± 0.01 systematic, 0.02 stat) \mm
 
 # The following wont' work as we can't have positional arguments (here: unit)
 # after keyword arguments (here: uncert)
-# wiz.res("important", 1.0, uncert=[(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
+# wiz.res("d", 1.0, uncert=[(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
+
+
+#############################
+# Export
+#############################
+
+print()
+print("### EXPORT")
+wiz.export("results.tex")

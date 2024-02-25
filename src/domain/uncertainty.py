@@ -17,6 +17,9 @@ class _Uncertainty:
         self.uncertainty = _Value(uncertainty, is_exact)
         self.name = name
 
+    def value(self) -> _Value:
+        return self.uncertainty
+
     def __str__(self):
         if self.name == "":
             return f"{self.uncertainty.extract()}"
