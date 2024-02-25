@@ -25,11 +25,12 @@ def res(name: str, value: Union[float, str], unit: str) -> PrintableResult:
 def res(
     name: str,
     value: Union[float, str],
-    uncert: (
-        Union[float, str]
-        | Tuple[Union[float, str], str]
-        | List[Union[float, str] | Tuple[Union[float, str], str]]
-    ),
+    uncert: Union[
+        float,
+        str,
+        Tuple[Union[float, str], str],
+        List[Union[float, str, Tuple[Union[float, str], str]]],
+    ],
     unit: str,
 ) -> PrintableResult:
     # Parse user input
@@ -50,8 +51,8 @@ def res(
 # This is a good writeup: https://stackoverflow.com/a/29091980/
 @dispatch
 def res(*args, **kwargs) -> object:
-    # Final method without an implementation. This scans for all `overload`-decorated
-    # methods and properly adds them as Plum methods.
+    # This method only scans for all `overload`-decorated methods
+    # and properly adds them as Plum methods.
     pass
 
 
@@ -105,11 +106,12 @@ def _parse_value(value: Union[float, str]) -> _Value:
 
 
 def _parse_uncertainties(
-    uncertainties: (
-        Union[float, str]
-        | Tuple[Union[float, str], str]
-        | List[Union[float, str] | Tuple[Union[float, str], str]]
-    )
+    uncertainties: Union[
+        float,
+        str,
+        Tuple[Union[float, str], str],
+        List[Union[float, str, Tuple[Union[float, str], str]]],
+    ]
 ) -> List[_Uncertainty]:
     """Converts the uncertainties to a list of _Uncertainty objects."""
     uncertainties_res = []

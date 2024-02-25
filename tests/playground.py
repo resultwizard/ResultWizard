@@ -9,9 +9,11 @@
 
 import valuewizard as wiz
 
-# TODO: shadowing a variable, give a warning
+# TODO: give a warning when a variable is redefined ("shadowed")
 
+#############################
 # EXAMPLES
+#############################
 
 wiz.res("important", 1.0, r"\mm").print()
 # important: 1.0 \mm
@@ -24,7 +26,6 @@ wiz.res("important", 1.0, (0.01, "systematic"), r"\mm").print()
 
 wiz.res("important", 1.0, [(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
 # important: (1.0 ± 0.01 systematic, 0.02 stat) \mm
-
 
 # The following wont' work as we can't have positional arguments (here: unit)
 # after keyword arguments (here: uncert)
