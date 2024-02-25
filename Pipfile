@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+plum-dispatch = "*"
 
 [dev-packages]
 pylint = "~=3.0"
