@@ -5,7 +5,7 @@ from domain.value import _Value
 from domain.uncertainty import _Uncertainty
 
 from plum import dispatch, overload
-from typing import Tuple
+from typing import Union, List, Tuple
 
 
 # TODO: import types from typing to ensure backwards compatibility down to Python 3.8
@@ -17,15 +17,19 @@ from typing import Tuple
 
 
 @overload
-def res(name: str, value: float | str, unit: str) -> PrintableResult:
+def res(name: str, value: Union[float, str], unit: str) -> PrintableResult:
     return res(name, value, [], unit)
 
 
 @overload
 def res(
     name: str,
-    value: float | str,
-    uncert: float | str | Tuple[float | str, str] | list[float | str | Tuple[float | str, str]],
+    value: Union[float, str],
+    uncert: (
+        Union[float, str]
+        | Tuple[Union[float, str], str]
+        | List[Union[float, str] | Tuple[Union[float, str], str]]
+    ),
     unit: str,
 ) -> PrintableResult:
     # Parse user input
@@ -51,7 +55,7 @@ def res(*args, **kwargs) -> object:
     pass
 
 
-def _is_exact(value: float | str) -> bool:
+def _is_exact(value: Union[float, str]) -> bool:
     """Returns True if the value is a str, False otherwise.
 
     This is just a choice of how we let the user specify whether their value
@@ -89,7 +93,7 @@ def _parse_unit(unit: str) -> str:
     return unit
 
 
-def _parse_value(value: float | str) -> _Value:
+def _parse_value(value: Union[float, str]) -> _Value:
     """Converts the value to a _Value object."""
     if not isinstance(value, (float, str)):
         raise TypeError(f"`value` must be a float or string, not {type(value)}")
@@ -102,12 +106,15 @@ def _parse_value(value: float | str) -> _Value:
 
 def _parse_uncertainties(
     uncertainties: (
-        float | str | Tuple[float | str, str] | list[float | str | Tuple[float | str, str]]
+        Union[float, str]
+        | Tuple[Union[float, str], str]
+        | List[Union[float, str] | Tuple[Union[float, str], str]]
     )
-) -> list[_Uncertainty]:
+) -> List[_Uncertainty]:
     """Converts the uncertainties to a list of _Uncertainty objects."""
     uncertainties_res = []
 
+    # no list, but a single value was given
     if isinstance(uncertainties, (float, str, Tuple)):
         uncertainties = [uncertainties]
 
