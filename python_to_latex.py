@@ -60,3 +60,5 @@ class PythonToLatex:
         # Write file:
         with open(abs_path, "w") as f:
             f.write(self._export_str)
+
+# Test commit to check GPG key
