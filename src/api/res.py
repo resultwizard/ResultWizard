@@ -123,6 +123,16 @@ def _parse_name(name: str) -> str:
     if not isinstance(name, str):
         raise TypeError(f"`name` must be a string, not {type(name)}")
 
+    name = (
+        name.replace("ä", "ae")
+        .replace("ö", "oe")
+        .replace("ü", "ue")
+        .replace("Ä", "Ae")
+        .replace("Ö", "Oe")
+        .replace("Ü", "Ue")
+        .replace("ß", "ss")
+    )
+
     parsed_name = ""
     next_chat_upper = False
 
