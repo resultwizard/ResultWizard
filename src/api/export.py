@@ -3,7 +3,7 @@ from application.rounder import _Rounder
 from application.latexer import _LaTeXer
 
 
-def export(filepath):
+def export(filepath: str):
     """
     Rounds all results according to the significant figures and writes them
     to a .tex file at the given filepath.
@@ -12,7 +12,13 @@ def export(filepath):
     print(f"Processing {len(results)} result(s)")
 
     # Round and convert to LaTeX commands
-    cmds = []
+    cmds = [
+        r"%",
+        r"% In your `main.tex` file, put this line directly before `\begin{document}`:",
+        r"%   \input{" + filepath.split("/")[-1].split(".")[0] + r"}",
+        r"%",
+        r"",
+    ]
     for result in results:
         _Rounder.round_result(result)
         print(result)
