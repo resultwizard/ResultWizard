@@ -4,9 +4,12 @@
     //////////////////////////////////////
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
     },
     "pylint.importStrategy": "fromEnvironment",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.languageServer": "Pylance",
+    "python.analysis.completeFunctionParens": true,
     //////////////////////////////////////
     // Files
     //////////////////////////////////////
@@ -36,7 +39,7 @@
     //////////////////////////////////////
     // Git
     //////////////////////////////////////
-    "git.inputValidation": "warn",
+    "git.inputValidation": true,
     "git.inputValidationSubjectLength": 50,
     "git.inputValidationLength": 72,
     //////////////////////////////////////
