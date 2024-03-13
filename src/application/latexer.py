@@ -18,4 +18,4 @@ class _LaTeXer:
         """
         # TODO @paul: Implement this method properly
         uncertainties_str = ", ".join([str(u) for u in result.uncertainties])
-        return f"\\qty{{{result.value.extract_exact()}}}{{{result.unit}}} and uncertainties: {uncertainties_str}"
+        return f"\\qty{{{result.value.extract()}}}{{{result.unit}}} and uncertainties: {uncertainties_str}"

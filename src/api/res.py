@@ -31,7 +31,7 @@ def res(
 def res(
     name: str,
     value: Union[float, str],
-    unit: Union[str, None] = None,
+    unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
@@ -68,9 +68,9 @@ def res(
 def res(
     name: str,
     value: Union[float, str],
-    sys: Union[float, str],
-    stat: Union[float, str],
-    unit: Union[str, None] = None,
+    sys: float,
+    stat: float,
+    unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
@@ -87,7 +87,7 @@ def res(
         Tuple[Union[float, str], str],
         List[Union[float, str, Tuple[Union[float, str], str]]],
     ] = [],
-    unit: Union[str, None] = None,
+    unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
@@ -118,16 +118,6 @@ def res(*args, **kwargs) -> object:
     pass
 
 
-def _is_exact(value: Union[float, str]) -> bool:
-    """Returns True if the value is a str, False otherwise.
-
-    This is just a choice of how we let the user specify whether their value
-    should be treated as exact (no significant figures rounding) or inexact.
-    Therefore, this belongs to the public API and *not* to the domain.
-    """
-    return isinstance(value, str)
-
-
 def _check_if_number_string(value: str) -> None:
     """Raises a ValueError if the string is not a valid number."""
     try:
@@ -143,10 +133,10 @@ def _parse_name(name: str) -> str:
     return name
 
 
-def _parse_unit(unit: Union[str, None]) -> Union[str, None]:
+def _parse_unit(unit: str) -> str:
     """Parses the unit."""
-    if not isinstance(unit, str) and unit != None:
-        raise TypeError(f"`unit` must be a string or None, not {type(unit)}")
+    if not isinstance(unit, str):
+        raise TypeError(f"`unit` must be a string, not {type(unit)}")
 
     # TODO: maybe add some basic checks to catch siunitx errors, e.g.
     # unsupported symbols etc. But maybe leave this to LaTeX and just return
@@ -192,7 +182,7 @@ def _parse_value(value: Union[float, str]) -> _Value:
     if isinstance(value, str):
         _check_if_number_string(value)
 
-    return _Value(str(value), _is_exact(value))
+    return _Value(value)
 
 
 def _parse_uncertainties(
@@ -214,7 +204,7 @@ def _parse_uncertainties(
         if isinstance(uncert, (float, str)):
             if isinstance(uncert, str):
                 _check_if_number_string(uncert)
-            uncertainties_res.append(_Uncertainty(str(uncert), _is_exact(uncert)))
+            uncertainties_res.append(_Uncertainty(uncert))
 
         elif isinstance(uncert, Tuple):
             if not isinstance(uncert[0], (float, str)):
@@ -223,7 +213,7 @@ def _parse_uncertainties(
                 )
             if isinstance(uncert[0], str):
                 _check_if_number_string(uncert[0])
-            uncertainties_res.append(_Uncertainty(str(uncert[0]), _is_exact(uncert[0]), uncert[1]))
+            uncertainties_res.append(_Uncertainty(uncert[0], uncert[1]))
 
         else:
             raise TypeError(f"Each uncertainty must be a tuple or a float/str, not {type(uncert)}")

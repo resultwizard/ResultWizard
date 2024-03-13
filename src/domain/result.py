@@ -20,6 +20,7 @@ class _Result:
     decimal_places: Union[int, None]
 
     def __str__(self):
+        # TODO: Do it properly.
         if len(self.uncertainties) == 0:
             return f"{self.name}: {self.value.extract()} {self.unit}"
 

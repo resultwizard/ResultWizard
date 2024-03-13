@@ -7,6 +7,16 @@ class _Rounder:
         """
         In-place rounds all numerical fields of a result to the correct
         number of significant figures.
+
+        Rounding hierarchy:
+
+        1. Is value exact? Do not round! Rounding hierarchy of uncertainties:
+            1. Is uncertainty exact? Do not round!
+            2. Round uncertainty according to value.
+        2. Is number of sigfigs given? Round value according to number of sigfigs! Round uncertainties according to value.
+        3. Is number of decimal places given? Round value according to number of decimal places! Round uncertainties according to value.
+        4. Is at least one uncertainty given? Round each uncertainty according to standard rules! Round value according to uncertainty with lowest min exponent!
+        5. Round value to 2 sigfigs.
         """
         value = result.value
         uncertainties = result.uncertainties
@@ -21,10 +31,10 @@ class _Rounder:
         # Round value
         if value.should_round():
             rounded: float = value.extract() + 42  # dummy impl
-            value.assign(str(rounded))
+            # value.assign(str(rounded))
 
         # Round uncertainties (in-place)
         for u in uncertainties:
             if u.value().should_round():
                 rounded: float = value.extract() + 42  # dummy impl
-                u.value().assign(str(rounded))
+                # u.value().assign(str(rounded))

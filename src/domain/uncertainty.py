@@ -1,5 +1,7 @@
 from domain.value import _Value
 
+from typing import Union
+
 
 class _Uncertainty:
     """
@@ -13,8 +15,8 @@ class _Uncertainty:
     interchangeably.
     """
 
-    def __init__(self, uncertainty: str, is_exact: bool, name=""):
-        self.uncertainty = _Value(uncertainty, is_exact)
+    def __init__(self, uncertainty: Union[float, str], name: str = ""):
+        self.uncertainty = _Value(uncertainty)
         self.name = name
 
     def value(self) -> _Value:
