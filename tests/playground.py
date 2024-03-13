@@ -27,17 +27,17 @@ print()
 
 print("### RESULTS API")
 
-wiz.res("a", 1.0, r"\mm").print()
+wiz.res("a1", 1.0, r"\mm").print()
 # a: 1.0 \mm
 
-wiz.res("b", 1.0, 0.01, r"\per\mm\cubed").print()
+wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed").print()
 # b: (1.0 ± 0.01) \mm
 
-wiz.res("c", 1.0, (0.01, "systematic"), r"\mm").print()
+wiz.res("c big", 1.0, (0.01, "systematic"), r"\mm").print()
 # c: (1.0 ± 0.01 systematic) \mm
 
 wiz.res(
-    "d", 1.0e10, [(0.01e10, "systematic"), (0.02e10, "stat")], r"\mm\per\second\squared"
+    "d", 1.0e10, [(0.01e10, "systematic"), (0.0294999999e10, "stat")], r"\mm\per\second\squared"
 ).print()
 # d: (1.0 ± 0.01 systematic ± 0.02 stat) \mm
 

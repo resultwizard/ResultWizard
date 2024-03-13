@@ -1,6 +1,7 @@
 from api.printable_result import PrintableResult
 from application.cache import _res_cache
 from application.rounder import _Rounder
+from application.helpers import _Helpers
 from domain.result import _Result
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty
@@ -121,7 +122,28 @@ def _parse_name(name: str) -> str:
     """Parses the name."""
     if not isinstance(name, str):
         raise TypeError(f"`name` must be a string, not {type(name)}")
-    return name
+
+    parsed_name = ""
+    next_chat_upper = False
+
+    for char in name:
+        if char.isalpha():
+            if next_chat_upper:
+                parsed_name += char.upper()
+                next_chat_upper = False
+            else:
+                parsed_name += char
+        elif char.isdigit():
+            digit = _Helpers.number_to_word(int(char))
+            if parsed_name == "":
+                parsed_name += digit
+            else:
+                parsed_name += digit[0].upper() + digit[1:]
+            next_chat_upper = True
+        elif char in [" ", "_", "-"]:
+            next_chat_upper = True
+
+    return parsed_name
 
 
 def _parse_unit(unit: str) -> str:
