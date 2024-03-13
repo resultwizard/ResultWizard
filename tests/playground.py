@@ -36,7 +36,7 @@ wiz.res("b", 1.0, 0.01, r"\mm").print()
 wiz.res("c", 1.0, (0.01, "systematic"), r"\mm").print()
 # c: (1.0 ± 0.01 systematic) \mm
 
-wiz.res("d", 1.0, [(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
+wiz.res("d", 1.0e10, [(0.01e10, "systematic"), (0.02e10, "stat")], r"\mm").print()
 # d: (1.0 ± 0.01 systematic ± 0.02 stat) \mm
 
 # wiz.standard_sigfigs(4)

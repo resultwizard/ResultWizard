@@ -13,7 +13,7 @@ class _Helpers:
 
     @classmethod
     def round_to_n_decimal_places(cls, value: float, n: int):
-        return "{:.{}f}".format(value, int(n))
+        return "{:.{}f}".format(value, int(abs(n)))
 
     @classmethod
     def number_to_word(cls, number: int) -> str:

@@ -173,7 +173,7 @@ class _LaTeXer:
             latex_str += f"{sign}{_Helpers.round_to_n_decimal_places(value.get_abs() * factor, value.get_sig_figs()-1)}"
 
             for u in uncertainties:
-                latex_str += rf" \pm {_Helpers.round_to_n_decimal_places(u.uncertainty.get_abs() * factor, u.uncertainty.get_sig_figs()-1)}"
+                latex_str += rf" \pm {_Helpers.round_to_n_decimal_places(u.uncertainty.get_abs() * factor, exponent-u.uncertainty.get_min_exponent())}"
                 if len(uncertainties) > 1:
                     latex_str += rf"_{{\text{{{u.name}}}}}"
 
