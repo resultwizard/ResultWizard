@@ -2,6 +2,7 @@ from domain.uncertainty import _Uncertainty
 from domain.value import _Value
 
 from dataclasses import dataclass
+from typing import Union
 
 
 @dataclass
@@ -13,8 +14,10 @@ class _Result:
 
     name: str
     value: _Value
-    unit: str
+    unit: Union[str, None]
     uncertainties: list[_Uncertainty]
+    sigfigs: Union[int, None]
+    decimal_places: Union[int, None]
 
     def __str__(self):
         if len(self.uncertainties) == 0:

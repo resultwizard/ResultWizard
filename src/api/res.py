@@ -17,8 +17,25 @@ from typing import Union, List, Tuple
 
 
 @overload
-def res(name: str, value: Union[float, str], unit: str) -> PrintableResult:
-    return res(name, value, [], unit)
+def res(
+    name: str,
+    value: Union[float, str],
+    unit: str = "",
+    sigfigs: Union[int, None] = None,
+    decimal_places: Union[int, None] = None,
+) -> PrintableResult:
+    return res(name, value, [], unit, sigfigs, decimal_places)
+
+
+@overload
+def res(
+    name: str,
+    value: Union[float, str],
+    unit: Union[str, None] = None,
+    sigfigs: Union[int, None] = None,
+    decimal_places: Union[int, None] = None,
+) -> PrintableResult:
+    return res(name, value, [], unit, sigfigs, decimal_places)
 
 
 @overload
@@ -30,17 +47,62 @@ def res(
         str,
         Tuple[Union[float, str], str],
         List[Union[float, str, Tuple[Union[float, str], str]]],
-    ],
-    unit: str,
+    ] = [],
+    sigfigs: Union[int, None] = None,
+    decimal_places: Union[int, None] = None,
+) -> PrintableResult:
+    return res(name, value, uncert, None, sigfigs, decimal_places)
+
+
+@overload
+def res(
+    name: str,
+    value: Union[float, str],
+    sigfigs: Union[int, None] = None,
+    decimal_places: Union[int, None] = None,
+) -> PrintableResult:
+    return res(name, value, [], None, sigfigs, decimal_places)
+
+
+@overload
+def res(
+    name: str,
+    value: Union[float, str],
+    sys: Union[float, str],
+    stat: Union[float, str],
+    unit: Union[str, None] = None,
+    sigfigs: Union[int, None] = None,
+    decimal_places: Union[int, None] = None,
+) -> PrintableResult:
+    return res(name, value, [(sys, "sys"), (stat, "stat")], unit, sigfigs, decimal_places)
+
+
+@overload
+def res(
+    name: str,
+    value: Union[float, str],
+    uncert: Union[
+        float,
+        str,
+        Tuple[Union[float, str], str],
+        List[Union[float, str, Tuple[Union[float, str], str]]],
+    ] = [],
+    unit: Union[str, None] = None,
+    sigfigs: Union[int, None] = None,
+    decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
     # Parse user input
     name_res = _parse_name(name)
     value_res = _parse_value(value)
     uncertainties_res = _parse_uncertainties(uncert)
     unit_res = _parse_unit(unit)
+    sigfigs_res = _parse_sigfigs(sigfigs)
+    decimal_places_res = _parse_decimal_places(decimal_places)
 
     # Assemble the result
-    result = _Result(name_res, value_res, unit_res, uncertainties_res)
+    result = _Result(
+        name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
+    )
     _res_cache.add(name, result)
 
     return PrintableResult(result)
@@ -81,10 +143,10 @@ def _parse_name(name: str) -> str:
     return name
 
 
-def _parse_unit(unit: str) -> str:
+def _parse_unit(unit: Union[str, None]) -> Union[str, None]:
     """Parses the unit."""
-    if not isinstance(unit, str):
-        raise TypeError(f"`unit` must be a string, not {type(unit)}")
+    if not isinstance(unit, str) and unit != None:
+        raise TypeError(f"`unit` must be a string or None, not {type(unit)}")
 
     # TODO: maybe add some basic checks to catch siunitx errors, e.g.
     # unsupported symbols etc. But maybe leave this to LaTeX and just return
@@ -92,6 +154,34 @@ def _parse_unit(unit: str) -> str:
     # as the user would get immediate feedback and not only once they try to
     # export the results.
     return unit
+
+
+def _parse_sigfigs(sigfigs: Union[int, None]) -> Union[int, None]:
+    """Parses the number of sigfigs."""
+    if sigfigs == None:
+        return None
+
+    if not isinstance(sigfigs, int):
+        raise TypeError(f"`sigfigs` must be an int, not {type(sigfigs)}")
+
+    if sigfigs < 1:
+        raise ValueError("`sigfigs` must be positive")
+
+    return sigfigs
+
+
+def _parse_decimal_places(decimal_places: Union[int, None]) -> Union[int, None]:
+    """Parses the number of sigfigs."""
+    if decimal_places == None:
+        return None
+
+    if not isinstance(decimal_places, int):
+        raise TypeError(f"`decimal_places` must be an int, not {type(decimal_places)}")
+
+    if decimal_places < 0:
+        raise ValueError("`decimal_places` must be non-negative")
+
+    return decimal_places
 
 
 def _parse_value(value: Union[float, str]) -> _Value:
