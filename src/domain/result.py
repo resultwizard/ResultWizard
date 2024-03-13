@@ -34,7 +34,3 @@ class _Result:
             self.sigfigs,
             self.decimal_places,
         )
-
-    def __str__(self):
-        # TODO: Do it properly.
-        return ""

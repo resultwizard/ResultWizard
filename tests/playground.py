@@ -15,6 +15,12 @@ print("#############################")
 print()
 
 
+# wiz.config(
+#     standard_sigfigs = 2,
+#     ...
+# )
+
+
 #############################
 # EXAMPLES
 #############################
@@ -33,18 +39,33 @@ wiz.res("c", 1.0, (0.01, "systematic"), r"\mm").print()
 wiz.res("d", 1.0, [(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
 # d: (1.0 ± 0.01 systematic ± 0.02 stat) \mm
 
+# wiz.standard_sigfigs(4)
+
 wiz.res("e", "1.0", r"\mm").print()
 # e: 1.0 \mm
+
+# wiz.standard_sigfigs(3)
 
 wiz.res("f", "1.0e4").print()
 # f: 1.0
 
-wiz.res("g", 1.0, 0.01, 0.02, r"\mm").print()
+# wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()
 # g: (1.0 ± 0.01 sys ± 0.02 stat) \mm
 
 # The following wont' work as we can't have positional arguments (here: unit)
 # after keyword arguments (here: uncert)
 # wiz.res("d", 1.0, uncert=[(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
+
+# wiz.table(
+#     "name",
+#     {
+#         "Header 1": ["Test", "Test2", ...],
+#         "Header 2": [wiz.cell_res(...), wiz.cell_res(...), ...],
+#         "Header 3": [wiz.cell_res(values[i], errors[i], r"\mm") for i in range(10)],
+#     },
+#     "Beschreibung",
+#     horizontal = True,
+# )
 
 
 #############################

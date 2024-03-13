@@ -21,7 +21,3 @@ class _Uncertainty:
 
     def value(self) -> _Value:
         return self.uncertainty
-
-    def __str__(self):
-        # TODO
-        return ""
