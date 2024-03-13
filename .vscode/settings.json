@@ -10,6 +10,11 @@
     "python.analysis.typeCheckingMode": "basic",
     "python.languageServer": "Pylance",
     "python.analysis.completeFunctionParens": true,
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportGeneralTypeIssues": "warning",
+        "reportUndefinedVariable": "warning",
+        "reportOptionalMemberAccess": "warning"
+    },
     //////////////////////////////////////
     // Files
     //////////////////////////////////////
