@@ -20,5 +20,5 @@ class _Result:
         if len(self.uncertainties) == 0:
             return f"{self.name}: {self.value.extract()} {self.unit}"
 
-        uncertainties_str = ", ".join([str(u) for u in self.uncertainties])
+        uncertainties_str = " ± ".join([str(u) for u in self.uncertainties])
         return f"{self.name}: ({self.value.extract()} ± {uncertainties_str}) {self.unit}"
