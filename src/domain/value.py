@@ -1,9 +1,7 @@
-from dataclasses import dataclass
 from application.helpers import _Helpers
 
 
 from typing import Union
-from plum import dispatch, overload
 
 
 class _Value:
@@ -20,7 +18,7 @@ class _Value:
     _value: float
     _is_exact: bool
     _max_exponent: int
-    _min_exponent: Union[int, None]
+    _min_exponent: int
 
     # "3400.0" -> 3400, -1, 3
     # "3400"   -> 3400,  0, 3
@@ -45,7 +43,6 @@ class _Value:
         else:
             self._value = value
             self._is_exact = False
-            self._min_exponent = None
 
         self._max_exponent = _Helpers.get_exponent(self._value)
 

@@ -14,7 +14,7 @@ class _Result:
 
     name: str
     value: _Value
-    unit: Union[str, None]
+    unit: str
     uncertainties: list[_Uncertainty]
     sigfigs: Union[int, None]
     decimal_places: Union[int, None]
