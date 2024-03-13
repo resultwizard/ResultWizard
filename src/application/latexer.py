@@ -103,12 +103,12 @@ class _LaTeXer:
                 "\n"
                 + r"    }{\tiny\textbf{Please specify one of the following keywords: "
                 + ", ".join([rf"\texttt{{{k}}}" for k in keywords])
-                + r" or don't use any keyword at all!}\normalsize}"
+                + r" or don't use any keyword at all.}\normalsize}"
             )
         else:
             latex_str += (
                 "\n"
-                + r"    }{\tiny\textbf{This variable can only be used without keyword!}\normalsize}"
+                + r"    }{\tiny\textbf{This variable can only be used without keyword.}\normalsize}"
             )
 
         for _ in range(number_of_parantheses_to_close):
