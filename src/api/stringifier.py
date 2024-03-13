@@ -18,7 +18,7 @@ class Stringifier:
         uncertainties = result.uncertainties
         unit = result.unit
 
-        string = ""
+        string = f"{result.name} = "
         use_scientific_notation = False
         has_unit = unit != ""
 
