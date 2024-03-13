@@ -14,7 +14,7 @@ namespaces = false
 name = "valuewizard"
 version = "0.1"
 authors = [
-    { name = "paul019", email = "todo@todo.de" },
+    { name = "Paul Obernolte (paul019)", email = "todo@todo.de" },
     { name = "Dominic Plein (Splines)", email = "todo@todo.de" },
 ]
 description = "Python to LaTeX variable conversion"
