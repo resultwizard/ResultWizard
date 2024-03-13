@@ -75,6 +75,6 @@ class _Rounder:
         cls, uncertainties: List[_Uncertainty], min_exponent: int
     ) -> None:
         for u in uncertainties:
-            if not u.is_exact():
+            if not u.uncertainty.is_exact():
                 u.uncertainty.set_min_exponent(min_exponent)
         return
