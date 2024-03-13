@@ -33,6 +33,9 @@ wiz.res("c", 1.0, (0.01, "systematic"), r"\mm").print()
 wiz.res("d", 1.0, [(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
 # d: (1.0 ± 0.01 systematic, 0.02 stat) \mm
 
+wiz.res("e", "1.0", r"\mm").print()
+# e: (1.0 ± 0.01 systematic, 0.02 stat) \mm
+
 # The following wont' work as we can't have positional arguments (here: unit)
 # after keyword arguments (here: uncert)
 # wiz.res("d", 1.0, uncert=[(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
