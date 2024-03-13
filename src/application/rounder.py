@@ -8,11 +8,14 @@ class _Rounder:
         In-place rounds all numerical fields of a result to the correct
         number of significant figures.
 
+        Rounding hierarchy for uncertainties:
+
+        1. Is uncertainty exact? Do not round!
+        2. Round uncertainty according to the hierarchy below!
+
         Rounding hierarchy:
 
-        1. Is value exact? Do not round! Rounding hierarchy of uncertainties:
-            1. Is uncertainty exact? Do not round!
-            2. Round uncertainty according to value.
+        1. Is value exact? Do not round! Round uncertainty according to value!
         2. Is number of sigfigs given? Round value according to number of sigfigs! Round uncertainties according to value.
         3. Is number of decimal places given? Round value according to number of decimal places! Round uncertainties according to value.
         4. Is at least one uncertainty given? Round each uncertainty according to standard rules! Round value according to uncertainty with lowest min exponent!
