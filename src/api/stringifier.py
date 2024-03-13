@@ -75,6 +75,14 @@ class Stringifier:
                 string += ")"
 
         if has_unit:
+            unit = (
+                unit.replace(r"\per", "/")
+                .replace(r"\squared", "^2")
+                .replace(r"\cubed", "^3")
+                .replace("\\", "")
+            )
+            if unit[0] == "/":
+                unit = "1" + unit
             string += rf" {unit}"
 
         return string
