@@ -2,6 +2,7 @@ from src.helpers import round_to_n_decimal_places
 from src.config import ExportConfig
 from src.helpers import snake_case_to_camel_case, snake_case_to_kebab_case
 from src.var_to_latex import var_to_latex
+import numpy as np
 
 
 def table_to_latex_newcommand(
@@ -94,7 +95,7 @@ def table_to_latex(
                 output += "&"
             is_first_column = False
 
-            if type(column[2][i]) is str:
+            if type(column[2][i]) is str or type(column[2][i]) is np.str_:
                 output += column[2][i]
             else:
                 value = column[2][i]
@@ -126,8 +127,8 @@ def table_to_latex(
         output += "}"
     if caption != "":
         output += "\\caption{" + caption + "}\n"
-    output += "\\end{" + "center" + "}\n"
     output += "\\label{" + kebab_case_name + "}\n"
+    output += "\\end{" + "center" + "}\n"
     output += "\\end{" + "table" + "}\n"
 
     return output
