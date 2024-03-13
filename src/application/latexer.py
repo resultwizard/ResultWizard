@@ -7,10 +7,10 @@ class _LaTeXer:
         """
         Returns the result as LaTeX command to be used in a .tex file.
         """
-        return f"\\newcommand*{{\\{result.name}}}{{{cls._result_to_latex_str(result)}}}"
+        return f"\\newcommand*{{\\{result.name}}}{{{cls.result_to_latex_str(result)}}}"
 
     @classmethod
-    def _result_to_latex_str(cls, result: _Result) -> str:
+    def result_to_latex_str(cls, result: _Result) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
 
