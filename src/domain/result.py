@@ -19,10 +19,22 @@ class _Result:
     sigfigs: Union[int, None]
     decimal_places: Union[int, None]
 
+    def get_total_uncertainty(self) -> _Uncertainty:
+        s = 0
+        for u in self.uncertainties:
+            s += u.uncertainty.get() ** 2
+        return _Uncertainty(s**0.5)
+
+    def get_short_result(self) -> "_Result":
+        return _Result(
+            self.name,
+            self.value,
+            self.unit,
+            [self.get_total_uncertainty()],
+            self.sigfigs,
+            self.decimal_places,
+        )
+
     def __str__(self):
         # TODO: Do it properly.
-        if len(self.uncertainties) == 0:
-            return f"{self.name}: {self.value.extract()} {self.unit}"
-
-        uncertainties_str = " ± ".join([str(u) for u in self.uncertainties])
-        return f"{self.name}: ({self.value.extract()} ± {uncertainties_str}) {self.unit}"
+        return ""

@@ -22,6 +22,10 @@ class _Value:
     _max_exponent: int
     _min_exponent: Union[int, None]
 
+    # "3400.0" -> 3400, -1, 3
+    # "3400"   -> 3400,  0, 3
+    # "3.4e3"  -> 3400,  2, 3
+
     def __init__(self, value: Union[float, str]):
         if isinstance(value, str):
             self._value = float(value)
@@ -48,13 +52,29 @@ class _Value:
     def set_min_exponent(self, min_exponent: int):
         self._min_exponent = min_exponent
 
-    def set_sigfigs(self, sigfigs: int):
-        self._min_exponent = self._max_exponent - sigfigs
+    def get_min_exponent(self) -> int:
+        return self._min_exponent
 
-    def extract(self) -> float:
-        # TODO
+    def set_sigfigs(self, sigfigs: int):
+        self._min_exponent = self._max_exponent - sigfigs + 1
+
+    def is_exact(self) -> bool:
+        return self._is_exact
+
+    def get(self) -> float:
         return self._value
 
-    def should_round(self) -> bool:
-        # TODO
-        return not self._is_exact
+    def get_abs(self) -> float:
+        return abs(self._value)
+
+    def get_exponent(self) -> int:
+        return self._max_exponent
+
+    def get_sig_figs(self) -> int:
+        return self._max_exponent - self._min_exponent + 1
+
+    def get_decimal_place(self) -> int:
+        if self._min_exponent is None:
+            raise RuntimeError("An unexpected error occurred. Please report this bug.")
+        else:
+            return -self._min_exponent

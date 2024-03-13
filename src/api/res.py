@@ -1,5 +1,6 @@
 from api.printable_result import PrintableResult
 from application.cache import _res_cache
+from application.rounder import _Rounder
 from domain.result import _Result
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty
@@ -31,17 +32,6 @@ def res(
 def res(
     name: str,
     value: Union[float, str],
-    unit: str = "",
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, [], unit, sigfigs, decimal_places)
-
-
-@overload
-def res(
-    name: str,
-    value: Union[float, str],
     uncert: Union[
         float,
         str,
@@ -51,7 +41,7 @@ def res(
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
-    return res(name, value, uncert, None, sigfigs, decimal_places)
+    return res(name, value, uncert, "", sigfigs, decimal_places)
 
 
 @overload
@@ -61,7 +51,7 @@ def res(
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
-    return res(name, value, [], None, sigfigs, decimal_places)
+    return res(name, value, [], "", sigfigs, decimal_places)
 
 
 @overload
@@ -103,6 +93,7 @@ def res(
     result = _Result(
         name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
     )
+    _Rounder.round_result(result)
     _res_cache.add(name, result)
 
     return PrintableResult(result)
@@ -204,6 +195,8 @@ def _parse_uncertainties(
         if isinstance(uncert, (float, str)):
             if isinstance(uncert, str):
                 _check_if_number_string(uncert)
+                if float(uncert) <= 0:
+                    raise ValueError("Uncertainty must be positive.")
             uncertainties_res.append(_Uncertainty(uncert))
 
         elif isinstance(uncert, Tuple):

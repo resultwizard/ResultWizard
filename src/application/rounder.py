@@ -1,4 +1,11 @@
 from domain.result import _Result
+from domain.uncertainty import _Uncertainty
+from application.helpers import _Helpers
+
+from typing import List
+
+# Config values:
+standard_sigfigs = 2
 
 
 class _Rounder:
@@ -20,24 +27,54 @@ class _Rounder:
         3. Is number of decimal places given? Round value according to number of decimal places! Round uncertainties according to value.
         4. Is at least one uncertainty given? Round each uncertainty according to standard rules! Round value according to uncertainty with lowest min exponent!
         5. Round value to 2 sigfigs.
+
+        TODO: Warning message if user specifies exact value and sigfigs etc.
         """
         value = result.value
         uncertainties = result.uncertainties
 
-        # TODO @paul: round values and uncertainties here according to pre-defined
-        # rules. Please do not add an external config yet. Instead, hard-code
-        # variables like the number of significant figures in this method or
-        # somewhere in this file here. We will outsource this to a config method
-        # in a later step.
-        # TODO: Maybe extract the following parts into separate methods
+        # Rounding hierarchy 1:
+        if value.is_exact():
+            cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
 
-        # Round value
-        if value.should_round():
-            rounded: float = value.extract() + 42  # dummy impl
-            # value.assign(str(rounded))
+        # Rounding hierarchy 2:
+        elif result.sigfigs != None:
+            value.set_sigfigs(result.sigfigs)
+            cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
 
-        # Round uncertainties (in-place)
+        # Rounding hierarchy 3:
+        elif result.decimal_places != None:
+            value.set_min_exponent(-result.decimal_places)
+            cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
+
+        # Rounding hierarchy 4:
+        elif len(uncertainties) > 0:
+            for u in uncertainties:
+                if u.uncertainty.is_exact():
+                    continue
+
+                normalized_value = abs(u.uncertainty.get()) * 10 ** (
+                    -_Helpers.get_exponent(u.uncertainty.get())
+                )
+
+                if normalized_value >= 2.95:
+                    u.uncertainty.set_sigfigs(1)
+                else:
+                    u.uncertainty.set_sigfigs(2)
+
+            min_exponent = min([u.uncertainty.get_min_exponent() for u in uncertainties])
+            value.set_min_exponent(min_exponent)
+
+        # Rounding hierarchy 5:
+        else:
+            value.set_sigfigs(standard_sigfigs)
+            cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
+
+    @classmethod
+    def _uncertainties_set_min_exponents(
+        cls, uncertainties: List[_Uncertainty], min_exponent: int
+    ) -> None:
         for u in uncertainties:
-            if u.value().should_round():
-                rounded: float = value.extract() + 42  # dummy impl
-                # u.value().assign(str(rounded))
+            if not u.is_exact():
+                u.uncertainty.set_min_exponent(min_exponent)
+        return

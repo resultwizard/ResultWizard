@@ -18,10 +18,12 @@ def export(filepath: str):
         r"%   \input{" + filepath.split("/")[-1].split(".")[0] + r"}",
         r"%",
         r"",
+        r"% Import required package:",
+        r"\usepackage{ifthen}",
+        r"",
+        r"% Define commands to print the results:",
     ]
     for result in results:
-        _Rounder.round_result(result)
-        print(result)
         result_str = _LaTeXer.result_to_latex_cmd(result)
         cmds.append(result_str)
 
