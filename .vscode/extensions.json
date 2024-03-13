@@ -2,6 +2,8 @@
     "recommendations": [
         "streetsidesoftware.code-spell-checker",
         "ms-python.pylint",
-        "ms-python.black-formatter"
+        "ms-python.black-formatter",
+        "littlefoxteam.vscode-python-test-adapter",
+        "hbenl.vscode-test-explorer"
     ]
 }

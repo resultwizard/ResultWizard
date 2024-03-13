@@ -8,6 +8,7 @@ plum-dispatch = "*"
 
 [dev-packages]
 pylint = "~=3.0"
+pytest = "~=8.1"
 
 [requires]
 python_version = "3.11"

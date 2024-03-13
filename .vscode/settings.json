@@ -4,7 +4,7 @@
     //////////////////////////////////////
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
     "pylint.importStrategy": "fromEnvironment",
     "python.analysis.typeCheckingMode": "basic",
@@ -15,12 +15,17 @@
         "reportUndefinedVariable": "warning",
         "reportOptionalMemberAccess": "warning"
     },
+    // Python Tests
+    "pythonTestExplorer.testFramework": "pytest",
+    "testExplorer.codeLens": true,
+    "testExplorer.errorDecorationHover": true,
     //////////////////////////////////////
     // Files
     //////////////////////////////////////
     "files.exclude": {
         "**/__pycache__/": true,
         "**/*.egg-info/": true,
+        ".pytest_cache/": true
     },
     //////////////////////////////////////
     // Editor
@@ -55,5 +60,5 @@
         "pylint",
         "Stringifier",
         "uncert"
-    ],
+    ]
 }
