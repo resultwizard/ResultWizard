@@ -1,5 +1,6 @@
 from application.cache import _res_cache
 from application.latexer import _LaTeXer
+from application.tables.latexer import _TableLaTeXer
 
 
 def export(filepath: str):
@@ -8,6 +9,7 @@ def export(filepath: str):
     to a .tex file at the given filepath.
     """
     results = _res_cache.get_all_results()
+    tables = _res_cache.get_all_tables()
     print(f"Processing {len(results)} result(s)")
 
     # Round and convert to LaTeX commands
@@ -25,6 +27,9 @@ def export(filepath: str):
     for result in results:
         result_str = _LaTeXer.result_to_latex_cmd(result)
         cmds.append(result_str)
+    for table in tables:
+        table_str = _TableLaTeXer.table_to_latex_cmd(table)
+        cmds.append(table_str)
 
     # Write to file
     with open(filepath, "w", encoding="utf-8") as f:
