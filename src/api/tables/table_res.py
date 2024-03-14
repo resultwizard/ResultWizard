@@ -1,8 +1,6 @@
 from typing import Union, List, Tuple
 from plum import dispatch, overload
 
-from api.printable_result import PrintableResult
-from application.cache import _res_cache
 from application.rounder import _Rounder
 import application.parsers as parsers
 from domain.result import _Result
@@ -17,18 +15,18 @@ from domain.result import _Result
 
 
 @overload
-def res(
+def table_res(
     name: str,
     value: Union[float, str],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, [], unit, sigfigs, decimal_places)
+) -> _Result:
+    return table_res(name, value, [], unit, sigfigs, decimal_places)
 
 
 @overload
-def res(
+def table_res(
     name: str,
     value: Union[float, str],
     uncert: Union[
@@ -40,22 +38,22 @@ def res(
     ] = None,
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, uncert, "", sigfigs, decimal_places)
+) -> _Result:
+    return table_res(name, value, uncert, "", sigfigs, decimal_places)
 
 
 @overload
-def res(
+def table_res(
     name: str,
     value: Union[float, str],
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, [], "", sigfigs, decimal_places)
+) -> _Result:
+    return table_res(name, value, [], "", sigfigs, decimal_places)
 
 
 @overload
-def res(
+def table_res(
     name: str,
     value: Union[float, str],
     sys: float,
@@ -63,12 +61,12 @@ def res(
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, [(sys, "sys"), (stat, "stat")], unit, sigfigs, decimal_places)
+) -> _Result:
+    return table_res(name, value, [(sys, "sys"), (stat, "stat")], unit, sigfigs, decimal_places)
 
 
 @overload
-def res(
+def table_res(
     name: str,
     value: Union[float, str],
     uncert: Union[
@@ -81,7 +79,7 @@ def res(
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-) -> PrintableResult:
+) -> _Result:
     if uncert is None:
         uncert = []
 
@@ -98,16 +96,15 @@ def res(
         name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
     )
     _Rounder.round_result(result)
-    _res_cache.add_res(name, result)
 
-    return PrintableResult(result)
+    return result
 
 
 # Hack for method "overloading" in Python
 # see https://beartype.github.io/plum/integration.html
 # This is a good writeup: https://stackoverflow.com/a/29091980/
 @dispatch
-def res(*args, **kwargs) -> object:
+def table_res(*args, **kwargs) -> object:
     # This method only scans for all `overload`-decorated methods
     # and properly adds them as Plum methods.
     pass

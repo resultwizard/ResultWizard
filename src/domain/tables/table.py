@@ -15,3 +15,4 @@ class _Table:
     caption: str
     resize_to_fit_page_: bool
     horizontal: bool
+    concentrate_units_if_possible: bool
