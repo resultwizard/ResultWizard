@@ -189,7 +189,7 @@ class _LaTeXer:
 
             latex_str += rf" \cdot 10^{{{exponent}}}"
         else:
-            if len(uncertainties) > 0:
+            if len(uncertainties) > 0 and unit != "":
                 latex_str += "("
 
             value_normalized = value.get_abs()
@@ -202,7 +202,7 @@ class _LaTeXer:
                 if len(uncertainties) > 1:
                     latex_str += rf"_{{\text{{{u.name}}}}}"
 
-            if len(uncertainties) > 0:
+            if len(uncertainties) > 0 and unit != "":
                 latex_str += ")"
 
         if has_unit:
