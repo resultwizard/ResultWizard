@@ -37,7 +37,7 @@ class _TableLaTeXer:
             latex_str += "}"
         if table.caption != "":
             latex_str += rf"\caption{{{table.caption}}}" + "\n"
-        latex_str += rf"\label{{{table.label}}}" + "\n"
+        latex_str += rf"\label{{{table.label if table.label is not None else cmd_name}}}" + "\n"
         latex_str += "\\end{center}\n"
         latex_str += "\\end{table}\n"
         latex_str += "}"
@@ -127,7 +127,7 @@ class _TableLaTeXer:
                 else:
                     latex_str += f" & {cell}"
             latex_str += "\\\\ \\hline \n"
-        
+
         latex_str += "\\end{tabular}\n"
 
         return latex_str

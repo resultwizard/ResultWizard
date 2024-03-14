@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Union
 
 from domain.tables.column import _Column
 
@@ -13,7 +13,7 @@ class _Table:
     name: str
     columns: List[_Column]
     caption: str
-    label: str
+    label: Union[str, None]
     resize_to_fit_page: bool
     horizontal: bool
     concentrate_units_if_possible: bool

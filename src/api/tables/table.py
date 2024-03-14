@@ -41,7 +41,7 @@ def table(
         name_res,
         columns,
         caption,
-        label if label is not None else name_res,
+        label,
         resize_to_fit_page_,
         horizontal,
         concentrate_units_if_possible,
