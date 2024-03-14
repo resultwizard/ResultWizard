@@ -47,10 +47,10 @@ Then start working on the code:
 
 As always, make sure you are in the `pipenv shell`.
 
-Make sure you have all dependencies installed:
+Make sure you have all (dev) dependencies installed:
 
 ```
-pipenv install
+pipenv install -d
 ```
 
 Then you can run the tests via the command line:
