@@ -6,7 +6,6 @@ from domain.result import _Result
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty
 from application.helpers import _Helpers
-from application.rounder import _Rounder
 
 
 @dataclass
@@ -17,7 +16,11 @@ class LaTeXConfig:
 
 
 class _LaTeXer:
-    """Provides methods to convert results to LaTeX commands."""
+    """
+    Provides methods to convert results to LaTeX commands.
+
+    We assume the result to already be correctly rounded at this point.
+    """
 
     def __init__(self, config: LaTeXConfig):
         self.config = config
@@ -72,7 +75,10 @@ class _LaTeXer:
         # Total uncertainty and short result:
         if len(result.uncertainties) > 1:
             short_result = result.get_short_result()
-            _Rounder.round_result(short_result)
+            if short_result is None:
+                raise RuntimeError(
+                    "Short result is None, but there should be at least one uncertainty."
+                )
 
             error_latex_str = self._create_latex_str(
                 short_result.uncertainties[0].uncertainty, [], result.unit

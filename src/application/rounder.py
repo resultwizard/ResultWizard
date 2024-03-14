@@ -5,13 +5,10 @@ from domain.uncertainty import _Uncertainty
 from application.helpers import _Helpers
 
 
-# Config values:
-standard_sigfigs = 2
-
-
 class _Rounder:
+
     @classmethod
-    def round_result(cls, result: _Result) -> None:
+    def round_result(cls, result: _Result, sigfigs_default: int) -> None:
         """
         In-place rounds all numerical fields of a result to the correct
         number of significant figures.
@@ -34,6 +31,16 @@ class _Rounder:
 
         TODO: Warning message if user specifies exact value and sigfigs etc.
         """
+        cls._round_result(result, sigfigs_default)
+
+        short = result.get_short_result()
+        if short:
+            cls._round_result(short, sigfigs_default)
+
+    @classmethod
+    def _round_result(cls, result: _Result, sigfigs_default: int) -> None:
+        """See the docstring of the public `round_result` for details."""
+
         value = result.value
         uncertainties = result.uncertainties
 
@@ -71,7 +78,7 @@ class _Rounder:
 
         # Rounding hierarchy 5:
         else:
-            value.set_sigfigs(standard_sigfigs)
+            value.set_sigfigs(sigfigs_default)
             cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
 
     @classmethod

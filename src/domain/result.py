@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Union
 
 from domain.uncertainty import _Uncertainty
@@ -19,18 +19,29 @@ class _Result:
     sigfigs: Union[int, None]
     decimal_places: Union[int, None]
 
-    def get_total_uncertainty(self) -> _Uncertainty:
-        s = 0
-        for u in self.uncertainties:
-            s += u.uncertainty.get() ** 2
-        return _Uncertainty(s**0.5)
+    total_uncertainty: Union[_Uncertainty, None] = field(init=False)
 
-    def get_short_result(self) -> "_Result":
+    def __post_init__(self):
+        if len(self.uncertainties) > 1:
+            self.total_uncertainty = self._calculate_total_uncertainty()
+        else:
+            self.total_uncertainty = None
+
+    def _calculate_total_uncertainty(self) -> _Uncertainty:
+        total = 0
+        for u in self.uncertainties:
+            total += u.uncertainty.get() ** 2
+        return _Uncertainty(total**0.5)
+
+    def get_short_result(self) -> Union["_Result", None]:
+        if self.total_uncertainty is None:
+            return None
+
         return _Result(
             self.name,
             self.value,
             self.unit,
-            [self.get_total_uncertainty()],
+            [self.total_uncertainty],
             self.sigfigs,
             self.decimal_places,
         )

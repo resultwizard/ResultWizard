@@ -2,6 +2,7 @@ from typing import Union, List, Tuple
 from plum import dispatch, overload
 
 from api.printable_result import PrintableResult
+from api.config import configuration
 from application.cache import _ResultsCache
 from application.rounder import _Rounder
 import api.parsers as parsers
@@ -99,7 +100,7 @@ def res(
     result = _Result(
         name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
     )
-    _Rounder.round_result(result)
+    _Rounder.round_result(result, configuration.sigfigs)
     _res_cache.add(name, result)
 
     return PrintableResult(result)
