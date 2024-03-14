@@ -2,7 +2,7 @@ from typing import Union, List, Tuple
 from plum import dispatch, overload
 
 from api.printable_result import PrintableResult
-from application.cache import _res_cache
+from application.cache import _ResultsCache
 from application.rounder import _Rounder
 import api.parsers as parsers
 from domain.result import _Result
@@ -14,6 +14,8 @@ from domain.result import _Result
 # see: https://docs.pydantic.dev/latest/
 # This way we can code as if the happy path is the only path, and let pydantic
 # handle the error checking and reporting.
+
+_res_cache = _ResultsCache()
 
 
 @overload

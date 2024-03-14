@@ -17,6 +17,3 @@ class _ResultsCache:
 
     def get_all_results(self) -> list[_Result]:
         return list(self.cache.values())
-
-
-_res_cache = _ResultsCache()

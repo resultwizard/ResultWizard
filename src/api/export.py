@@ -1,4 +1,4 @@
-from application.cache import _res_cache
+from api.res import _res_cache
 from application.latexer import _LaTeXer
 
 
