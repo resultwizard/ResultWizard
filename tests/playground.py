@@ -15,11 +15,7 @@ print("#############################")
 print()
 
 
-wiz.config_init(
-    sigfigs=3,
-    decimal_places=3,
-    print_always=True,
-)
+wiz.config_init(decimal_places=3, print_always=True)
 
 
 #############################

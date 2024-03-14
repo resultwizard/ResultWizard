@@ -1,22 +1,20 @@
+from dataclasses import dataclass
 import json
 
 
+@dataclass
 class Config:
-    """Configuration settings for the application."""
+    """Configuration settings for the application.
 
-    sigfigs_default = 2
-    decimal_places_default = 2
-    print_always_default = False
+    Args:
+        sigfigs (int): The number of significant figures to round to.
+        decimal_places (int): The number of decimal places to round to.
+        print_always (bool): Whether to print each result directly to the console.
+    """
 
-    def __init__(
-        self,
-        sigfigs=sigfigs_default,
-        decimal_places=decimal_places_default,
-        print_always=print_always_default,
-    ):
-        self.sigfigs = sigfigs
-        self.decimal_places = decimal_places
-        self.print_always = print_always
+    sigfigs: int
+    decimal_places: int
+    print_always: bool
 
     def to_json_str(self):
         return json.dumps(self.__dict__)

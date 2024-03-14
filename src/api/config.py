@@ -4,9 +4,9 @@ from application.config import Config
 
 
 def config_init(
-    sigfigs: int = Config.sigfigs_default,
-    decimal_places: int = Config.decimal_places_default,
-    print_always: bool = Config.print_always_default,
+    sigfigs: int = 2,
+    decimal_places: int = 2,
+    print_always: bool = False,
 ):
     c = Config(sigfigs, decimal_places, print_always)
     print(c.to_json_str())
