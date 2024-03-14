@@ -9,7 +9,7 @@ Getting ready:
 - [ ] Recommended VSCode extensions installed (especially the formatter. It should automatically format on every save!)
 - [ ] on branch `value-wizard` with latest commit pulled
 - [ ] Work through the `Setup` section below (especially to install the necessary dependencies)
-- [ ] Read the [`README.md`](https://github.com/paul019/ValueWizard/tree/value-wizard/src#code-structure) in the `src` folder (to get to know the code structure) & see our [feature list](https://github.com/paul019/ValueWizard/issues/16)
+- [ ] Read the [`README.md`](https://github.com/paul019/ResultWizard/tree/value-wizard/src#code-structure) in the `src` folder (to get to know the code structure) & see our [feature list](https://github.com/paul019/ResultWizard/issues/16)
 
 Verify that everything worked:
 - [ ] try to run the tests, see the instructions in [`tests/playground.py`](./tests/playground.py)

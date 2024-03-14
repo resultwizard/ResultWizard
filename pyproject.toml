@@ -7,11 +7,11 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["valuewizard"]
+include = ["resultwizard"]
 namespaces = false
 
 [project]
-name = "valuewizard"
+name = "resultwizard"
 version = "0.1"
 authors = [
     { name = "Paul Obernolte (paul019)", email = "todo@todo.de" },
@@ -47,10 +47,15 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/paul019/ValueWizard"
-Repository = "https://github.com/paul019/ValueWizard"
-Issues = "https://github.com/paul019/ValueWizard/issues"
-Changelog = "https://github.com/paul019/ValueWizard/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/paul019/ResultWizard"
+Repository = "https://github.com/paul019/ResultWizard"
+Issues = "https://github.com/paul019/ResultWizard/issues"
+Changelog = "https://github.com/paul019/ResultWizard/blob/main/CHANGELOG.md"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
 
 # TODO: Add these checks back
 [tool.pylint."messages control"]

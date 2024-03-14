@@ -7,8 +7,7 @@
 # From: https://setuptools.pypa.io/en/latest/userguide/quickstart.html#development-mode
 
 
-# TODO rename to ResultWizard
-import valuewizard as wiz
+import resultwizard as wiz
 
 print("#############################")
 print("### Playground")

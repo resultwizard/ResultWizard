@@ -4,7 +4,7 @@ from plum import dispatch, overload
 from api.printable_result import PrintableResult
 from application.cache import _res_cache
 from application.rounder import _Rounder
-import application.parsers as parsers
+import api.parsers as parsers
 from domain.result import _Result
 
 

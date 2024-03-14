@@ -29,8 +29,11 @@ jobs:
           - name: Install dependencies (including dev dependencies)
             run: pipenv install --dev
 
+          - name: Install ResultWizard itself (as editable)
+            run: pipenv run pip3 install --editable .
+
           - name: Run Pytest
-            run: pipenv run pytest
+            run: pipenv run pytest tests/
 
 
 

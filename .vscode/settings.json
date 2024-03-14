@@ -19,6 +19,11 @@
     "pythonTestExplorer.testFramework": "pytest",
     "testExplorer.codeLens": true,
     "testExplorer.errorDecorationHover": true,
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
     //////////////////////////////////////
     // Files
     //////////////////////////////////////
@@ -67,7 +72,7 @@
         "pydantic",
         "pylint",
         "pytest",
-        "resizebox",
+        "resultwizard",
         "sigfigs",
         "siunitx",
         "Stringifier",
@@ -76,10 +81,5 @@
         "textwidth",
         "uncert",
         "usepackage"
-    ],
-    "python.testing.pytestArgs": [
-        "."
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    ]
 }
