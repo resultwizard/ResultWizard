@@ -61,7 +61,9 @@ class _Rounder:
                     -_Helpers.get_exponent(u.uncertainty.get())
                 )
 
-                if normalized_value >= 2.95:
+                print(normalized_value)
+
+                if round(normalized_value, 1) >= 3.0:
                     u.uncertainty.set_sigfigs(1)
                 else:
                     u.uncertainty.set_sigfigs(2)
