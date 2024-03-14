@@ -59,16 +59,11 @@ wiz.res("f", "1.0e4").print()
 # after keyword arguments (here: uncert)
 # wiz.res("d", 1.0, uncert=[(0.01, "systematic"), (0.02, "stat")], r"\mm").print()
 
-# wiz.table(
-#     "name",
-#     {
-#         "Header 1": ["Test", "Test2", ...],
-#         "Header 2": [wiz.cell_res(...), wiz.cell_res(...), ...],
-#         "Header 3": [wiz.cell_res(values[i], errors[i], r"\mm") for i in range(10)],
-#     },
-#     "description",
-#     horizontal = True,
-# )
+wiz.table(
+    "name",
+    [wiz.column("Test", ["Test"])],
+    "description",
+)
 
 
 #############################

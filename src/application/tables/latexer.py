@@ -26,7 +26,7 @@ class _TableLaTeXer:
         latex_str += r"\begin{center}" + "\n"
         if table.resize_to_fit_page:
             latex_str += r"\resizebox{\textwidth}{!}{"
-        latex_str += r"\begin{tabular}{|" + "\n"
+        latex_str += r"\begin{tabular}{|"
         for _ in range(len(table.columns)):
             latex_str += r"c|"
         latex_str += "}\n"
@@ -71,6 +71,8 @@ class _TableLaTeXer:
                 if isinstance(cell, _Result):
                     value_str = _LaTeXer.create_latex_str(cell.value, cell.uncertainties, "")
                     latex_str += f"${value_str}$"
+                else:
+                    latex_str += str(cell)
 
             latex_str += "\\\\\n"
 
@@ -84,5 +86,6 @@ class _TableLaTeXer:
         latex_str += rf"\label{{{table.name}}}" + "\n"
         latex_str += "\\end{center}\n"
         latex_str += "\\end{table}\n"
+        latex_str += "}"
 
         return latex_str
