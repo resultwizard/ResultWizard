@@ -67,11 +67,13 @@
         "pydantic",
         "pylint",
         "pytest",
+        "resizebox",
         "sigfigs",
         "siunitx",
         "Stringifier",
         "textbf",
         "texttt",
+        "textwidth",
         "uncert",
         "usepackage"
     ],

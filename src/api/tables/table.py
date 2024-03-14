@@ -17,6 +17,25 @@ def table(
     # Parse user input
     name_res = parsers.parse_name(name)
 
+    # Check if columns are valid:
+    if len(columns) == 0:
+        raise ValueError("A table must have at least one column.")
+
+    length = None
+    for column in columns:
+        if length is None:
+            length = len(column.cells)
+        elif length != len(column.cells):
+            raise ValueError("All columns must have the same number of cells.")
+
+    if length == 0:
+        raise ValueError("All columns must have at least one cell.")
+
+    # Concentrate units:
+    if concentrate_units_if_possible:
+        for column in columns:
+            column.concentrate_units()
+
     # Assemble the table
     _table = _Table(
         name_res, columns, caption, resize_to_fit_page_, horizontal, concentrate_units_if_possible
