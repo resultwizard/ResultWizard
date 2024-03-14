@@ -53,6 +53,7 @@ wiz.res("f", "1.0e1", 25e-1).print()
 
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()
 # g: (1.0 ± 0.01 sys ± 0.02 stat) \mm
+# TODO: Why does this not work?
 
 # The following wont' work as we can't have positional arguments (here: unit)
 # after keyword arguments (here: uncert)
