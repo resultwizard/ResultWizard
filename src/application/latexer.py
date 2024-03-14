@@ -53,7 +53,7 @@ class _LaTeXer:
                 else:
                     uncertainty_name = _Helpers.number_to_word(i + 1)
                 uncertainty_name = "error" + uncertainty_name[0].upper() + uncertainty_name[1:]
-            error_latex_str = cls._create_latex_str(u.uncertainty, [], result.unit)
+            error_latex_str = cls.create_latex_str(u.uncertainty, [], result.unit)
 
             latex_str += "\n"
             latex_str += rf"    }}{{\ifthenelse{{\equal{{#1}}{{{uncertainty_name}}}}}{{"
@@ -68,7 +68,7 @@ class _LaTeXer:
             short_result = result.get_short_result()
             _Rounder.round_result(short_result)
 
-            error_latex_str = cls._create_latex_str(
+            error_latex_str = cls.create_latex_str(
                 short_result.uncertainties[0].uncertainty, [], result.unit
             )
 
@@ -123,17 +123,17 @@ class _LaTeXer:
         """
         Returns the result as LaTeX string making use of the siunitx package.
         """
-        return cls._create_latex_str(result.value, result.uncertainties, result.unit)
+        return cls.create_latex_str(result.value, result.uncertainties, result.unit)
 
     @classmethod
     def result_to_latex_str_value_only(cls, result: _Result) -> str:
         """
         Returns only the value as LaTeX string making use of the siunitx package.
         """
-        return cls._create_latex_str(result.value, [], result.unit)
+        return cls.create_latex_str(result.value, [], result.unit)
 
     @classmethod
-    def _create_latex_str(cls, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
+    def create_latex_str(cls, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
 
