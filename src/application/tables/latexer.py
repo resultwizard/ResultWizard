@@ -19,7 +19,7 @@ class _TableLaTeXer:
         cmd_name = table_identifier + table.name[0].upper() + table.name[1:]
 
         # New command:
-        latex_str = rf"\newcommand*{{\{cmd_name}}}[1]{{" + "\n"
+        latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{" + "\n"
 
         # Table header:
         latex_str += r"\begin{table}[#1]" + "\n"
