@@ -52,6 +52,11 @@ Repository = "https://github.com/paul019/ValueWizard"
 Issues = "https://github.com/paul019/ValueWizard/issues"
 Changelog = "https://github.com/paul019/ValueWizard/blob/main/CHANGELOG.md"
 
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
 # TODO: Add these checks back
 [tool.pylint."messages control"]
 disable = [
