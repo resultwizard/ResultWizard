@@ -113,11 +113,17 @@ class _TableLaTeXer:
 
         # Iterate through columns (that are rows now):
         for row in table.columns:
+            # Header column:
             latex_str += rf"\textbf{{{row.title}}}"
-            if row.unit != "":
-                latex_str += rf" & $[\unit{{{row.unit}}}]$"
-            else:
-                latex_str += " & "
+
+            # Unit column:
+            if cls._exist_units(table):
+                if row.unit != "":
+                    latex_str += rf" & $[\unit{{{row.unit}}}]$"
+                else:
+                    latex_str += " & "
+
+            # Value columns:
             for cell in row.cells:
                 if isinstance(cell, _Result):
                     value_str = _LaTeXer.create_latex_str(
