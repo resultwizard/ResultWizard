@@ -13,6 +13,7 @@ class _Table:
     name: str
     columns: List[_Column]
     caption: str
+    label: str
     resize_to_fit_page: bool
     horizontal: bool
     concentrate_units_if_possible: bool

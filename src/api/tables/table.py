@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from application.cache import _res_cache
 import api.parsers as parsers
@@ -10,6 +10,7 @@ def table(
     name: str,
     columns: List[_Column],
     caption: str,
+    label: Union[str, None] = None,
     resize_to_fit_page_: bool = False,
     horizontal: bool = False,
     concentrate_units_if_possible: bool = True,
@@ -37,7 +38,13 @@ def table(
 
     # Assemble the table
     _table = _Table(
-        name_res, columns, caption, resize_to_fit_page_, horizontal, concentrate_units_if_possible
+        name_res,
+        columns,
+        caption,
+        label if label is not None else name_res,
+        resize_to_fit_page_,
+        horizontal,
+        concentrate_units_if_possible,
     )
     _res_cache.add_table(name, _table)
 

@@ -85,7 +85,7 @@ class _TableLaTeXer:
             latex_str += "}"
         if table.caption != "":
             latex_str += rf"\caption{{{table.caption}}}" + "\n"
-        latex_str += rf"\label{{{table.name}}}" + "\n"
+        latex_str += rf"\label{{{table.label}}}" + "\n"
         latex_str += "\\end{center}\n"
         latex_str += "\\end{table}\n"
         latex_str += "}"

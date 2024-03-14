@@ -7,8 +7,8 @@
 # From: https://setuptools.pypa.io/en/latest/userguide/quickstart.html#development-mode
 
 
-import resultwizard as wiz
 from random import random
+import resultwizard as wiz
 
 print("#############################")
 print("### Playground")
@@ -82,6 +82,7 @@ wiz.table(
         ),
     ],
     "description",
+    resize_to_fit_page_=True
 )
 
 
