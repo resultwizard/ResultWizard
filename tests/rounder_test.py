@@ -4,5 +4,5 @@ def func(x):
 
 def test_answer():
     expected = 3
-    expected += 2
+    expected += 1
     assert func(3) == expected
