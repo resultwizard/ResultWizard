@@ -62,13 +62,11 @@ class TestRounder:
 
         res = _Result("", _Value(1.0), "", [_Uncertainty(0.295001)], None, None)
         _Rounder.round_result(res)
-        print(res.uncertainties[0].uncertainty.get_min_exponent())
         assert res.value.get_min_exponent() == -1
         assert res.uncertainties[0].uncertainty.get_min_exponent() == -1
 
         res = _Result("", _Value(1.0), "", [_Uncertainty(0.4), _Uncertainty(0.04)], None, None)
         _Rounder.round_result(res)
-        print(res.uncertainties[0].uncertainty.get_min_exponent())
         assert res.value.get_min_exponent() == -2
         assert res.uncertainties[0].uncertainty.get_min_exponent() == -1
         assert res.uncertainties[1].uncertainty.get_min_exponent() == -2
