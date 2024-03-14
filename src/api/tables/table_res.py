@@ -16,18 +16,16 @@ from domain.result import _Result
 
 @overload
 def table_res(
-    name: str,
     value: Union[float, str],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> _Result:
-    return table_res(name, value, [], unit, sigfigs, decimal_places)
+    return table_res(value, [], unit, sigfigs, decimal_places)
 
 
 @overload
 def table_res(
-    name: str,
     value: Union[float, str],
     uncert: Union[
         float,
@@ -39,22 +37,20 @@ def table_res(
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> _Result:
-    return table_res(name, value, uncert, "", sigfigs, decimal_places)
+    return table_res(value, uncert, "", sigfigs, decimal_places)
 
 
 @overload
 def table_res(
-    name: str,
     value: Union[float, str],
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> _Result:
-    return table_res(name, value, [], "", sigfigs, decimal_places)
+    return table_res(value, [], "", sigfigs, decimal_places)
 
 
 @overload
 def table_res(
-    name: str,
     value: Union[float, str],
     sys: float,
     stat: float,
@@ -62,12 +58,11 @@ def table_res(
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> _Result:
-    return table_res(name, value, [(sys, "sys"), (stat, "stat")], unit, sigfigs, decimal_places)
+    return table_res(value, [(sys, "sys"), (stat, "stat")], unit, sigfigs, decimal_places)
 
 
 @overload
 def table_res(
-    name: str,
     value: Union[float, str],
     uncert: Union[
         float,
@@ -84,7 +79,6 @@ def table_res(
         uncert = []
 
     # Parse user input
-    name_res = parsers.parse_name(name)
     value_res = parsers.parse_value(value)
     uncertainties_res = parsers.parse_uncertainties(uncert)
     unit_res = parsers.parse_unit(unit)
@@ -92,9 +86,7 @@ def table_res(
     decimal_places_res = parsers.parse_decimal_places(decimal_places)
 
     # Assemble the result
-    result = _Result(
-        name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
-    )
+    result = _Result("", value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res)
     _Rounder.round_result(result)
 
     return result
