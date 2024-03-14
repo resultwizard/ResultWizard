@@ -49,7 +49,7 @@ wiz.res("e", "1.0", r"\mm").print()
 
 # wiz.standard_sigfigs(3)
 
-wiz.res("f", "1.0e4").print()
+wiz.res("f", "1.0e1", 25e-1).print()
 # f: 1.0
 
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()

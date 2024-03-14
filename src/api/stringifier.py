@@ -67,7 +67,7 @@ class Stringifier:
 
             string += rf"e{exponent}"
         else:
-            if len(uncertainties) > 0:
+            if len(uncertainties) > 0 and unit != "":
                 string += "("
 
             value_normalized = value.get_abs()
@@ -83,7 +83,7 @@ class Stringifier:
                 if len(uncertainties) > 1:
                     string += rf" ({u.name})"
 
-            if len(uncertainties) > 0:
+            if len(uncertainties) > 0 and unit != "":
                 string += ")"
 
         if has_unit:
