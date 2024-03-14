@@ -69,7 +69,9 @@ class _TableLaTeXer:
                 cell = column.cells[i]
 
                 if isinstance(cell, _Result):
-                    value_str = _LaTeXer.create_latex_str(cell.value, cell.uncertainties, "")
+                    value_str = _LaTeXer.create_latex_str(
+                        cell.value, cell.uncertainties, cell.unit if column.unit == "" else ""
+                    )
                     latex_str += f"${value_str}$"
                 else:
                     latex_str += str(cell)
