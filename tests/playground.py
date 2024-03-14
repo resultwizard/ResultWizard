@@ -85,6 +85,34 @@ wiz.table(
     resize_to_fit_page_=True
 )
 
+wiz.table(
+    "name horizontal",
+    [
+        wiz.column("Num.", [f"{i+1}" for i in range(4)]),
+        wiz.column(
+            "Random 1", [wiz.table_res(random(), random() * 0.1, r"\mm") for i in range(4)]
+        ),
+        wiz.column(
+            "Random 2",
+            [wiz.table_res(random(), random() * 0.1, r"\electronvolt") for i in range(4)],
+            concentrate_units_if_possible=False,
+        ),
+        wiz.column(
+            "Random 3",
+            [
+                wiz.table_res(
+                    random(), random() * 0.1, r"\electronvolt" if random() > 0.5 else r"\mm"
+                )
+                for i in range(4)
+            ],
+        ),
+    ],
+    "description",
+    horizontal=True,
+    resize_to_fit_page_=True,
+    label="tab:horizontal",
+)
+
 
 #############################
 # Export
