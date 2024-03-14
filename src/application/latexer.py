@@ -1,3 +1,5 @@
+from typing import List
+
 import textwrap
 from domain.result import _Result
 from domain.value import _Value
@@ -5,7 +7,6 @@ from domain.uncertainty import _Uncertainty
 from application.helpers import _Helpers
 from application.rounder import _Rounder
 
-from typing import List
 
 # Config values:
 min_exponent_for_non_scientific_notation = -2
@@ -29,7 +30,7 @@ class _LaTeXer:
         """
         latex_str = textwrap.dedent(latex_str).strip()
 
-        number_of_parantheses_to_close = 0
+        number_of_parentheses_to_close = 0
         keywords = []
 
         # Value only:
@@ -40,7 +41,7 @@ class _LaTeXer:
             latex_str += rf"        {cls.result_to_latex_str_value_only(result)}"
             keywords.append("valueOnly")
 
-            number_of_parantheses_to_close += 1
+            number_of_parentheses_to_close += 1
 
         # Single uncertainties:
         for i, u in enumerate(result.uncertainties):
@@ -60,7 +61,7 @@ class _LaTeXer:
             latex_str += rf"        {error_latex_str}"
             keywords.append(uncertainty_name)
 
-            number_of_parantheses_to_close += 1
+            number_of_parentheses_to_close += 1
 
         # Total uncertainty and short result:
         if len(result.uncertainties) > 1:
@@ -77,7 +78,7 @@ class _LaTeXer:
             latex_str += rf"        {error_latex_str}"
             keywords.append("errorTotal")
 
-            number_of_parantheses_to_close += 1
+            number_of_parentheses_to_close += 1
 
             latex_str += "\n"
             latex_str += r"    }{\ifthenelse{\equal{#1}{short}}{"
@@ -85,7 +86,7 @@ class _LaTeXer:
             latex_str += rf"        {cls.result_to_latex_str(short_result)}"
             keywords.append("short")
 
-            number_of_parantheses_to_close += 1
+            number_of_parentheses_to_close += 1
 
         # Unit:
         if result.unit != "":
@@ -95,7 +96,7 @@ class _LaTeXer:
             latex_str += rf"        \unit{{{result.unit}}}"
             keywords.append("unit")
 
-            number_of_parantheses_to_close += 1
+            number_of_parentheses_to_close += 1
 
         # Error message:
         if len(keywords) > 0:
@@ -111,7 +112,7 @@ class _LaTeXer:
                 + r"    }{\tiny\textbf{This variable can only be used without keyword.}\normalsize}"
             )
 
-        for _ in range(number_of_parantheses_to_close):
+        for _ in range(number_of_parentheses_to_close):
             latex_str += "}"
         latex_str += "\n}"
 
@@ -170,10 +171,16 @@ class _LaTeXer:
             if len(uncertainties) > 0:
                 latex_str += "("
 
-            latex_str += f"{sign}{_Helpers.round_to_n_decimal_places(value.get_abs() * factor, value.get_sig_figs()-1)}"
+            value_normalized = value.get_abs() * factor
+            decimal_places = value.get_sig_figs() - 1
+            latex_str += sign
+            latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
 
             for u in uncertainties:
-                latex_str += rf" \pm {_Helpers.round_to_n_decimal_places(u.uncertainty.get_abs() * factor, exponent-u.uncertainty.get_min_exponent())}"
+                value_normalized = u.uncertainty.get_abs() * factor
+                decimal_places = exponent - u.uncertainty.get_min_exponent()
+                latex_str += r" \pm "
+                latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
                 if len(uncertainties) > 1:
                     latex_str += rf"_{{\text{{{u.name}}}}}"
 
@@ -185,7 +192,10 @@ class _LaTeXer:
             if len(uncertainties) > 0:
                 latex_str += "("
 
-            latex_str += f"{sign}{_Helpers.round_to_n_decimal_places(value.get_abs(), value.get_decimal_place())}"
+            value_normalized = value.get_abs()
+            decimal_places = value.get_decimal_place()
+            latex_str += sign
+            latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
 
             for u in uncertainties:
                 latex_str += rf" \pm {_Helpers.round_to_n_decimal_places(u.uncertainty.get_abs(), u.uncertainty.get_decimal_place())}"

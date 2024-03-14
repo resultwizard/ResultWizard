@@ -1,5 +1,4 @@
 from application.cache import _res_cache
-from application.rounder import _Rounder
 from application.latexer import _LaTeXer
 
 
@@ -28,6 +27,6 @@ def export(filepath: str):
         cmds.append(result_str)
 
     # Write to file
-    with open(filepath, "w") as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         f.write("\n".join(cmds))
     print(f'Exported to "{filepath}"')

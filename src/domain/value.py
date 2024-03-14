@@ -1,7 +1,6 @@
-from application.helpers import _Helpers
-
-
 from typing import Union
+
+from application.helpers import _Helpers
 
 
 class _Value:

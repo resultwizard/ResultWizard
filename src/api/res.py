@@ -1,3 +1,6 @@
+from typing import Union, List, Tuple
+from plum import dispatch, overload
+
 from api.printable_result import PrintableResult
 from application.cache import _res_cache
 from application.rounder import _Rounder
@@ -5,9 +8,6 @@ from application.helpers import _Helpers
 from domain.result import _Result
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty
-
-from plum import dispatch, overload
-from typing import Union, List, Tuple
 
 
 # TODO: import types from typing to ensure backwards compatibility down to Python 3.8
@@ -38,7 +38,8 @@ def res(
         str,
         Tuple[Union[float, str], str],
         List[Union[float, str, Tuple[Union[float, str], str]]],
-    ] = [],
+        None
+    ] = None,
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
@@ -77,11 +78,15 @@ def res(
         str,
         Tuple[Union[float, str], str],
         List[Union[float, str, Tuple[Union[float, str], str]]],
-    ] = [],
+        None
+    ] = None,
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
+    if uncert is None:
+        uncert = []
+
     # Parse user input
     name_res = _parse_name(name)
     value_res = _parse_value(value)
@@ -114,8 +119,8 @@ def _check_if_number_string(value: str) -> None:
     """Raises a ValueError if the string is not a valid number."""
     try:
         float(value)
-    except ValueError:
-        raise ValueError(f"String value must be a valid number, not {value}")
+    except ValueError as exc:
+        raise ValueError(f"String value must be a valid number, not {value}") from exc
 
 
 def _parse_name(name: str) -> str:
@@ -171,7 +176,7 @@ def _parse_unit(unit: str) -> str:
 
 def _parse_sigfigs(sigfigs: Union[int, None]) -> Union[int, None]:
     """Parses the number of sigfigs."""
-    if sigfigs == None:
+    if sigfigs is None:
         return None
 
     if not isinstance(sigfigs, int):
@@ -185,7 +190,7 @@ def _parse_sigfigs(sigfigs: Union[int, None]) -> Union[int, None]:
 
 def _parse_decimal_places(decimal_places: Union[int, None]) -> Union[int, None]:
     """Parses the number of sigfigs."""
-    if decimal_places == None:
+    if decimal_places is None:
         return None
 
     if not isinstance(decimal_places, int):
@@ -223,6 +228,8 @@ def _parse_uncertainties(
     if isinstance(uncertainties, (float, str, Tuple)):
         uncertainties = [uncertainties]
 
+    assert isinstance(uncertainties, List)
+
     for uncert in uncertainties:
         if isinstance(uncert, (float, str)):
             if isinstance(uncert, str):
@@ -238,7 +245,7 @@ def _parse_uncertainties(
                 )
             if isinstance(uncert[0], str):
                 _check_if_number_string(uncert[0])
-            uncertainties_res.append(_Uncertainty(uncert[0], uncert[1]))
+            uncertainties_res.append(_Uncertainty(uncert[0], _parse_name(uncert[1])))
 
         else:
             raise TypeError(f"Each uncertainty must be a tuple or a float/str, not {type(uncert)}")

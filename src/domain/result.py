@@ -1,8 +1,8 @@
-from domain.uncertainty import _Uncertainty
-from domain.value import _Value
-
 from dataclasses import dataclass
 from typing import Union
+
+from domain.uncertainty import _Uncertainty
+from domain.value import _Value
 
 
 @dataclass

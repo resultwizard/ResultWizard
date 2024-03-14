@@ -49,10 +49,16 @@ class Stringifier:
             if len(uncertainties) > 0:
                 string += "("
 
-            string += f"{sign}{_Helpers.round_to_n_decimal_places(value.get_abs() * factor, value.get_sig_figs()-1)}"
+            value_normalized = value.get_abs() * factor
+            decimal_places = value.get_sig_figs()-1
+            string += sign
+            string += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
 
             for u in uncertainties:
-                string += rf" ± {_Helpers.round_to_n_decimal_places(u.uncertainty.get_abs() * factor, exponent-u.uncertainty.get_min_exponent())}"
+                value_normalized = u.uncertainty.get_abs() * factor
+                decimal_places = exponent-u.uncertainty.get_min_exponent()
+                string += " ± "
+                string += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
                 if len(uncertainties) > 1:
                     string += rf" ({u.name})"
 
@@ -64,10 +70,16 @@ class Stringifier:
             if len(uncertainties) > 0:
                 string += "("
 
-            string += f"{sign}{_Helpers.round_to_n_decimal_places(value.get_abs(), value.get_decimal_place())}"
+            value_normalized = value.get_abs()
+            decimal_places = value.get_decimal_place()
+            string += sign
+            string += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
 
             for u in uncertainties:
-                string += rf" ± {_Helpers.round_to_n_decimal_places(u.uncertainty.get_abs(), u.uncertainty.get_decimal_place())}"
+                value_normalized = u.uncertainty.get_abs()
+                decimal_places = u.uncertainty.get_decimal_place()
+                string += " ± "
+                string += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
                 if len(uncertainties) > 1:
                     string += rf" ({u.name})"
 

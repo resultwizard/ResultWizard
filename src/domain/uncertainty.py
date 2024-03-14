@@ -1,6 +1,6 @@
-from domain.value import _Value
-
 from typing import Union
+
+from domain.value import _Value
 
 
 class _Uncertainty:
