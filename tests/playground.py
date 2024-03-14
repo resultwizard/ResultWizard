@@ -15,10 +15,11 @@ print("#############################")
 print()
 
 
-# wiz.config(
-#     standard_sigfigs = 2,
-#     ...
-# )
+wiz.config_init(
+    sigfigs=3,
+    decimal_places=3,
+    print_always=True,
+)
 
 
 #############################
@@ -29,6 +30,8 @@ print("### RESULTS API")
 
 wiz.res("a1", 1.0, r"\mm").print()
 # a: 1.0 \mm
+
+wiz.config(sigfigs=2)
 
 wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed").print()
 # b: (1.0 ± 0.01) \mm
@@ -45,6 +48,8 @@ wiz.res(
 
 wiz.res("e", "1.0", r"\mm").print()
 # e: 1.0 \mm
+
+wiz.config(decimal_places=4)
 
 # wiz.standard_sigfigs(3)
 
