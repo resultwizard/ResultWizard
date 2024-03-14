@@ -69,6 +69,7 @@ wiz.table(
         wiz.column(
             "Random 2",
             [wiz.table_res(random(), random() * 0.1, r"\electronvolt") for i in range(10)],
+            concentrate_units_if_possible=False,
         ),
         wiz.column(
             "Random 3",

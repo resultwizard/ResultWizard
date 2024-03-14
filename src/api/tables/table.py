@@ -32,9 +32,8 @@ def table(
         raise ValueError("All columns must have at least one cell.")
 
     # Concentrate units:
-    if concentrate_units_if_possible:
-        for column in columns:
-            column.concentrate_units()
+    for column in columns:
+        column.concentrate_units(concentrate_units_if_possible)
 
     # Assemble the table
     _table = _Table(
