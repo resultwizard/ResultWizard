@@ -8,6 +8,7 @@
 
 
 import resultwizard as wiz
+from random import random
 
 print("#############################")
 print("### Playground")
@@ -60,7 +61,25 @@ wiz.res("f", "1.0e4").print()
 
 wiz.table(
     "name",
-    [wiz.column("Test", ["Test"])],
+    [
+        wiz.column("Num.", [f"{i+1}" for i in range(10)]),
+        wiz.column(
+            "Random 1", [wiz.table_res(random(), random() * 0.1, r"\mm") for i in range(10)]
+        ),
+        wiz.column(
+            "Random 2",
+            [wiz.table_res(random(), random() * 0.1, r"\electronvolt") for i in range(10)],
+        ),
+        wiz.column(
+            "Random 3",
+            [
+                wiz.table_res(
+                    random(), random() * 0.1, r"\electronvolt" if random() > 0.5 else r"\mm"
+                )
+                for i in range(10)
+            ],
+        ),
+    ],
     "description",
 )
 
