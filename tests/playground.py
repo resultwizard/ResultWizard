@@ -7,6 +7,7 @@
 # From: https://setuptools.pypa.io/en/latest/userguide/quickstart.html#development-mode
 
 
+# TODO rename to ResultWizard
 import valuewizard as wiz
 
 print("#############################")
@@ -65,7 +66,7 @@ wiz.res("f", "1.0e4").print()
 #         "Header 2": [wiz.cell_res(...), wiz.cell_res(...), ...],
 #         "Header 3": [wiz.cell_res(values[i], errors[i], r"\mm") for i in range(10)],
 #     },
-#     "Beschreibung",
+#     "description",
 #     horizontal = True,
 # )
 

@@ -57,8 +57,22 @@
     //////////////////////////////////////
     "cSpell.words": [
         "github",
+        "ifthen",
+        "ifthenelse",
+        "justfile",
+        "latexer",
+        "newcommand",
+        "normalsize",
+        "pipenv",
+        "pydantic",
         "pylint",
+        "pytest",
+        "sigfigs",
+        "siunitx",
         "Stringifier",
-        "uncert"
+        "textbf",
+        "texttt",
+        "uncert",
+        "usepackage"
     ]
 }
