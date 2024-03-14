@@ -4,13 +4,13 @@ from application.helpers import _Helpers
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty
 
+
 def check_if_number_string(value: str) -> None:
     """Raises a ValueError if the string is not a valid number."""
     try:
         float(value)
     except ValueError as exc:
         raise ValueError(f"String value must be a valid number, not {value}") from exc
-
 
 
 def parse_name(name: str) -> str:
@@ -26,6 +26,7 @@ def parse_name(name: str) -> str:
         .replace("Ö", "Oe")
         .replace("Ü", "Ue")
         .replace("ß", "ss")
+        .replace("ẞ", "ss")
     )
 
     parsed_name = ""
