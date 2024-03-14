@@ -1,6 +1,7 @@
-from domain.result import _Result
 from api.stringifier import Stringifier
+from api.config import configuration
 from application.latexer import _LaTeXer
+from domain.result import _Result
 
 
 class PrintableResult:
@@ -13,4 +14,5 @@ class PrintableResult:
 
     def get_latex_str(self) -> str:
         """Returns LaTeX string."""
-        return _LaTeXer.result_to_latex_str(self._result)
+        latexer = _LaTeXer(configuration.to_latex_config())
+        return latexer.result_to_latex_str(self._result)

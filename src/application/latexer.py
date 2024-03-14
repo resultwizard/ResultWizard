@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import List
 
 import textwrap
@@ -8,25 +9,30 @@ from application.helpers import _Helpers
 from application.rounder import _Rounder
 
 
-# Config values:
-min_exponent_for_non_scientific_notation = -2
-max_exponent_for_non_scientific_notation = 3
-identifier = "res"
+@dataclass
+class LaTeXConfig:
+    min_exponent_for_non_scientific_notation: int
+    max_exponent_for_non_scientific_notation: int
+    identifier: str
 
 
 class _LaTeXer:
-    @classmethod
-    def result_to_latex_cmd(cls, result: _Result) -> str:
+    """Provides methods to convert results to LaTeX commands."""
+
+    def __init__(self, config: LaTeXConfig):
+        self.config = config
+
+    def result_to_latex_cmd(self, result: _Result) -> str:
         """
         Returns the result as LaTeX command to be used in a .tex file.
         """
 
-        cmd_name = identifier + result.name[0].upper() + result.name[1:]
+        cmd_name = self.config.identifier + result.name[0].upper() + result.name[1:]
 
         latex_str = rf"""
         \newcommand*{{\{cmd_name}}}[1][]{{
             \ifthenelse{{\equal{{#1}}{{}}}}{{
-                {cls.result_to_latex_str(result)}
+                {self.result_to_latex_str(result)}
         """
         latex_str = textwrap.dedent(latex_str).strip()
 
@@ -38,7 +44,7 @@ class _LaTeXer:
             latex_str += "\n"
             latex_str += r"    }{\ifthenelse{\equal{#1}{valueOnly}}{"
             latex_str += "\n"
-            latex_str += rf"        {cls.result_to_latex_str_value_only(result)}"
+            latex_str += rf"        {self.result_to_latex_str_value_only(result)}"
             keywords.append("valueOnly")
 
             number_of_parentheses_to_close += 1
@@ -53,7 +59,7 @@ class _LaTeXer:
                 else:
                     uncertainty_name = _Helpers.number_to_word(i + 1)
                 uncertainty_name = "error" + uncertainty_name[0].upper() + uncertainty_name[1:]
-            error_latex_str = cls._create_latex_str(u.uncertainty, [], result.unit)
+            error_latex_str = self._create_latex_str(u.uncertainty, [], result.unit)
 
             latex_str += "\n"
             latex_str += rf"    }}{{\ifthenelse{{\equal{{#1}}{{{uncertainty_name}}}}}{{"
@@ -68,7 +74,7 @@ class _LaTeXer:
             short_result = result.get_short_result()
             _Rounder.round_result(short_result)
 
-            error_latex_str = cls._create_latex_str(
+            error_latex_str = self._create_latex_str(
                 short_result.uncertainties[0].uncertainty, [], result.unit
             )
 
@@ -83,7 +89,7 @@ class _LaTeXer:
             latex_str += "\n"
             latex_str += r"    }{\ifthenelse{\equal{#1}{short}}{"
             latex_str += "\n"
-            latex_str += rf"        {cls.result_to_latex_str(short_result)}"
+            latex_str += rf"        {self.result_to_latex_str(short_result)}"
             keywords.append("short")
 
             number_of_parentheses_to_close += 1
@@ -118,22 +124,19 @@ class _LaTeXer:
 
         return latex_str
 
-    @classmethod
-    def result_to_latex_str(cls, result: _Result) -> str:
+    def result_to_latex_str(self, result: _Result) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
         """
-        return cls._create_latex_str(result.value, result.uncertainties, result.unit)
+        return self._create_latex_str(result.value, result.uncertainties, result.unit)
 
-    @classmethod
-    def result_to_latex_str_value_only(cls, result: _Result) -> str:
+    def result_to_latex_str_value_only(self, result: _Result) -> str:
         """
         Returns only the value as LaTeX string making use of the siunitx package.
         """
-        return cls._create_latex_str(result.value, [], result.unit)
+        return self._create_latex_str(result.value, [], result.unit)
 
-    @classmethod
-    def _create_latex_str(cls, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
+    def _create_latex_str(self, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
 
@@ -146,8 +149,8 @@ class _LaTeXer:
 
         # Determine if scientific notation should be used:
         if (
-            value.get_exponent() < min_exponent_for_non_scientific_notation
-            or value.get_exponent() > max_exponent_for_non_scientific_notation
+            value.get_exponent() < self.config.min_exponent_for_non_scientific_notation
+            or value.get_exponent() > self.config.max_exponent_for_non_scientific_notation
         ):
             use_scientific_notation = True
 

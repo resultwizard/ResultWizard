@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from application.latexer import LaTeXConfig
 import json
 
 
@@ -15,6 +16,16 @@ class Config:
     sigfigs: int
     decimal_places: int
     print_always: bool
+    min_exponent_for_non_scientific_notation: int
+    max_exponent_for_non_scientific_notation: int
+    identifier: str
 
     def to_json_str(self):
         return json.dumps(self.__dict__)
+
+    def to_latex_config(self) -> LaTeXConfig:
+        return LaTeXConfig(
+            self.min_exponent_for_non_scientific_notation,
+            self.max_exponent_for_non_scientific_notation,
+            self.identifier,
+        )

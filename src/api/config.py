@@ -7,8 +7,18 @@ def config_init(
     sigfigs: int = 2,
     decimal_places: int = 2,
     print_always: bool = False,
+    min_exponent_for_non_scientific_notation: int = -2,
+    max_exponent_for_non_scientific_notation: int = 3,
+    identifier: str = "res",
 ):
-    c = Config(sigfigs, decimal_places, print_always)
+    c = Config(
+        sigfigs,
+        decimal_places,
+        print_always,
+        min_exponent_for_non_scientific_notation,
+        max_exponent_for_non_scientific_notation,
+        identifier,
+    )
     print(c.to_json_str())
     return c
 
