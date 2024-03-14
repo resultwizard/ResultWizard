@@ -1,7 +1,7 @@
 from typing import List
 
 from application.cache import _res_cache
-import application.parsers as parsers
+import api.parsers as parsers
 from domain.tables.column import _Column
 from domain.tables.table import _Table
 
