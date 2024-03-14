@@ -72,6 +72,7 @@
         "pydantic",
         "pylint",
         "pytest",
+        "resultwizard",
         "sigfigs",
         "siunitx",
         "Stringifier",

@@ -4,7 +4,7 @@ We use the clean architecture paradigm. Modules in outer layers are allowed to i
 
 From outer layer to inner layer:
 
-- `valuewizard/`: Entrypoint for the PIP package; mainly only import statements
+- `resultwizard/`: Entrypoint for the PIP package; mainly only import statements
 - `api/`: User-facing API, e.g. `res()` and `export()` method
 - `application/`: Application code that uses the domain logic to solve specific problems
 - `domain/`: Domain logic, e.g. definition of what a `value`, how things are represented internally

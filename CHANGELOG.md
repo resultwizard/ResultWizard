@@ -1,3 +1,3 @@
-# Changelog of ValueWizard
+# Changelog of ResultWizard
 
 TODO
