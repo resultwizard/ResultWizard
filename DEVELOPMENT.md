@@ -40,3 +40,29 @@ Then start working on the code:
 ## TODO
 - Setup `.editorconfig` for non-VSCode users. At least provide very basic setup like max line length etc.
 - A [`justfile`](https://github.com/casey/just) would also be beneficial.
+
+
+
+## Testing ❌✅
+
+As always, make sure you are in the `pipenv shell`.
+
+Make sure you have all dependencies installed:
+
+```
+pipenv install
+```
+
+Then you can run the tests via the command line:
+
+```
+pytest
+```
+
+But with VSCode, you get direct integration into the **Test Explorer UI**. You will have to install the recommended extensions first. Then switch to the Testing tab and you will find the tests there. You can run them from there, jump to the file where tey are defined and even start debugging them. You can also do the same via the code lens (it shows a little menu "Run | Debug | ..." over every test method) in the test files themselves. Try to set a breakpoint and debug it by clicking "Debug" in the code lens. While debugging, go the debug panel and see some variables there or enter one in the watch tab. Try to modify a test such that it fails and get to know where you see the error.
+
+Als try adding `import pytest` as first line of a test file. Does it give you a warning? If so, you have selected the wrong VSCode Python interpreter. Choose the one provided by the pipenv virtual environment where all dependencies are installed.
+
+Note that tests are also run on every commit via a GitHub action.
+
+In order to learn how to write the tests with pytest, start with the [`Get Started` guide](https://docs.pytest.org/en/8.0.x/getting-started.html#create-your-first-test). Probably also relevant: ["How to use fixtures"](https://docs.pytest.org/en/8.0.x/how-to/fixtures.html). There are lots of [How-to guides](https://docs.pytest.org/en/8.0.x/how-to/index.html) available.
