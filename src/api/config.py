@@ -1,5 +1,4 @@
 from typing import Union, cast
-import json
 
 from dataclasses import dataclass
 from application.latexer import LaTeXConfig
@@ -24,9 +23,6 @@ class _Config:
     min_exponent_for_non_scientific_notation: int
     max_exponent_for_non_scientific_notation: int
     identifier: str
-
-    def to_json_str(self):
-        return json.dumps(self.__dict__)
 
     def to_latex_config(self) -> LaTeXConfig:
         return LaTeXConfig(
@@ -55,7 +51,6 @@ def config_init(
         max_exponent_for_non_scientific_notation,
         identifier,
     )
-    print(configuration.to_json_str())
 
 
 configuration = cast(_Config, None)
@@ -73,5 +68,3 @@ def config(
         configuration.decimal_places = decimal_places
     if print_auto is not None:
         configuration.print_auto = print_auto
-
-    print(configuration.to_json_str())
