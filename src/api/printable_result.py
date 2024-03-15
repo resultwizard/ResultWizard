@@ -12,7 +12,12 @@ class PrintableResult:
         """Prints the result to the console."""
         print(Stringifier.result_to_str(self._result))
 
-    def get_latex_str(self) -> str:
-        """Returns LaTeX string."""
+    def to_latex_str(self) -> str:
+        """Converts the result to a string that can be used in LaTeX documents.
+
+        Note that you might also want to use the `export` method to export
+        all your results to a file, which can then be included in your LaTeX
+        document.
+        """
         latexer = _LaTeXer(c.configuration.to_latex_config())
         return latexer.result_to_latex_str(self._result)
