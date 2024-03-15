@@ -15,7 +15,7 @@ print("#############################")
 print()
 
 
-wiz.config_init(print_auto=True, sigfigs=3)
+wiz.config_init(print_auto=True, decimal_places=3)
 # wiz.config(sigfigs=2)
 # wiz.config(decimal_places=2)
 
@@ -33,6 +33,8 @@ wiz.res("a1", 1.0, r"\mm")
 
 wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed").print()
 # b: (1.0 ± 0.01) \mm
+
+wiz.config(decimal_places=-1, sigfigs_fallback=3)
 
 wiz.res("c big", 1.0, (0.01, "systematic"), r"\mm").print()
 # c: (1.0 ± 0.01 systematic) \mm

@@ -43,6 +43,32 @@ class _Config:
         )
 
 
+def _check_config() -> None:
+    if configuration.sigfigs > -1 and configuration.decimal_places > -1:
+        raise ValueError(
+            "You can't set both sigfigs and decimal places at the same time. "
+            "Please choose one or the other."
+        )
+
+    if configuration.sigfigs_fallback > -1 and configuration.decimal_places_fallback > -1:
+        raise ValueError(
+            "You can't set both sigfigs_fallback and decimal_places_fallback at the same time. "
+            "Please choose one or the other."
+        )
+
+    if configuration.sigfigs_fallback <= -1 and configuration.decimal_places_fallback <= -1:
+        raise ValueError(
+            "You need to set either sigfigs_fallback or decimal_places_fallback. "
+            "Please choose one."
+        )
+
+    if configuration.sigfigs == 0:
+        raise ValueError("sigfigs must be greater than 0 (or -1).")
+
+    if configuration.sigfigs_fallback == 0:
+        raise ValueError("sigfigs_fallback must be greater than 0 (or -1).")
+
+
 def config_init(
     sigfigs: int = -1,  # -1: "per default use rounding rules instead"
     decimal_places: int = -1,  # -1: "per default use rounding rules instead"
@@ -67,6 +93,8 @@ def config_init(
         decimal_places_fallback,
     )
 
+    _check_config()
+
 
 configuration = cast(_Config, None)
 config_init()
@@ -79,13 +107,42 @@ def config(
     sigfigs_fallback: Union[int, None] = None,
     decimal_places_fallback: Union[int, None] = None,
 ):
+    if sigfigs is not None and sigfigs > -1 and decimal_places is not None and decimal_places > -1:
+        raise ValueError(
+            "You can't set both sigfigs and decimal places at the same time. "
+            "Please choose one or the other."
+        )
+
+    if (
+        sigfigs_fallback is not None
+        and sigfigs_fallback > -1
+        and decimal_places_fallback is not None
+        and decimal_places_fallback > -1
+    ):
+        raise ValueError(
+            "You can't set both sigfigs_fallback and decimal_places_fallback at the same time. "
+            "Please choose one or the other."
+        )
+
     if sigfigs is not None:
         configuration.sigfigs = sigfigs
+        if sigfigs > -1:
+            configuration.decimal_places = -1
     if decimal_places is not None:
         configuration.decimal_places = decimal_places
+        if decimal_places > -1:
+            configuration.sigfigs = -1
+
     if print_auto is not None:
         configuration.print_auto = print_auto
+
     if sigfigs_fallback is not None:
         configuration.sigfigs_fallback = sigfigs_fallback
+        if sigfigs_fallback > -1:
+            configuration.decimal_places_fallback = -1
     if decimal_places_fallback is not None:
         configuration.decimal_places_fallback = decimal_places_fallback
+        if decimal_places_fallback > -1:
+            configuration.sigfigs_fallback = -1
+
+    _check_config()
