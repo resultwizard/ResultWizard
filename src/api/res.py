@@ -51,6 +51,7 @@ def res(
 
 
 @overload
+# pylint: disable=too-many-arguments
 def res(
     name: str,
     value: Union[float, int, str],
@@ -64,6 +65,7 @@ def res(
 
 
 @overload
+# pylint: disable=too-many-arguments
 def res(
     name: str,
     value: Union[float, int, str],
@@ -114,7 +116,7 @@ def res(
 # see https://beartype.github.io/plum/integration.html
 # This is a good writeup: https://stackoverflow.com/a/29091980/
 @dispatch
-def res(*args, **kwargs) -> object:
+def res(*args, **kwargs) -> object:  # pylint: disable=unused-argument
     # This method only scans for all `overload`-decorated methods
     # and properly adds them as Plum methods.
     pass

@@ -6,6 +6,7 @@ from application.rounder import RoundingConfig
 
 
 @dataclass
+# pylint: disable-next=too-many-instance-attributes
 class _Config:
     """Configuration settings for the application.
 
@@ -13,9 +14,16 @@ class _Config:
         sigfigs (int): The number of significant figures to round to.
         decimal_places (int): The number of decimal places to round to.
         print_auto (bool): Whether to print each result directly to the console.
-        min_exponent_for_non_scientific_notation (int): The minimum exponent for non-scientific notation.
-        max_exponent_for_non_scientific_notation (int): The maximum exponent for non-scientific notation.
-        identifier (str): The identifier for the result variable in LaTeX.
+        min_exponent_for_non_scientific_notation (int): The minimum exponent
+            for non-scientific notation.
+        max_exponent_for_non_scientific_notation (int): The maximum exponent
+            for non-scientific notation.
+        identifier (str): The identifier for the result variable in LaTeX. This
+            identifier will be prefix each result variable name.
+        sigfigs_fallback (int): The number of significant figures to use as a
+            fallback if other rounding rules don't apply.
+        decimal_places_fallback (int): The number of decimal places to use as
+            a fallback if other rounding rules don't apply.
     """
 
     sigfigs: int
@@ -69,6 +77,7 @@ def _check_config() -> None:
         raise ValueError("sigfigs_fallback must be greater than 0 (or -1).")
 
 
+# pylint: disable-next=too-many-arguments
 def config_init(
     sigfigs: int = -1,  # -1: "per default use rounding rules instead"
     decimal_places: int = -1,  # -1: "per default use rounding rules instead"
@@ -79,8 +88,7 @@ def config_init(
     sigfigs_fallback: int = 2,
     decimal_places_fallback: int = -1,  # -1: "per default use sigfigs as fallback instead"
 ) -> None:
-    # pylint: disable-next=global-statement
-    global configuration
+    global configuration  # pylint: disable=global-statement
 
     configuration = _Config(
         sigfigs,
@@ -96,7 +104,7 @@ def config_init(
     _check_config()
 
 
-configuration = cast(_Config, None)
+configuration = cast(_Config, None)  # pylint: disable=invalid-name
 config_init()
 
 
