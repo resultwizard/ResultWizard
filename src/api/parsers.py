@@ -23,13 +23,13 @@ def parse_name(name: str) -> str:
 
     name = (
         name.replace("ä", "ae")
-        .replace("ö", "oe")
-        .replace("ü", "ue")
         .replace("Ä", "Ae")
+        .replace("ö", "oe")
         .replace("Ö", "Oe")
+        .replace("ü", "ue")
         .replace("Ü", "Ue")
         .replace("ß", "ss")
-        .replace("ẞ", "ss")
+        .replace("ẞ", "Ss")
     )
 
     parsed_name = ""
