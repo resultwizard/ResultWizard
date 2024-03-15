@@ -31,7 +31,6 @@ print("### RESULTS API")
 wiz.res("a1", 1.0, r"\mm")
 # a: 1.0 \mm
 
-
 wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed").print()
 # b: (1.0 ± 0.01) \mm
 
@@ -50,6 +49,10 @@ wiz.res("f", "1.0e1", 25e-1).print()
 # f: 1.0
 
 wiz.res("a", 42.0).print()
+
+# TODO: support for int values
+# wiz.res("a", 42) # not working as 42 is an int and not a float
+
 
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()
 # g: (1.0 ± 0.01 sys ± 0.02 stat) \mm
