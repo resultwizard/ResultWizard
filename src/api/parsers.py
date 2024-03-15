@@ -37,7 +37,9 @@ def parse_name(name: str) -> str:
 
     ignored_chars = set()
 
-    for char in name:
+    while name != "":
+        char = name[0]
+
         if char.isalpha():
             if next_chat_upper:
                 parsed_name += char.upper()
@@ -45,16 +47,38 @@ def parse_name(name: str) -> str:
             else:
                 parsed_name += char
         elif char.isdigit():
-            digit = _Helpers.number_to_word(int(char))
-            if parsed_name == "":
-                parsed_name += digit
+            # Count number of digits:
+            num_of_digits = 0
+            for c in name:
+                if c.isdigit():
+                    num_of_digits += 1
+                else:
+                    break
+
+            # Turn digits into word(s):
+            word = ""
+            if num_of_digits <= 3:
+                word += _Helpers.number_to_word(int(name[:num_of_digits]))
             else:
-                parsed_name += digit[0].upper() + digit[1:]
+                word += _Helpers.number_to_word(int(name[0]))
+                for i in range(1, num_of_digits):
+                    word += _Helpers.capitalize((_Helpers.number_to_word(int(name[i]))))
+
+            # Add word to parsed_name:
+            if parsed_name != "":
+                word = _Helpers.capitalize(word)
+            parsed_name += word
             next_chat_upper = True
+
+            # Skip the digits:
+            name = name[num_of_digits:]
+            continue
         elif char in [" ", "_", "-"]:
             next_chat_upper = True
         else:
             ignored_chars.add(char)
+
+        name = name[1:]
 
     if len(ignored_chars) > 0:
         print(f"Invalid characters in name were ignored: {', '.join(ignored_chars)}")

@@ -28,7 +28,7 @@ print("### RESULTS API")
 # wiz.res("", 42.0).print()
 # -> Error: "name must not be empty"
 
-wiz.res("a99", 1.0, r"\mm")
+wiz.res("a911", 1.0, r"\mm")
 # a: 1.0 \mm
 
 wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed").print()

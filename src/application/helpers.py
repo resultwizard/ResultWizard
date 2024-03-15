@@ -56,9 +56,15 @@ class _Helpers:
             if ones == 0:
                 return _NUMBER_TO_WORD[tens]
             return _NUMBER_TO_WORD[tens] + cls.capitalize(_NUMBER_TO_WORD[ones])
+        if 0 <= number <= 999:
+            hundreds = number // 100
+            tens = number % 100
+            if tens == 0:
+                return _NUMBER_TO_WORD[hundreds] + "Hundred"
+            return _NUMBER_TO_WORD[hundreds] + "Hundred" + cls.capitalize(cls.number_to_word(tens))
 
-        raise ValueError(f"For variable names, only use numbers between 0 and 99. Got {number}.")
+        raise ValueError(f"For variable names, only use numbers between 0 and 999. Got {number}.")
 
     @classmethod
     def capitalize(cls, s: str) -> str:
-        return s[:1].upper() + s[1:]
+        return s[0].upper() + s[1:]

@@ -41,4 +41,4 @@ class Stringifier:
             .replace(r"}", "")
         )
 
-        return latex_str
+        return f"{result.name} = {latex_str}"
