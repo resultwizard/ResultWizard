@@ -15,7 +15,7 @@ print("#############################")
 print()
 
 
-wiz.config_init(print_auto=True, sigfigs=10)
+wiz.config_init(print_auto=True, sigfigs=3)
 # wiz.config(sigfigs=2)
 # wiz.config(decimal_places=2)
 
