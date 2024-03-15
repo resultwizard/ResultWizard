@@ -48,10 +48,10 @@ wiz.res("e", "1.0", r"\mm").print()
 wiz.res("f", "1.0e1", 25e-1).print()
 # f: 1.0
 
-wiz.res("g", 42.0).print()
+wiz.res("g", 42).print()
 
-# TODO: support for int values
-# wiz.res("a", 42) # not working as 42 is an int and not a float
+wiz.res("h", 42, 13)
+# TODO: 13 is misinterpreted as number of sigfigs
 
 
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()

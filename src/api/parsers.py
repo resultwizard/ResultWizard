@@ -106,13 +106,15 @@ def parse_decimal_places(decimal_places: Union[int, None]) -> Union[int, None]:
     return decimal_places
 
 
-def parse_value(value: Union[float, str]) -> _Value:
+def parse_value(value: Union[float, int, str]) -> _Value:
     """Converts the value to a _Value object."""
-    if not isinstance(value, (float, str)):
-        raise TypeError(f"`value` must be a float or string, not {type(value)}")
+    if not isinstance(value, (float, int, str)):
+        raise TypeError(f"`value` must be a float, int or string, not {type(value)}")
 
     if isinstance(value, str):
         check_if_number_string(value)
+    elif isinstance(value, int):
+        value = float(value)
 
     return _Value(value)
 
@@ -120,38 +122,49 @@ def parse_value(value: Union[float, str]) -> _Value:
 def parse_uncertainties(
     uncertainties: Union[
         float,
+        int,
         str,
-        Tuple[Union[float, str], str],
-        List[Union[float, str, Tuple[Union[float, str], str]]],
+        Tuple[Union[float, int, str], str],
+        List[Union[float, str, Tuple[Union[float, int, str], str]]],
     ]
 ) -> List[_Uncertainty]:
     """Converts the uncertainties to a list of _Uncertainty objects."""
     uncertainties_res = []
 
     # no list, but a single value was given
-    if isinstance(uncertainties, (float, str, Tuple)):
+    if isinstance(uncertainties, (float, int, str, Tuple)):
         uncertainties = [uncertainties]
 
     assert isinstance(uncertainties, List)
 
     for uncert in uncertainties:
-        if isinstance(uncert, (float, str)):
-            if isinstance(uncert, str):
-                check_if_number_string(uncert)
-                if float(uncert) <= 0:
-                    raise ValueError("Uncertainty must be positive.")
-            uncertainties_res.append(_Uncertainty(uncert))
+        if isinstance(uncert, (float, int, str)):
+            uncertainties_res.append(_Uncertainty(_parse_uncertainty_value(uncert)))
 
         elif isinstance(uncert, Tuple):
-            if not isinstance(uncert[0], (float, str)):
+            if not isinstance(uncert[0], (float, int, str)):
                 raise TypeError(
-                    f"First argument of uncertainty-tuple must be a float or a string, not {type(uncert[0])}"
+                    "First argument of uncertainty-tuple must be a float,"
+                    + f" int or a string, not {type(uncert[0])}"
                 )
-            if isinstance(uncert[0], str):
-                check_if_number_string(uncert[0])
-            uncertainties_res.append(_Uncertainty(uncert[0], parse_name(uncert[1])))
+            uncertainties_res.append(
+                _Uncertainty(_parse_uncertainty_value(uncert[0]), parse_name(uncert[1]))
+            )
 
         else:
-            raise TypeError(f"Each uncertainty must be a tuple or a float/str, not {type(uncert)}")
+            raise TypeError(
+                f"Each uncertainty must be a tuple or a float/int/str, not {type(uncert)}"
+            )
 
     return uncertainties_res
+
+
+def _parse_uncertainty_value(value: Union[float, int, str]) -> Union[float, str]:
+    """Parses the value of an uncertainty."""
+    if isinstance(value, str):
+        check_if_number_string(value)
+    elif isinstance(value, int):
+        value = float(value)
+    if float(value) <= 0:
+        raise ValueError("Uncertainty must be positive.")
+    return value

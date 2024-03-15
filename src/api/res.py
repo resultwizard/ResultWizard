@@ -22,7 +22,7 @@ _res_cache = _ResultsCache()
 @overload
 def res(
     name: str,
-    value: Union[float, str],
+    value: Union[float, int, str],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
@@ -33,12 +33,13 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, str],
+    value: Union[float, int, str],
     uncert: Union[
         float,
+        int,
         str,
-        Tuple[Union[float, str], str],
-        List[Union[float, str, Tuple[Union[float, str], str]]],
+        Tuple[Union[float, int, str], str],
+        List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
         None,
     ] = None,
     sigfigs: Union[int, None] = None,
@@ -50,7 +51,7 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, str],
+    value: Union[float, int, str],
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
@@ -60,9 +61,9 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, str],
-    sys: float,
-    stat: float,
+    value: Union[float, int, str],
+    sys: Union[float, int],
+    stat: Union[float, int],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
@@ -73,12 +74,13 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, str],
+    value: Union[float, int, str],
     uncert: Union[
         float,
+        int,
         str,
-        Tuple[Union[float, str], str],
-        List[Union[float, str, Tuple[Union[float, str], str]]],
+        Tuple[Union[float, int, str], str],
+        List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
         None,
     ] = None,
     unit: str = "",
