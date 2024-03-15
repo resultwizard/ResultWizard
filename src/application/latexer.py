@@ -32,24 +32,31 @@ class _LaTeXer:
 
         cmd_name = self.config.identifier + result.name[0].upper() + result.name[1:]
 
-        latex_str = rf"""
-        \newcommand*{{\{cmd_name}}}[1][]{{
-            \ifthenelse{{\equal{{#1}}{{}}}}{{
-                {self.result_to_latex_str(result)}
-        """
-        latex_str = textwrap.dedent(latex_str).strip()
+        latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{" + "\n"
+        latex_str += r"    \ifthenelse{\equal{#1}{}}{" + "\n"
+        latex_str += f"        {self.result_to_latex_str(result)}"
 
         number_of_parentheses_to_close = 0
         keywords = []
 
-        # Value only:
+        # Value:
         latex_str += "\n"
-        latex_str += r"    }{\ifthenelse{\equal{#1}{valueOnly}}{"
+        latex_str += r"    }{\ifthenelse{\equal{#1}{value}}{"
         latex_str += "\n"
-        latex_str += rf"        {self.result_to_latex_str_value_only(result)}"
-        keywords.append("valueOnly")
+        latex_str += rf"        {self.result_to_latex_str_value(result)}"
+        keywords.append("value")
 
         number_of_parentheses_to_close += 1
+
+        # Without error:
+        if len(result.uncertainties) > 0:
+            latex_str += "\n"
+            latex_str += r"    }{\ifthenelse{\equal{#1}{withoutError}}{"
+            latex_str += "\n"
+            latex_str += rf"        {self.result_to_latex_str_without_error(result)}"
+            keywords.append("withoutError")
+
+            number_of_parentheses_to_close += 1
 
         # Single uncertainties:
         for i, u in enumerate(result.uncertainties):
@@ -135,11 +142,17 @@ class _LaTeXer:
         """
         return self._create_latex_str(result.value, result.uncertainties, result.unit)
 
-    def result_to_latex_str_value_only(self, result: _Result) -> str:
+    def result_to_latex_str_value(self, result: _Result) -> str:
         """
         Returns only the value as LaTeX string making use of the siunitx package.
         """
         return self._create_latex_str(result.value, [], "")
+
+    def result_to_latex_str_without_error(self, result: _Result) -> str:
+        """
+        Returns the result without error as LaTeX string making use of the siunitx package.
+        """
+        return self._create_latex_str(result.value, [], result.unit)
 
     def _create_latex_str(self, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
         """
