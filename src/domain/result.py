@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Union
+from copy import copy
 
 from domain.uncertainty import _Uncertainty
 from domain.value import _Value
@@ -39,9 +40,9 @@ class _Result:
 
         return _Result(
             self.name,
-            self.value,
+            copy(self.value),
             self.unit,
-            [self.total_uncertainty],
+            [copy(self.total_uncertainty)],
             self.sigfigs,
             self.decimal_places,
         )
