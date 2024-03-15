@@ -49,7 +49,7 @@ class _LaTeXer:
             else:
                 uncertainty_name = u.name if u.name != "" else _Helpers.number_to_word(i + 1)
                 uncertainty_name = f"error{_Helpers.capitalize(uncertainty_name)}"
-            error_latex_str = self._create_latex_str(u.uncertainty, [], result.unit)
+            error_latex_str = self.create_latex_str(u.uncertainty, [], result.unit)
             builder.add_branch(uncertainty_name, error_latex_str)
 
         # Total uncertainty and short result
@@ -59,7 +59,7 @@ class _LaTeXer:
                 raise RuntimeError(
                     "Short result is None, but there should be at least two uncertainties."
                 )
-            error_latex_str = self._create_latex_str(
+            error_latex_str = self.create_latex_str(
                 short_result.uncertainties[0].uncertainty, [], result.unit
             )
             builder.add_branch("errorTotal", error_latex_str)
@@ -88,21 +88,21 @@ class _LaTeXer:
         """
         Returns the result as LaTeX string making use of the siunitx package.
         """
-        return self._create_latex_str(result.value, result.uncertainties, result.unit)
+        return self.create_latex_str(result.value, result.uncertainties, result.unit)
 
     def result_to_latex_str_value(self, result: _Result) -> str:
         """
         Returns only the value as LaTeX string making use of the siunitx package.
         """
-        return self._create_latex_str(result.value, [], "")
+        return self.create_latex_str(result.value, [], "")
 
     def result_to_latex_str_without_error(self, result: _Result) -> str:
         """
         Returns the result without error as LaTeX string making use of the siunitx package.
         """
-        return self._create_latex_str(result.value, [], result.unit)
+        return self.create_latex_str(result.value, [], result.unit)
 
-    def _create_latex_str(self, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
+    def create_latex_str(self, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
 
