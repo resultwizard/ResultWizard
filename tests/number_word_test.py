@@ -5,8 +5,9 @@ import pytest
 
 class TestNumberWord:
     @pytest.mark.parametrize(
-        "input, expected",
+        "value, expected",
         [
+            (0, "zero"),
             (1, "one"),
             (2, "two"),
             (3, "three"),
@@ -21,10 +22,10 @@ class TestNumberWord:
             (999, "nineHundredNinetyNine"),
         ],
     )
-    def test_number_to_word(self, input, expected):
-        assert Helpers.number_to_word(input) == expected
+    def test_number_to_word(self, value, expected):
+        assert Helpers.number_to_word(value) == expected
 
-    @pytest.mark.parametrize("input", [1000, 1001, -1, -500])
-    def test_number_to_word_raises(self, input):
+    @pytest.mark.parametrize("value", [1000, 1001, -1, -500])
+    def test_number_to_word_raises(self, value):
         with pytest.raises(ValueError, match="numbers between 0 and 999"):
-            Helpers.number_to_word(input)
+            Helpers.number_to_word(value)
