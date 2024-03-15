@@ -33,19 +33,19 @@ class _Rounder:
         1. Is result value exact?
            Round uncertainty according to result value.
 
-        2. Is default for sigfigs given (not -1) (see config)?
+        2. Is number of sigfigs of result given?
            Round value according to number of sigfigs.
            Round uncertainties according to value.
 
-        3. Is default for decimal places given (not -1) (see config)?
+        3. Is number of decimal places of result given?
            Round value according to number of decimal places.
            Round uncertainties according to value.
 
-        4. Is number of sigfigs of result given?
+        4. Is default for sigfigs given (not -1) (see config)?
            Round value according to number of sigfigs.
            Round uncertainties according to value.
 
-        5. Is number of decimal places of result given?
+        5. Is default for decimal places given (not -1) (see config)?
            Round value according to number of decimal places.
            Round uncertainties according to value.
 
@@ -79,25 +79,25 @@ class _Rounder:
             cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
 
         # Rounding hierarchy 2:
-        elif config.sigfigs > -1:
-            value.set_sigfigs(config.sigfigs)
-            cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
-
-        # Rounding hierarchy 3:
-        elif config.decimal_places > -1:
-            min_exponent = -config.decimal_places
-            value.set_min_exponent(min_exponent)
-            cls._uncertainties_set_min_exponents(uncertainties, min_exponent)
-
-        # Rounding hierarchy 4:
         elif result.sigfigs is not None:
             value.set_sigfigs(result.sigfigs)
             cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
 
-        # Rounding hierarchy 5:
+        # Rounding hierarchy 3:
         elif result.decimal_places is not None:
             value.set_min_exponent(-result.decimal_places)
             cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
+
+        # Rounding hierarchy 4:
+        elif config.sigfigs > -1:
+            value.set_sigfigs(config.sigfigs)
+            cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
+
+        # Rounding hierarchy 5:
+        elif config.decimal_places > -1:
+            min_exponent = -config.decimal_places
+            value.set_min_exponent(min_exponent)
+            cls._uncertainties_set_min_exponents(uncertainties, min_exponent)
 
         # Rounding hierarchy 6:
         elif len(uncertainties) > 0:
