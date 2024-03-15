@@ -1,6 +1,5 @@
 import math
 
-
 _NUMBER_TO_WORD = {
     0: "zero",
     1: "one",
@@ -49,21 +48,16 @@ class _Helpers:
 
     @classmethod
     def number_to_word(cls, number: int) -> str:
-        if number >= 0 and number <= 19:
+        if 0 <= number <= 19:
             return _NUMBER_TO_WORD[number]
-        elif number >= 0 and number <= 99:
+        if 0 <= number <= 99:
             tens = number // 10 * 10
             ones = number % 10
             if ones == 0:
                 return _NUMBER_TO_WORD[tens]
-            else:
-                return (
-                    _NUMBER_TO_WORD[tens]
-                    + _NUMBER_TO_WORD[ones][0].upper()
-                    + _NUMBER_TO_WORD[ones][1:]
-                )
-        else:
-            raise RuntimeError("Runtime error.")
+            return _NUMBER_TO_WORD[tens] + cls.capitalize(_NUMBER_TO_WORD[ones])
+
+        raise ValueError(f"For variable names, only use numbers between 0 and 99. Got {number}.")
 
     @classmethod
     def capitalize(cls, s: str) -> str:

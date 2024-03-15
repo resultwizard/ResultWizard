@@ -14,6 +14,7 @@ class RoundingConfig:
     decimal_places_fallback: int
 
 
+# pylint: disable-next=too-few-public-methods
 class _Rounder:
 
     @classmethod
@@ -114,7 +115,7 @@ class _Rounder:
                 else:
                     u.uncertainty.set_sigfigs(2)
 
-            min_exponent = min([u.uncertainty.get_min_exponent() for u in uncertainties])
+            min_exponent = min(u.uncertainty.get_min_exponent() for u in uncertainties)
             value.set_min_exponent(min_exponent)
 
         # Rounding hierarchy 7:
