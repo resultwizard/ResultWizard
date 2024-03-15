@@ -7,8 +7,8 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["resultwizard"]
-namespaces = false
+include = ["api", "application", "domain", "resultwizard"]
+namespaces = true
 
 [project]
 name = "resultwizard"
