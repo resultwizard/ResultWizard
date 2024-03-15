@@ -2,7 +2,7 @@ from typing import Union, List, Tuple
 from plum import dispatch, overload
 
 from api.printable_result import PrintableResult
-from api.config import configuration
+import api.config as c
 from application.cache import _ResultsCache
 from application.rounder import _Rounder
 import api.parsers as parsers
@@ -100,10 +100,14 @@ def res(
     result = _Result(
         name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
     )
-    _Rounder.round_result(result, configuration.sigfigs, configuration.decimal_places)
+    _Rounder.round_result(result, c.configuration.sigfigs, c.configuration.decimal_places)
     _res_cache.add(name, result)
 
-    return PrintableResult(result)
+    printable_result = PrintableResult(result)
+    if c.configuration.print_auto:
+        printable_result.print()
+
+    return printable_result
 
 
 # Hack for method "overloading" in Python

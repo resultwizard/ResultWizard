@@ -15,8 +15,8 @@ print("#############################")
 print()
 
 
-wiz.config_init(print_always=True, sigfigs=10)
-wiz.config(sigfigs=2)
+wiz.config_init(print_auto=True, sigfigs=10)
+# wiz.config(sigfigs=2)
 # wiz.config(decimal_places=2)
 
 #############################
@@ -28,7 +28,7 @@ print("### RESULTS API")
 # wiz.res("", 42.0).print()
 # -> Error: "name must not be empty"
 
-wiz.res("a1", 1.0, r"\mm").print()
+wiz.res("a1", 1.0, r"\mm")
 # a: 1.0 \mm
 
 

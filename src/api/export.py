@@ -1,5 +1,5 @@
 from api.res import _res_cache
-from api.config import configuration
+import api.config as c
 from application.latexer import _LaTeXer
 
 
@@ -24,7 +24,7 @@ def export(filepath: str):
         r"% Define commands to print the results:",
     ]
 
-    latexer = _LaTeXer(configuration.to_latex_config())
+    latexer = _LaTeXer(c.configuration.to_latex_config())
     for result in results:
         result_str = latexer.result_to_latex_cmd(result)
         cmds.append(result_str)
