@@ -90,6 +90,12 @@ def res(
     if uncert is None:
         uncert = []
 
+    if sigfigs is not None and decimal_places is not None:
+        raise ValueError(
+            "You can't set both sigfigs and decimal places at the same time. "
+            "Please choose one or the other."
+        )
+
     # Parse user input
     name_res = parsers.parse_name(name)
     value_res = parsers.parse_value(value)
