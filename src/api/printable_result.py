@@ -10,7 +10,8 @@ class PrintableResult:
 
     def print(self):
         """Prints the result to the console."""
-        print(Stringifier(c.configuration.to_stringifier_config()).result_to_str(self._result))
+        stringifier = Stringifier(c.configuration.to_stringifier_config())
+        print(stringifier.result_to_str(self._result))
 
     def to_latex_str(self) -> str:
         """Converts the result to a string that can be used in LaTeX documents.

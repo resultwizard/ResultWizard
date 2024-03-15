@@ -1,5 +1,9 @@
 from dataclasses import dataclass
 from typing import List
+from typing import Protocol, ClassVar
+
+# for why we use a Protocol instead of a ABC class, see
+# https://github.com/microsoft/pyright/issues/2601#issuecomment-977053380
 
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty
@@ -13,31 +17,33 @@ class StringifierConfig:
     identifier: str
 
 
-class MasterStringifier:
+class MasterStringifier(Protocol):
     """
     Provides methods to convert results to strings of customizable pattern.
 
     We assume the result to already be correctly rounded at this point.
     """
 
+    config: StringifierConfig
+
+    plus_minus: ClassVar[str]
+    negative_sign: ClassVar[str]
+    positive_sign: ClassVar[str]
+
+    left_parenthesis: ClassVar[str]
+    right_parenthesis: ClassVar[str]
+
+    error_name_prefix: ClassVar[str]
+    error_name_suffix: ClassVar[str]
+
+    scientific_notation_prefix: ClassVar[str]
+    scientific_notation_suffix: ClassVar[str]
+
+    unit_prefix: ClassVar[str]
+    unit_suffix: ClassVar[str]
+
     def __init__(self, config: StringifierConfig):
         self.config = config
-
-        self.plus_minus = " ± "
-        self.negative_sign = "-"
-        self.positive_sign = ""
-
-        self.left_parenthesis = "("
-        self.right_parenthesis = ")"
-
-        self.error_name_prefix = " ("
-        self.error_name_suffix = ")"
-
-        self.scientific_notation_prefix = "e"
-        self.scientific_notation_suffix = ""
-
-        self.unit_prefix = " "
-        self.unit_suffix = ""
 
     def create_str(self, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
         """

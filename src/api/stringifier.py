@@ -3,6 +3,22 @@ from application.master_stringifier import MasterStringifier
 
 
 class Stringifier(MasterStringifier):
+    plus_minus = " ± "
+    negative_sign = "-"
+    positive_sign = ""
+
+    left_parenthesis = "("
+    right_parenthesis = ")"
+
+    error_name_prefix = " ("
+    error_name_suffix = ")"
+
+    scientific_notation_prefix = "e"
+    scientific_notation_suffix = ""
+
+    unit_prefix = " "
+    unit_suffix = ""
+
     def result_to_str(self, result: _Result):
         """
         Returns the result as human-readable string.

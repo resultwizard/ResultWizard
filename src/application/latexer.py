@@ -1,7 +1,7 @@
 from domain.result import _Result
 from application.helpers import _Helpers
 from application.latexer_ifelse import LatexIfElseBuilder
-from application.master_stringifier import StringifierConfig, MasterStringifier
+from application.master_stringifier import MasterStringifier
 
 
 class _LaTeXer(MasterStringifier):
@@ -11,24 +11,21 @@ class _LaTeXer(MasterStringifier):
     We assume the result to already be correctly rounded at this point.
     """
 
-    def __init__(self, config: StringifierConfig):
-        super().__init__(config)
+    plus_minus = r" \pm "
+    negative_sign = "-"
+    positive_sign = ""
 
-        self.plus_minus = r" \pm "
-        self.negative_sign = "-"
-        self.positive_sign = ""
+    left_parenthesis = r"\left("
+    right_parenthesis = r"\right)"
 
-        self.left_parenthesis = r"\left("
-        self.right_parenthesis = r"\right)"
+    error_name_prefix = r"_{\text{"
+    error_name_suffix = r"}}"
 
-        self.error_name_prefix = r"_{\text{"
-        self.error_name_suffix = r"}}"
+    scientific_notation_prefix = r" \cdot 10^{"
+    scientific_notation_suffix = "}"
 
-        self.scientific_notation_prefix = r" \cdot 10^{"
-        self.scientific_notation_suffix = "}"
-
-        self.unit_prefix = r"\, \unit{"
-        self.unit_suffix = "}"
+    unit_prefix = r"\, \unit{"
+    unit_suffix = "}"
 
     def result_to_latex_cmd(self, result: _Result) -> str:
         """
