@@ -23,7 +23,7 @@ class _Result:
     total_uncertainty: Union[_Uncertainty, None] = field(init=False)
 
     def __post_init__(self):
-        if len(self.uncertainties) > 1:
+        if len(self.uncertainties) >= 2:
             self.total_uncertainty = self._calculate_total_uncertainty()
         else:
             self.total_uncertainty = None

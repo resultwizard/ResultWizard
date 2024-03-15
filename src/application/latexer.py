@@ -72,11 +72,11 @@ class _LaTeXer:
             number_of_parentheses_to_close += 1
 
         # Total uncertainty and short result:
-        if len(result.uncertainties) > 1:
+        if len(result.uncertainties) >= 2:
             short_result = result.get_short_result()
             if short_result is None:
                 raise RuntimeError(
-                    "Short result is None, but there should be at least one uncertainty."
+                    "Short result is None, but there should be at least two uncertainties."
                 )
 
             error_latex_str = self._create_latex_str(
