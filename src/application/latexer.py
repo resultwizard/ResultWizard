@@ -175,6 +175,6 @@ class _LaTeXer:
                 latex_str += ")"
 
         if has_unit:
-            latex_str += rf"\ \unit{{{unit}}}"
+            latex_str += rf"\, \unit{{{unit}}}"
 
         return latex_str
