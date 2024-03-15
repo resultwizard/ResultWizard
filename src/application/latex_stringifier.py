@@ -1,10 +1,10 @@
 from domain.result import _Result
 from application.helpers import _Helpers
-from application.latexer_ifelse import LatexIfElseBuilder
-from application.master_stringifier import MasterStringifier
+from application.latex_ifelse import LatexIfElseBuilder
+from application.stringifier import Stringifier
 
 
-class _LaTeXer(MasterStringifier):
+class LatexStringifier(Stringifier):
     """
     Provides methods to convert results to LaTeX commands.
 

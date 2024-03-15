@@ -1,7 +1,7 @@
 from typing import Union, cast
 
 from dataclasses import dataclass
-from application.master_stringifier import StringifierConfig
+from application.stringifier import StringifierConfig
 from application.rounder import RoundingConfig
 
 

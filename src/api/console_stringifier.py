@@ -1,8 +1,8 @@
 from domain.result import _Result
-from application.master_stringifier import MasterStringifier
+from application.stringifier import Stringifier
 
 
-class Stringifier(MasterStringifier):
+class ConsoleStringifier(Stringifier):
     plus_minus = " ± "
     negative_sign = "-"
     positive_sign = ""

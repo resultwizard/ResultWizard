@@ -1,6 +1,6 @@
-from api.stringifier import Stringifier
+from api.console_stringifier import ConsoleStringifier
 import api.config as c
-from application.latexer import _LaTeXer
+from application.latex_stringifier import LatexStringifier
 from domain.result import _Result
 
 
@@ -10,7 +10,7 @@ class PrintableResult:
 
     def print(self):
         """Prints the result to the console."""
-        stringifier = Stringifier(c.configuration.to_stringifier_config())
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         print(stringifier.result_to_str(self._result))
 
     def to_latex_str(self) -> str:
@@ -20,5 +20,5 @@ class PrintableResult:
         all your results to a file, which can then be included in your LaTeX
         document.
         """
-        latexer = _LaTeXer(c.configuration.to_stringifier_config())
+        latexer = LatexStringifier(c.configuration.to_stringifier_config())
         return latexer.result_to_latex_str(self._result)

@@ -1,6 +1,6 @@
 from api.res import _res_cache
 import api.config as c
-from application.latexer import _LaTeXer
+from application.latex_stringifier import LatexStringifier
 
 
 def export(filepath: str):
@@ -24,7 +24,7 @@ def export(filepath: str):
         r"% Define commands to print the results:",
     ]
 
-    latexer = _LaTeXer(c.configuration.to_stringifier_config())
+    latexer = LatexStringifier(c.configuration.to_stringifier_config())
     for result in results:
         result_str = latexer.result_to_latex_cmd(result)
         cmds.append(result_str)

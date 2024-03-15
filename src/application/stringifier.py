@@ -17,7 +17,7 @@ class StringifierConfig:
     identifier: str
 
 
-class MasterStringifier(Protocol):
+class Stringifier(Protocol):
     """
     Provides methods to convert results to strings of customizable pattern.
 
