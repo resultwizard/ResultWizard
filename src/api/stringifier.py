@@ -1,10 +1,6 @@
-from domain.result import _Result
+import api.config as c
 from application.helpers import _Helpers
-
-# Config values:
-min_exponent_for_non_scientific_notation = -2
-max_exponent_for_non_scientific_notation = 3
-identifier = "res"
+from domain.result import _Result
 
 
 class Stringifier:
@@ -24,8 +20,8 @@ class Stringifier:
 
         # Determine if scientific notation should be used:
         if (
-            value.get_exponent() < min_exponent_for_non_scientific_notation
-            or value.get_exponent() > max_exponent_for_non_scientific_notation
+            value.get_exponent() < c.configuration.min_exponent_for_non_scientific_notation
+            or value.get_exponent() > c.configuration.max_exponent_for_non_scientific_notation
         ):
             use_scientific_notation = True
 
@@ -50,13 +46,13 @@ class Stringifier:
                 string += "("
 
             value_normalized = value.get_abs() * factor
-            decimal_places = value.get_sig_figs()-1
+            decimal_places = value.get_sig_figs() - 1
             string += sign
             string += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
 
             for u in uncertainties:
                 value_normalized = u.uncertainty.get_abs() * factor
-                decimal_places = exponent-u.uncertainty.get_min_exponent()
+                decimal_places = exponent - u.uncertainty.get_min_exponent()
                 string += " ± "
                 string += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
                 if len(uncertainties) > 1:
