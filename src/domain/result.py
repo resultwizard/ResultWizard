@@ -32,7 +32,7 @@ class _Result:
         total = 0
         for u in self.uncertainties:
             total += u.uncertainty.get() ** 2
-        return _Uncertainty(total**0.5)
+        return _Uncertainty(_Value(total**0.5))
 
     def get_short_result(self) -> Union["_Result", None]:
         if self.total_uncertainty is None:

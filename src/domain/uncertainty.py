@@ -15,8 +15,8 @@ class _Uncertainty:
     interchangeably.
     """
 
-    def __init__(self, uncertainty: Union[float, str], name: str = ""):
-        self.uncertainty = _Value(uncertainty)
+    def __init__(self, uncertainty: _Value, name: str = ""):
+        self.uncertainty = uncertainty
         self.name = name
 
     def value(self) -> _Value:

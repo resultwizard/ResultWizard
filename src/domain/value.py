@@ -23,24 +23,13 @@ class _Value:
     # "3400"   -> 3400,  0, 3
     # "3.4e3"  -> 3400,  2, 3
 
-    def __init__(self, value: Union[float, str]):
-        if isinstance(value, str):
-            self._value = float(value)
-            self._is_exact = True
+    def __init__(self, value: float, min_exponent: Union[int, None] = None):
+        self._value = value
 
-            # Determine min exponent:
-            value_str = value
-            exponent_offset = 0
-            if "e" in value_str:
-                exponent_offset = int(value_str[value_str.index("e") + 1 :])
-                value_str = value_str[0 : value_str.index("e")]
-            if "." in value_str:
-                decimal_places = len(value_str) - value_str.index(".") - 1
-                self._min_exponent = -decimal_places + exponent_offset
-            else:
-                self._min_exponent = exponent_offset
+        if min_exponent is not None:
+            self._min_exponent = min_exponent
+            self._is_exact = True
         else:
-            self._value = value
             self._is_exact = False
 
         self._max_exponent = _Helpers.get_exponent(self._value)

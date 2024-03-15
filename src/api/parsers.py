@@ -113,10 +113,27 @@ def parse_value(value: Union[float, int, str]) -> _Value:
 
     if isinstance(value, str):
         check_if_number_string(value)
-    elif isinstance(value, int):
-        value = float(value)
+        return parse_exact_value(value)
+    else:
+        if isinstance(value, int):
+            value = float(value)
+        return _Value(value)
 
-    return _Value(value)
+
+def parse_exact_value(value: str) -> _Value:
+    # Determine min exponent:
+    exponent_offset = 0
+    value_str = value
+    if "e" in value_str:
+        exponent_offset = int(value_str[value_str.index("e") + 1 :])
+        value_str = value_str[0 : value_str.index("e")]
+    if "." in value:
+        decimal_places = len(value_str) - value_str.index(".") - 1
+        min_exponent = -decimal_places + exponent_offset
+    else:
+        min_exponent = exponent_offset
+
+    return _Value(float(value), min_exponent)
 
 
 def parse_uncertainties(
@@ -159,12 +176,18 @@ def parse_uncertainties(
     return uncertainties_res
 
 
-def _parse_uncertainty_value(value: Union[float, int, str]) -> Union[float, str]:
+def _parse_uncertainty_value(value: Union[float, int, str]) -> _Value:
     """Parses the value of an uncertainty."""
+
     if isinstance(value, str):
         check_if_number_string(value)
-    elif isinstance(value, int):
-        value = float(value)
-    if float(value) <= 0:
+        return_value = parse_exact_value(value)
+    else:
+        if isinstance(value, int):
+            value = float(value)
+        return_value = _Value(value)
+
+    if return_value.get() <= 0:
         raise ValueError("Uncertainty must be positive.")
-    return value
+
+    return return_value
