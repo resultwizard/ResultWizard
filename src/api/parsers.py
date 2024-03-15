@@ -33,48 +33,29 @@ def parse_name(name: str) -> str:
     )
 
     parsed_name = ""
-    next_chat_upper = False
-
+    next_char_upper = False
     ignored_chars = set()
 
     while name != "":
         char = name[0]
 
         if char.isalpha():
-            if next_chat_upper:
+            if next_char_upper:
                 parsed_name += char.upper()
-                next_chat_upper = False
+                next_char_upper = False
             else:
                 parsed_name += char
         elif char.isdigit():
-            # Count number of digits:
-            num_of_digits = 0
-            for c in name:
-                if c.isdigit():
-                    num_of_digits += 1
-                else:
-                    break
-
-            # Turn digits into word(s):
-            word = ""
-            if num_of_digits <= 3:
-                word += Helpers.number_to_word(int(name[:num_of_digits]))
-            else:
-                word += Helpers.number_to_word(int(name[0]))
-                for i in range(1, num_of_digits):
-                    word += Helpers.capitalize((Helpers.number_to_word(int(name[i]))))
-
-            # Add word to parsed_name:
+            num_digits = len([c for c in name if c.isdigit()])  # greedily get digits
+            word = Helpers.digit_str_to_word(name[:num_digits])
             if parsed_name != "":
                 word = Helpers.capitalize(word)
             parsed_name += word
-            next_chat_upper = True
-
-            # Skip the digits:
-            name = name[num_of_digits:]
+            next_char_upper = True
+            name = name[num_digits:]  # Skip the parsed digits
             continue
         elif char in [" ", "_", "-"]:
-            next_chat_upper = True
+            next_char_upper = True
         else:
             ignored_chars.add(char)
 

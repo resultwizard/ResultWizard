@@ -68,3 +68,20 @@ class Helpers:
     @classmethod
     def capitalize(cls, s: str) -> str:
         return s[0].upper() + s[1:]
+
+    @classmethod
+    def digit_str_to_word(cls, digits_str: str) -> str:
+        """Converts a string of digits to a word.
+
+        For example, "123" -> "oneHundredTwentyThree",
+        "911" -> "nineHundredEleven".
+        """
+        num_digits = len(digits_str)
+        if num_digits <= 3:
+            return cls.number_to_word(int(digits_str))
+
+        word = cls.number_to_word(int(digits_str[0]))
+        for i in range(1, num_digits):
+            tmp = Helpers.number_to_word(int(digits_str[i]))
+            word += Helpers.capitalize(tmp)
+        return word
