@@ -48,7 +48,7 @@ wiz.res("e", "1.0", r"\mm").print()
 wiz.res("f", "1.0e1", 25e-1).print()
 # f: 1.0
 
-wiz.res("a", 42.0).print()
+wiz.res("g", 42.0).print()
 
 # TODO: support for int values
 # wiz.res("a", 42) # not working as 42 is an int and not a float

@@ -35,6 +35,8 @@ def parse_name(name: str) -> str:
     parsed_name = ""
     next_chat_upper = False
 
+    ignored_chars = set()
+
     for char in name:
         if char.isalpha():
             if next_chat_upper:
@@ -51,6 +53,14 @@ def parse_name(name: str) -> str:
             next_chat_upper = True
         elif char in [" ", "_", "-"]:
             next_chat_upper = True
+        else:
+            ignored_chars.add(char)
+
+    if len(ignored_chars) > 0:
+        print(f"Invalid characters in name were ignored: {', '.join(ignored_chars)}")
+
+    if parsed_name == "":
+        raise ValueError("After ignoring invalid characters, the specified name is empty.")
 
     return parsed_name
 
