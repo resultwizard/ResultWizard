@@ -5,6 +5,7 @@ from domain.result import _Result
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty
 from application.helpers import _Helpers
+from application.latexer_ifelse import LatexIfElseBuilder
 
 
 @dataclass
@@ -28,111 +29,61 @@ class _LaTeXer:
         """
         Returns the result as LaTeX command to be used in a .tex file.
         """
+        builder = LatexIfElseBuilder()
 
-        cmd_name = self.config.identifier + result.name[0].upper() + result.name[1:]
-
-        latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{" + "\n"
-        latex_str += r"    \ifthenelse{\equal{#1}{}}{" + "\n"
-        latex_str += f"        {self.result_to_latex_str(result)}"
-
-        number_of_parentheses_to_close = 0
-        keywords = []
-
-        # Value:
+        cmd_name = f"{self.config.identifier}{_Helpers.capitalize(result.name)}"
+        latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{"
         latex_str += "\n"
-        latex_str += r"    }{\ifthenelse{\equal{#1}{value}}{"
-        latex_str += "\n"
-        latex_str += rf"        {self.result_to_latex_str_value(result)}"
-        keywords.append("value")
 
-        number_of_parentheses_to_close += 1
+        # Default case (full result) & value
+        builder.add_branch("", self.result_to_latex_str(result))
+        builder.add_branch("value", self.result_to_latex_str_value(result))
 
-        # Without error:
+        # Without error
         if len(result.uncertainties) > 0:
-            latex_str += "\n"
-            latex_str += r"    }{\ifthenelse{\equal{#1}{withoutError}}{"
-            latex_str += "\n"
-            latex_str += rf"        {self.result_to_latex_str_without_error(result)}"
-            keywords.append("withoutError")
+            builder.add_branch("withoutError", self.result_to_latex_str_without_error(result))
 
-            number_of_parentheses_to_close += 1
-
-        # Single uncertainties:
+        # Single uncertainties
         for i, u in enumerate(result.uncertainties):
             if len(result.uncertainties) == 1:
                 uncertainty_name = "error"
             else:
-                if u.name != "":
-                    uncertainty_name = u.name
-                else:
-                    uncertainty_name = _Helpers.number_to_word(i + 1)
-                uncertainty_name = "error" + uncertainty_name[0].upper() + uncertainty_name[1:]
+                uncertainty_name = u.name if u.name != "" else _Helpers.number_to_word(i + 1)
+                uncertainty_name = f"error{_Helpers.capitalize(uncertainty_name)}"
             error_latex_str = self._create_latex_str(u.uncertainty, [], result.unit)
+            builder.add_branch(uncertainty_name, error_latex_str)
 
-            latex_str += "\n"
-            latex_str += rf"    }}{{\ifthenelse{{\equal{{#1}}{{{uncertainty_name}}}}}{{"
-            latex_str += "\n"
-            latex_str += rf"        {error_latex_str}"
-            keywords.append(uncertainty_name)
-
-            number_of_parentheses_to_close += 1
-
-        # Total uncertainty and short result:
+        # Total uncertainty and short result
         if len(result.uncertainties) >= 2:
             short_result = result.get_short_result()
             if short_result is None:
                 raise RuntimeError(
                     "Short result is None, but there should be at least two uncertainties."
                 )
-
             error_latex_str = self._create_latex_str(
                 short_result.uncertainties[0].uncertainty, [], result.unit
             )
+            builder.add_branch("errorTotal", error_latex_str)
+            builder.add_branch("short", self.result_to_latex_str(short_result))
 
-            latex_str += "\n"
-            latex_str += r"    }{\ifthenelse{\equal{#1}{errorTotal}}{"
-            latex_str += "\n"
-            latex_str += rf"        {error_latex_str}"
-            keywords.append("errorTotal")
-
-            number_of_parentheses_to_close += 1
-
-            latex_str += "\n"
-            latex_str += r"    }{\ifthenelse{\equal{#1}{short}}{"
-            latex_str += "\n"
-            latex_str += rf"        {self.result_to_latex_str(short_result)}"
-            keywords.append("short")
-
-            number_of_parentheses_to_close += 1
-
-        # Unit:
+        # Unit
         if result.unit != "":
-            latex_str += "\n"
-            latex_str += r"    }{\ifthenelse{\equal{#1}{unit}}{"
-            latex_str += "\n"
-            latex_str += rf"        \unit{{{result.unit}}}"
-            keywords.append("unit")
+            builder.add_branch("unit", rf"\unit{{{result.unit}}}")
 
-            number_of_parentheses_to_close += 1
+        latex_str += builder.build()
 
-        # Error message:
+        # Error message
+        keywords = builder.keywords
         if len(keywords) > 0:
-            latex_str += (
-                "\n"
-                + r"    }{\tiny\textbf{Please specify one of the following keywords: "
-                + ", ".join([rf"\texttt{{{k}}}" for k in keywords])
-                + r" or don't use any keyword at all.}\normalsize}"
-            )
+            error_message = "Please specify one of the following keywords: "
+            error_message += ", ".join([rf"\texttt{{{k}}}" for k in keywords])
+            error_message += " or don't use any keyword at all."
         else:
-            latex_str += (
-                "\n"
-                + r"    }{\tiny\textbf{This variable can only be used without keyword.}\normalsize}"
-            )
+            error_message = "This variable can only be used without keywords."
+        latex_str += "\n"
+        latex_str += rf"    }}{{\scriptstyle{{\textbf{{{error_message}}}}}}}"
 
-        for _ in range(number_of_parentheses_to_close):
-            latex_str += "}"
         latex_str += "\n}"
-
         return latex_str
 
     def result_to_latex_str(self, result: _Result) -> str:

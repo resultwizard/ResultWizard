@@ -64,3 +64,7 @@ class _Helpers:
                 )
         else:
             raise RuntimeError("Runtime error.")
+
+    @classmethod
+    def capitalize(cls, s: str) -> str:
+        return s[:1].upper() + s[1:]
