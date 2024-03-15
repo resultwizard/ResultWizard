@@ -32,8 +32,7 @@ class _LaTeXer:
         builder = LatexIfElseBuilder()
 
         cmd_name = f"{self.config.identifier}{_Helpers.capitalize(result.name)}"
-        latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{"
-        latex_str += "\n"
+        latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{" + "\n"
 
         # Default case (full result) & value
         builder.add_branch("", self.result_to_latex_str(result))
@@ -70,8 +69,6 @@ class _LaTeXer:
         if result.unit != "":
             builder.add_branch("unit", rf"\unit{{{result.unit}}}")
 
-        latex_str += builder.build()
-
         # Error message
         keywords = builder.keywords
         if len(keywords) > 0:
@@ -80,10 +77,11 @@ class _LaTeXer:
             error_message += " or don't use any keyword at all."
         else:
             error_message = "This variable can only be used without keywords."
-        latex_str += "\n"
-        latex_str += rf"    }}{{\scriptstyle{{\textbf{{{error_message}}}}}}}"
+        builder.add_else(rf"\scriptsize{{\textbf{{{error_message}}}}}")
 
+        latex_str += builder.build()
         latex_str += "\n}"
+
         return latex_str
 
     def result_to_latex_str(self, result: _Result) -> str:

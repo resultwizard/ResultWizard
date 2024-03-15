@@ -20,6 +20,12 @@ class LatexIfElseBuilder:
         self.latex += "\n"
         self.latex += rf"        {body}"
 
+    def add_else(self, body: str):
+        self.latex += "\n"
+        self.latex += r"    }{"
+        self.latex += rf"{body}"
+        self._num_parentheses_to_close += 1
+
     def build(self) -> str:
         for _ in range(self._num_parentheses_to_close):
             self.latex += "}"

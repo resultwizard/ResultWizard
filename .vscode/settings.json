@@ -73,6 +73,7 @@
         "pylint",
         "pytest",
         "resultwizard",
+        "scriptsize",
         "scriptstyle",
         "sigfigs",
         "siunitx",
