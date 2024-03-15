@@ -15,8 +15,9 @@ print("#############################")
 print()
 
 
-wiz.config_init(decimal_places=3, print_always=True)
-
+wiz.config_init(print_always=True, sigfigs=10)
+wiz.config(sigfigs=2)
+# wiz.config(decimal_places=2)
 
 #############################
 # EXAMPLES
@@ -27,7 +28,6 @@ print("### RESULTS API")
 wiz.res("a1", 1.0, r"\mm").print()
 # a: 1.0 \mm
 
-wiz.config(sigfigs=2)
 
 wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed").print()
 # b: (1.0 ± 0.01) \mm
@@ -40,17 +40,13 @@ wiz.res(
 ).print()
 # d: (1.0 ± 0.01 systematic ± 0.02 stat) \mm
 
-# wiz.standard_sigfigs(4)
-
 wiz.res("e", "1.0", r"\mm").print()
 # e: 1.0 \mm
 
-wiz.config(decimal_places=4)
-
-# wiz.standard_sigfigs(3)
-
 wiz.res("f", "1.0e1", 25e-1).print()
 # f: 1.0
+
+wiz.res("a", 42.0).print()
 
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()
 # g: (1.0 ± 0.01 sys ± 0.02 stat) \mm

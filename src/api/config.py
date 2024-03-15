@@ -5,7 +5,7 @@ from application.config import Config
 
 def config_init(
     sigfigs: int = 2,
-    decimal_places: int = 2,
+    decimal_places: int = -1,  # -1: "per default use sigfigs instead"
     print_always: bool = False,
     min_exponent_for_non_scientific_notation: int = -2,
     max_exponent_for_non_scientific_notation: int = 3,

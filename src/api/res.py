@@ -100,7 +100,7 @@ def res(
     result = _Result(
         name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
     )
-    _Rounder.round_result(result, configuration.sigfigs)
+    _Rounder.round_result(result, configuration.sigfigs, configuration.decimal_places)
     _res_cache.add(name, result)
 
     return PrintableResult(result)
