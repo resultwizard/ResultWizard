@@ -11,17 +11,12 @@ class Value:
 
     Note that is_exact signifies if the value is to be taken as a *literal* value,
     i.e. "3.14000" will be output as "3.14000" and not "3.14" if is_exact is True.
-    TODO: maybe find a better word for "exact"?
     """
 
     _value: float
     _is_exact: bool
     _max_exponent: int
     _min_exponent: int
-
-    # "3400.0" -> 3400, -1, 3
-    # "3400"   -> 3400,  0, 3
-    # "3.4e3"  -> 3400,  2, 3
 
     def __init__(self, value: float, min_exponent: Union[int, None] = None):
         self._value = value
