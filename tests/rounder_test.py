@@ -1,3 +1,5 @@
+# pylint: disable=redefined-outer-name
+
 import pytest
 
 from application.rounder import _Rounder, RoundingConfig

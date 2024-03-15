@@ -1,7 +1,6 @@
 from domain.value import _Value
 
 
-# pylint: disable-next=too-few-public-methods
 class _Uncertainty:
     """
     A named uncertainty value, e.g. a systematic uncertainty of ±0.1cm

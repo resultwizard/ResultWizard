@@ -14,7 +14,6 @@ class RoundingConfig:
     decimal_places_fallback: int
 
 
-# pylint: disable-next=too-few-public-methods
 class _Rounder:
 
     @classmethod
@@ -69,6 +68,7 @@ class _Rounder:
             cls._round_result(short, config)
 
     @classmethod
+    # pylint: disable-next=too-many-branches
     def _round_result(cls, result: _Result, config: RoundingConfig) -> None:
         """See the docstring of the public `round_result` for details."""
 
@@ -128,7 +128,7 @@ class _Rounder:
             value.set_min_exponent(min_exponent)
 
         else:
-            raise RuntimeError
+            raise RuntimeError  # TODO: add message (!)
 
     @classmethod
     def _uncertainties_set_min_exponents(

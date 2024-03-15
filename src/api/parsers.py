@@ -114,10 +114,11 @@ def parse_value(value: Union[float, int, str]) -> _Value:
     if isinstance(value, str):
         check_if_number_string(value)
         return parse_exact_value(value)
-    else:
-        if isinstance(value, int):
-            value = float(value)
-        return _Value(value)
+
+    if isinstance(value, int):
+        value = float(value)
+
+    return _Value(value)
 
 
 def parse_exact_value(value: str) -> _Value:

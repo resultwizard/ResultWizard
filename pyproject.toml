@@ -61,7 +61,8 @@ disable = [
     "missing-module-docstring",
     "missing-function-docstring",
     "missing-class-docstring",
-    "fixme"
+    "fixme",
+    "too-few-public-methods",
 ]
 
 [tool.pylint.format]
