@@ -1,7 +1,7 @@
 from typing import Union, cast
 
 from dataclasses import dataclass
-from application.latexer import LaTeXConfig
+from application.master_stringifier import StringifierConfig
 from application.rounder import RoundingConfig
 
 
@@ -35,8 +35,8 @@ class _Config:
     sigfigs_fallback: int
     decimal_places_fallback: int
 
-    def to_latex_config(self) -> LaTeXConfig:
-        return LaTeXConfig(
+    def to_stringifier_config(self) -> StringifierConfig:
+        return StringifierConfig(
             self.min_exponent_for_non_scientific_notation,
             self.max_exponent_for_non_scientific_notation,
             self.identifier,

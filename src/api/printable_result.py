@@ -10,7 +10,7 @@ class PrintableResult:
 
     def print(self):
         """Prints the result to the console."""
-        print(Stringifier.result_to_str(self._result))
+        print(Stringifier(c.configuration.to_stringifier_config()).result_to_str(self._result))
 
     def to_latex_str(self) -> str:
         """Converts the result to a string that can be used in LaTeX documents.
@@ -19,5 +19,5 @@ class PrintableResult:
         all your results to a file, which can then be included in your LaTeX
         document.
         """
-        latexer = _LaTeXer(c.configuration.to_latex_config())
+        latexer = _LaTeXer(c.configuration.to_stringifier_config())
         return latexer.result_to_latex_str(self._result)
