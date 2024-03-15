@@ -1,0 +1,41 @@
+name: Release package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  releasepypi:
+    # see https://docs.pypi.org/trusted-publishers/using-a-publisher/
+    # and https://packaging.python.org/en/latest/tutorials/packaging-projects/#uploading-the-distribution-archives
+    name: Release to PyPI
+    runs-on: "ubuntu-latest"
+    environment: release
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          cache: 'pipenv'
+
+      - name: Run tests (one last time before release)
+        run: |
+          pip install pipenv
+          pipenv install --dev
+          pipenv run pip3 install --editable .
+          pipenv run pytest tests/
+
+      - name: Install build tooling
+        run: python3 -m pip install --upgrade build
+
+      - name: Build distributions
+        run: python3 -m build
+
+      - name: Upload to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
