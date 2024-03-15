@@ -25,6 +25,9 @@ wiz.config(sigfigs=2)
 
 print("### RESULTS API")
 
+# wiz.res("", 42.0).print()
+# -> Error: "name must not be empty"
+
 wiz.res("a1", 1.0, r"\mm").print()
 # a: 1.0 \mm
 

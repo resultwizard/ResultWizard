@@ -18,6 +18,9 @@ def parse_name(name: str) -> str:
     if not isinstance(name, str):
         raise TypeError(f"`name` must be a string, not {type(name)}")
 
+    if name == "":
+        raise ValueError("`name` must not be empty")
+
     name = (
         name.replace("ä", "ae")
         .replace("ö", "oe")
