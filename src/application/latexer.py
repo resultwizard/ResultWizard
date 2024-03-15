@@ -108,73 +108,64 @@ class _LaTeXer:
 
         This string does not yet contain "\newcommand*{}".
         """
-
         latex_str = ""
-        use_scientific_notation = False
+
+        use_scientific_notation = self._should_use_scientific_notation(value, uncertainties)
         has_unit = unit != ""
+        should_use_parentheses = len(uncertainties) > 0 and (use_scientific_notation or has_unit)
 
-        # Determine if scientific notation should be used:
-        if (
-            value.get_exponent() < self.config.min_exponent_for_non_scientific_notation
-            or value.get_exponent() > self.config.max_exponent_for_non_scientific_notation
-        ):
-            use_scientific_notation = True
+        sign = "-" if value.get() < 0 else ""
+        exponent = value.get_exponent()
+        factor = 10 ** (-exponent) if use_scientific_notation else 1.0
+        value_normalized = value.get_abs() * factor
+        decimal_places = (
+            value.get_sig_figs() - 1 if use_scientific_notation else value.get_decimal_place()
+        )
 
-        if value.get_min_exponent() > 0:
-            use_scientific_notation = True
+        if should_use_parentheses:
+            latex_str += r"\left("
+        latex_str += sign
+        latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
 
         for u in uncertainties:
-            if u.uncertainty.get_min_exponent() > 0:
-                use_scientific_notation = True
+            uncertainty_normalized = u.uncertainty.get_abs() * factor
+            decimal_places = (
+                exponent - u.uncertainty.get_min_exponent()
+                if use_scientific_notation
+                else u.uncertainty.get_decimal_place()
+            )
+            latex_str += r" \pm "
+            latex_str += _Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
+            if len(uncertainties) > 1:
+                latex_str += rf"_{{\text{{{u.name}}}}}"
 
-        # Create LaTeX string:
-        if value.get() < 0:
-            sign = "-"
-        else:
-            sign = ""
-
+        if should_use_parentheses:
+            latex_str += r"\right)"
         if use_scientific_notation:
-            exponent = value.get_exponent()
-            factor = 10 ** (-exponent)
-
-            if len(uncertainties) > 0:
-                latex_str += "("
-
-            value_normalized = value.get_abs() * factor
-            decimal_places = value.get_sig_figs() - 1
-            latex_str += sign
-            latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
-
-            for u in uncertainties:
-                value_normalized = u.uncertainty.get_abs() * factor
-                decimal_places = exponent - u.uncertainty.get_min_exponent()
-                latex_str += r" \pm "
-                latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
-                if len(uncertainties) > 1:
-                    latex_str += rf"_{{\text{{{u.name}}}}}"
-
-            if len(uncertainties) > 0:
-                latex_str += ")"
-
             latex_str += rf" \cdot 10^{{{exponent}}}"
-        else:
-            if len(uncertainties) > 0 and unit != "":
-                latex_str += "("
-
-            value_normalized = value.get_abs()
-            decimal_places = value.get_decimal_place()
-            latex_str += sign
-            latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
-
-            for u in uncertainties:
-                latex_str += rf" \pm {_Helpers.round_to_n_decimal_places(u.uncertainty.get_abs(), u.uncertainty.get_decimal_place())}"
-                if len(uncertainties) > 1:
-                    latex_str += rf"_{{\text{{{u.name}}}}}"
-
-            if len(uncertainties) > 0 and unit != "":
-                latex_str += ")"
-
         if has_unit:
             latex_str += rf"\, \unit{{{unit}}}"
 
         return latex_str
+
+    def _should_use_scientific_notation(
+        self, value: _Value, uncertainties: List[_Uncertainty]
+    ) -> bool:
+        """
+        Returns whether scientific notation should be used for the given value and uncertainties.
+        """
+        exponent = value.get_exponent()
+        if (
+            exponent < self.config.min_exponent_for_non_scientific_notation
+            or exponent > self.config.max_exponent_for_non_scientific_notation
+        ):
+            return True
+
+        if value.get_min_exponent() > 0:
+            return True
+
+        for u in uncertainties:
+            if u.uncertainty.get_min_exponent() > 0:
+                return True
+
+        return False
