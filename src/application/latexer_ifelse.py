@@ -12,7 +12,9 @@ class LatexIfElseBuilder:
             self.latex += "\n"
             self.latex += rf"    }}{{\ifthenelse{{\equal{{#1}}{{{keyword}}}}}{{"
             self._num_parentheses_to_close += 1
-        self.keywords.append(keyword)
+
+        if keyword != "":
+            self.keywords.append(keyword)
 
         # Body
         self.latex += "\n"
