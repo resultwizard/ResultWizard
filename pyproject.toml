@@ -52,11 +52,6 @@ Repository = "https://github.com/paul019/ResultWizard"
 Issues = "https://github.com/paul019/ResultWizard/issues"
 Changelog = "https://github.com/paul019/ResultWizard/blob/main/CHANGELOG.md"
 
-[tool.pytest.ini_options]
-addopts = [
-    "--import-mode=importlib",
-]
-
 # TODO: Add these checks back
 [tool.pylint."messages control"]
 disable = [
