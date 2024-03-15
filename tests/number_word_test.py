@@ -1,6 +1,6 @@
-from application.helpers import Helpers
-
 import pytest
+
+from application.helpers import Helpers
 
 
 class TestNumberWord:
