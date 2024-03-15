@@ -11,4 +11,4 @@ pylint = "~=3.0"
 pytest = "~=8.1"
 
 [requires]
-python_version = "3.11"
+python_version = "3.8"
