@@ -1,7 +1,6 @@
 import api.config as c
-from application.helpers import _Helpers
 from domain.result import _Result
-from application.latexer import _LaTeXer, LaTeXConfig
+from application.latexer import _LaTeXer
 
 
 class Stringifier:
