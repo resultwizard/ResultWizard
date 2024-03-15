@@ -47,7 +47,7 @@ def parse_name(name: str) -> str:
                 parsed_name += char
         elif char.isdigit():
             num_digits = len([c for c in name if c.isdigit()])  # greedily get digits
-            word = Helpers.digit_str_to_word(name[:num_digits])
+            word = Helpers.number_to_word(int(name[:num_digits]))
             if parsed_name != "":
                 word = Helpers.capitalize(word)
             parsed_name += word
