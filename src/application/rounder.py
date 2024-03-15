@@ -62,7 +62,7 @@ class _Rounder:
             cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
 
         # Rounding hierarchy 2:
-        elif decimal_places != -1:
+        elif decimal_places > -1:
             min_exponent = -decimal_places
             value.set_min_exponent(min_exponent)
             cls._uncertainties_set_min_exponents(uncertainties, min_exponent)
@@ -95,7 +95,7 @@ class _Rounder:
             min_exponent = min([u.uncertainty.get_min_exponent() for u in uncertainties])
             value.set_min_exponent(min_exponent)
 
-        # Rounding hierarchy 5:
+        # Rounding hierarchy 6:
         else:
             value.set_sigfigs(sigfigs_default)
             cls._uncertainties_set_min_exponents(uncertainties, value.get_min_exponent())
