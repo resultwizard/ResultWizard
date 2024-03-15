@@ -43,14 +43,13 @@ class _LaTeXer:
         keywords = []
 
         # Value only:
-        if len(result.uncertainties) > 0:
-            latex_str += "\n"
-            latex_str += r"    }{\ifthenelse{\equal{#1}{valueOnly}}{"
-            latex_str += "\n"
-            latex_str += rf"        {self.result_to_latex_str_value_only(result)}"
-            keywords.append("valueOnly")
+        latex_str += "\n"
+        latex_str += r"    }{\ifthenelse{\equal{#1}{valueOnly}}{"
+        latex_str += "\n"
+        latex_str += rf"        {self.result_to_latex_str_value_only(result)}"
+        keywords.append("valueOnly")
 
-            number_of_parentheses_to_close += 1
+        number_of_parentheses_to_close += 1
 
         # Single uncertainties:
         for i, u in enumerate(result.uncertainties):
@@ -140,7 +139,7 @@ class _LaTeXer:
         """
         Returns only the value as LaTeX string making use of the siunitx package.
         """
-        return self._create_latex_str(result.value, [], result.unit)
+        return self._create_latex_str(result.value, [], "")
 
     def _create_latex_str(self, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
         """
