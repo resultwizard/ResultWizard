@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import List
 
-import textwrap
 from domain.result import _Result
 from domain.value import _Value
 from domain.uncertainty import _Uncertainty

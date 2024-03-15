@@ -1,5 +1,3 @@
-from typing import Union
-
 from domain.value import _Value
 
 

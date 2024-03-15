@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List
 
 from domain.result import _Result
 from domain.uncertainty import _Uncertainty
