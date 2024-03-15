@@ -32,7 +32,7 @@ _NUMBER_TO_WORD = {
 }
 
 
-class _Helpers:
+class Helpers:
     @classmethod
     def get_exponent(cls, value: float) -> int:
         return math.floor(math.log10(abs(value)))

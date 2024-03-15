@@ -5,9 +5,9 @@ from typing import Protocol, ClassVar
 # for why we use a Protocol instead of a ABC class, see
 # https://github.com/microsoft/pyright/issues/2601#issuecomment-977053380
 
-from domain.value import _Value
-from domain.uncertainty import _Uncertainty
-from application.helpers import _Helpers
+from domain.value import Value
+from domain.uncertainty import Uncertainty
+from application.helpers import Helpers
 
 
 @dataclass
@@ -45,7 +45,7 @@ class Stringifier(Protocol):
     def __init__(self, config: StringifierConfig):
         self.config = config
 
-    def create_str(self, value: _Value, uncertainties: List[_Uncertainty], unit: str) -> str:
+    def create_str(self, value: Value, uncertainties: List[Uncertainty], unit: str) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
 
@@ -68,7 +68,7 @@ class Stringifier(Protocol):
         if should_use_parentheses:
             latex_str += self.left_parenthesis
         latex_str += sign
-        latex_str += _Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
+        latex_str += Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
 
         for u in uncertainties:
             uncertainty_normalized = u.uncertainty.get_abs() * factor
@@ -78,7 +78,7 @@ class Stringifier(Protocol):
                 else u.uncertainty.get_decimal_place()
             )
             latex_str += self.plus_minus
-            latex_str += _Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
+            latex_str += Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
             if len(uncertainties) > 1:
                 latex_str += self.error_name_prefix + u.name + self.error_name_suffix
 
@@ -94,7 +94,7 @@ class Stringifier(Protocol):
         return latex_str
 
     def _should_use_scientific_notation(
-        self, value: _Value, uncertainties: List[_Uncertainty]
+        self, value: Value, uncertainties: List[Uncertainty]
     ) -> bool:
         """
         Returns whether scientific notation should be used for the given value and uncertainties.

@@ -1,5 +1,5 @@
-from domain.result import _Result
-from application.helpers import _Helpers
+from domain.result import Result
+from application.helpers import Helpers
 from application.latex_ifelse import LatexIfElseBuilder
 from application.stringifier import Stringifier
 
@@ -27,13 +27,13 @@ class LatexStringifier(Stringifier):
     unit_prefix = r"\, \unit{"
     unit_suffix = "}"
 
-    def result_to_latex_cmd(self, result: _Result) -> str:
+    def result_to_latex_cmd(self, result: Result) -> str:
         """
         Returns the result as LaTeX command to be used in a .tex file.
         """
         builder = LatexIfElseBuilder()
 
-        cmd_name = f"{self.config.identifier}{_Helpers.capitalize(result.name)}"
+        cmd_name = f"{self.config.identifier}{Helpers.capitalize(result.name)}"
         latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{" + "\n"
 
         # Default case (full result) & value
@@ -49,8 +49,8 @@ class LatexStringifier(Stringifier):
             if len(result.uncertainties) == 1:
                 uncertainty_name = "error"
             else:
-                uncertainty_name = u.name if u.name != "" else _Helpers.number_to_word(i + 1)
-                uncertainty_name = f"error{_Helpers.capitalize(uncertainty_name)}"
+                uncertainty_name = u.name if u.name != "" else Helpers.number_to_word(i + 1)
+                uncertainty_name = f"error{Helpers.capitalize(uncertainty_name)}"
             error_latex_str = self.create_str(u.uncertainty, [], result.unit)
             builder.add_branch(uncertainty_name, error_latex_str)
 
@@ -86,19 +86,19 @@ class LatexStringifier(Stringifier):
 
         return latex_str
 
-    def result_to_latex_str(self, result: _Result) -> str:
+    def result_to_latex_str(self, result: Result) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
         """
         return self.create_str(result.value, result.uncertainties, result.unit)
 
-    def result_to_latex_str_value(self, result: _Result) -> str:
+    def result_to_latex_str_value(self, result: Result) -> str:
         """
         Returns only the value as LaTeX string making use of the siunitx package.
         """
         return self.create_str(result.value, [], "")
 
-    def result_to_latex_str_without_error(self, result: _Result) -> str:
+    def result_to_latex_str_without_error(self, result: Result) -> str:
         """
         Returns the result without error as LaTeX string making use of the siunitx package.
         """

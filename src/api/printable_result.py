@@ -1,11 +1,11 @@
 from api.console_stringifier import ConsoleStringifier
 import api.config as c
 from application.latex_stringifier import LatexStringifier
-from domain.result import _Result
+from domain.result import Result
 
 
 class PrintableResult:
-    def __init__(self, result: _Result):
+    def __init__(self, result: Result):
         self._result = result
 
     def print(self):

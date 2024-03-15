@@ -7,7 +7,7 @@ from application.rounder import RoundingConfig
 
 @dataclass
 # pylint: disable-next=too-many-instance-attributes
-class _Config:
+class Config:
     """Configuration settings for the application.
 
     Args:
@@ -90,7 +90,7 @@ def config_init(
 ) -> None:
     global configuration  # pylint: disable=global-statement
 
-    configuration = _Config(
+    configuration = Config(
         sigfigs,
         decimal_places,
         print_auto,
@@ -104,7 +104,7 @@ def config_init(
     _check_config()
 
 
-configuration = cast(_Config, None)  # pylint: disable=invalid-name
+configuration = cast(Config, None)  # pylint: disable=invalid-name
 config_init()
 
 

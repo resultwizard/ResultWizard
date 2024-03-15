@@ -4,11 +4,11 @@ from plum import dispatch, overload
 from api.printable_result import PrintableResult
 from api import parsers
 import api.config as c
-from application.cache import _ResultsCache
-from application.rounder import _Rounder
-from domain.result import _Result
+from application.cache import ResultsCache
+from application.rounder import Rounder
+from domain.result import Result
 
-_res_cache = _ResultsCache()
+_res_cache = ResultsCache()
 
 
 @overload
@@ -99,10 +99,10 @@ def res(
     decimal_places_res = parsers.parse_decimal_places(decimal_places)
 
     # Assemble the result
-    result = _Result(
+    result = Result(
         name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
     )
-    _Rounder.round_result(result, c.configuration.to_rounding_config())
+    Rounder.round_result(result, c.configuration.to_rounding_config())
     _res_cache.add(name, result)
 
     printable_result = PrintableResult(result)

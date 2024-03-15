@@ -1,4 +1,4 @@
-from domain.result import _Result
+from domain.result import Result
 from application.stringifier import Stringifier
 
 
@@ -19,7 +19,7 @@ class ConsoleStringifier(Stringifier):
     unit_prefix = " "
     unit_suffix = ""
 
-    def result_to_str(self, result: _Result):
+    def result_to_str(self, result: Result):
         """
         Returns the result as human-readable string.
         """

@@ -1,9 +1,9 @@
 from typing import Union
 
-from application.helpers import _Helpers
+from application.helpers import Helpers
 
 
-class _Value:
+class Value:
     """
     A floating-point value represented as string that is either treated as exact
     (does not have any uncertainties) or as inexact (has uncertainties).
@@ -32,7 +32,7 @@ class _Value:
         else:
             self._is_exact = False
 
-        self._max_exponent = _Helpers.get_exponent(self._value)
+        self._max_exponent = Helpers.get_exponent(self._value)
 
     def set_min_exponent(self, min_exponent: int):
         self._min_exponent = min_exponent

@@ -1,8 +1,8 @@
 from typing import Union, List, Tuple
 
-from application.helpers import _Helpers
-from domain.value import _Value
-from domain.uncertainty import _Uncertainty
+from application.helpers import Helpers
+from domain.value import Value
+from domain.uncertainty import Uncertainty
 
 
 def check_if_number_string(value: str) -> None:
@@ -58,15 +58,15 @@ def parse_name(name: str) -> str:
             # Turn digits into word(s):
             word = ""
             if num_of_digits <= 3:
-                word += _Helpers.number_to_word(int(name[:num_of_digits]))
+                word += Helpers.number_to_word(int(name[:num_of_digits]))
             else:
-                word += _Helpers.number_to_word(int(name[0]))
+                word += Helpers.number_to_word(int(name[0]))
                 for i in range(1, num_of_digits):
-                    word += _Helpers.capitalize((_Helpers.number_to_word(int(name[i]))))
+                    word += Helpers.capitalize((Helpers.number_to_word(int(name[i]))))
 
             # Add word to parsed_name:
             if parsed_name != "":
-                word = _Helpers.capitalize(word)
+                word = Helpers.capitalize(word)
             parsed_name += word
             next_chat_upper = True
 
@@ -130,7 +130,7 @@ def parse_decimal_places(decimal_places: Union[int, None]) -> Union[int, None]:
     return decimal_places
 
 
-def parse_value(value: Union[float, int, str]) -> _Value:
+def parse_value(value: Union[float, int, str]) -> Value:
     """Converts the value to a _Value object."""
     if not isinstance(value, (float, int, str)):
         raise TypeError(f"`value` must be a float, int or string, not {type(value)}")
@@ -142,10 +142,10 @@ def parse_value(value: Union[float, int, str]) -> _Value:
     if isinstance(value, int):
         value = float(value)
 
-    return _Value(value)
+    return Value(value)
 
 
-def parse_exact_value(value: str) -> _Value:
+def parse_exact_value(value: str) -> Value:
     # Determine min exponent:
     exponent_offset = 0
     value_str = value
@@ -158,7 +158,7 @@ def parse_exact_value(value: str) -> _Value:
     else:
         min_exponent = exponent_offset
 
-    return _Value(float(value), min_exponent)
+    return Value(float(value), min_exponent)
 
 
 def parse_uncertainties(
@@ -169,7 +169,7 @@ def parse_uncertainties(
         Tuple[Union[float, int, str], str],
         List[Union[float, str, Tuple[Union[float, int, str], str]]],
     ]
-) -> List[_Uncertainty]:
+) -> List[Uncertainty]:
     """Converts the uncertainties to a list of _Uncertainty objects."""
     uncertainties_res = []
 
@@ -181,7 +181,7 @@ def parse_uncertainties(
 
     for uncert in uncertainties:
         if isinstance(uncert, (float, int, str)):
-            uncertainties_res.append(_Uncertainty(_parse_uncertainty_value(uncert)))
+            uncertainties_res.append(Uncertainty(_parse_uncertainty_value(uncert)))
 
         elif isinstance(uncert, Tuple):
             if not isinstance(uncert[0], (float, int, str)):
@@ -190,7 +190,7 @@ def parse_uncertainties(
                     + f" int or a string, not {type(uncert[0])}"
                 )
             uncertainties_res.append(
-                _Uncertainty(_parse_uncertainty_value(uncert[0]), parse_name(uncert[1]))
+                Uncertainty(_parse_uncertainty_value(uncert[0]), parse_name(uncert[1]))
             )
 
         else:
@@ -201,7 +201,7 @@ def parse_uncertainties(
     return uncertainties_res
 
 
-def _parse_uncertainty_value(value: Union[float, int, str]) -> _Value:
+def _parse_uncertainty_value(value: Union[float, int, str]) -> Value:
     """Parses the value of an uncertainty."""
 
     if isinstance(value, str):
@@ -210,7 +210,7 @@ def _parse_uncertainty_value(value: Union[float, int, str]) -> _Value:
     else:
         if isinstance(value, int):
             value = float(value)
-        return_value = _Value(value)
+        return_value = Value(value)
 
     if return_value.get() <= 0:
         raise ValueError("Uncertainty must be positive.")

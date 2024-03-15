@@ -1,7 +1,7 @@
-from domain.result import _Result
+from domain.result import Result
 
 
-class _ResultsCache:
+class ResultsCache:
     """
     A cache for all user-defined results. Results are hashed by their name.
     If the user tries to add a result with a name that already exists in the cache,
@@ -10,10 +10,10 @@ class _ResultsCache:
     """
 
     def __init__(self):
-        self.cache: dict[str, _Result] = {}
+        self.cache: dict[str, Result] = {}
 
-    def add(self, name, result: _Result):
+    def add(self, name, result: Result):
         self.cache[name] = result
 
-    def get_all_results(self) -> list[_Result]:
+    def get_all_results(self) -> list[Result]:
         return list(self.cache.values())

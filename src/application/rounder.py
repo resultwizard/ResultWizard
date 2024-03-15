@@ -1,9 +1,9 @@
 from typing import List
 
 from dataclasses import dataclass
-from domain.result import _Result
-from domain.uncertainty import _Uncertainty
-from application.helpers import _Helpers
+from domain.result import Result
+from domain.uncertainty import Uncertainty
+from application.helpers import Helpers
 
 
 @dataclass
@@ -14,10 +14,10 @@ class RoundingConfig:
     decimal_places_fallback: int
 
 
-class _Rounder:
+class Rounder:
 
     @classmethod
-    def round_result(cls, result: _Result, config: RoundingConfig) -> None:
+    def round_result(cls, result: Result, config: RoundingConfig) -> None:
         """
         In-place rounds all numerical fields of a result to the correct
         number of significant figures.
@@ -69,7 +69,7 @@ class _Rounder:
 
     @classmethod
     # pylint: disable-next=too-many-branches
-    def _round_result(cls, result: _Result, config: RoundingConfig) -> None:
+    def _round_result(cls, result: Result, config: RoundingConfig) -> None:
         """See the docstring of the public `round_result` for details."""
 
         value = result.value
@@ -107,7 +107,7 @@ class _Rounder:
                     continue
 
                 normalized_value = abs(u.uncertainty.get()) * 10 ** (
-                    -_Helpers.get_exponent(u.uncertainty.get())
+                    -Helpers.get_exponent(u.uncertainty.get())
                 )
 
                 if round(normalized_value, 1) >= 3.0:
@@ -132,7 +132,7 @@ class _Rounder:
 
     @classmethod
     def _uncertainties_set_min_exponents(
-        cls, uncertainties: List[_Uncertainty], min_exponent: int
+        cls, uncertainties: List[Uncertainty], min_exponent: int
     ) -> None:
         for u in uncertainties:
             if not u.uncertainty.is_exact():
