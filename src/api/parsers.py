@@ -46,12 +46,7 @@ def parse_name(name: str) -> str:
             else:
                 parsed_name += char
         elif char.isdigit():
-            num_digits = 0
-            for c in name:  # greedily retrieve as many digits as possible
-                if c.isdigit():
-                    num_digits += 1
-                else:
-                    break
+            num_digits = _greedily_count_digits_at_start_of_str(name)
             word = Helpers.number_to_word(int(name[:num_digits]))
             if parsed_name != "":
                 word = Helpers.capitalize(word)
@@ -73,6 +68,17 @@ def parse_name(name: str) -> str:
         raise ValueError("After ignoring invalid characters, the specified name is empty.")
 
     return parsed_name
+
+
+def _greedily_count_digits_at_start_of_str(word: str) -> int:
+    """Counts the number of digits at the start of the string."""
+    num_digits = 0
+    for c in word:
+        if c.isdigit():
+            num_digits += 1
+        else:
+            break
+    return num_digits
 
 
 def parse_unit(unit: str) -> str:
