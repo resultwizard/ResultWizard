@@ -54,7 +54,8 @@ class Value:
         return self._max_exponent - self._min_exponent + 1
 
     def get_decimal_place(self) -> int:
-        # TODO: it can never be None, right? So then we don't need this:
         if self._min_exponent is None:
+            # This should not happen as `_min_exponent` should be set by the time this method is
+            # called.
             raise RuntimeError("An unexpected error occurred. Please report this bug.")
         return -self._min_exponent
