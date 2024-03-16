@@ -29,7 +29,9 @@ def parse_name(name: str) -> str:
         .replace("ü", "ue")
         .replace("Ü", "Ue")
         .replace("ß", "ss")
-        .replace("ẞ", "Ss")
+        # we use "SS" instead of "Ss" as replacement for "ẞ"
+        # since "ẞ" is only allowed in uppercase names in German
+        .replace("ẞ", "SS")
     )
 
     parsed_name = ""

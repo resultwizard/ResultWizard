@@ -30,10 +30,10 @@ class TestNameParser:
             ("ö", "oe"),
             ("Ö", "Oe"),
             ("ß", "ss"),
-            ("ẞ", "Ss"),
+            ("ẞ", "SS"),
             ("äh", "aeh"),
             ("Füße", "Fuesse"),
-            ("GIEẞEN", "GIESsEN"),
+            ("GIEẞEN", "GIESSEN"),
         ],
     )
     def test_replaces_umlauts(self, name: str, expected: str):
