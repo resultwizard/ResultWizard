@@ -84,7 +84,7 @@ class Stringifier(Protocol):
             string += self.plus_minus
             uncert_str = Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
             string += self.value_prefix + uncert_str + self.value_suffix
-            if len(uncertainties) > 1:
+            if u.name != "":
                 string += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
 
         if should_use_parentheses:
