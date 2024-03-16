@@ -61,6 +61,9 @@ You can also only use a specific part of the result, e.g. the unit, the value it
 
 If your LaTeX document doesn't build, there might be several reasons. Try to find out what's wrong by looking at the log file of your LaTeX compiler (sometimes you have to scroll way up to find the error responsible for the failing build). Also open the `results.tex` file to see if your editor/IDE shows any errors there. You might encounter one of the following errors:
 
+> [!WARNING] 
+> This troubleshooting section does not yet apply to the first alpha release of `ResultWizard`. It's just here for one of the next alpha versions.
+
 <details>
 
 <summary><strong>Package siunitx: Invalid number.</strong></summary>
