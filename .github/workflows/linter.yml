@@ -1,0 +1,50 @@
+name: Linting
+
+# for "synchronize", see [1]
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+jobs:
+  pylint:
+      name: Pylint
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 2 # to also fetch parent of PR (used to get changed files)
+
+        - name: Get changed files
+          id: py-changed
+          uses: ./.github/actions/changed_files/
+          with:
+            file-extensions: \.py$
+
+        - name: Setup Python
+          if: ${{ steps.py-changed.outputs.changed-files != ''}}
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.11'
+            cache: 'pipenv'
+
+        # see Caching [2]
+        - name: Install pipenv
+          if: ${{ steps.py-changed.outputs.changed-files != ''}}
+          run: pip install pipenv
+
+        - name: Install dependencies
+          if: ${{ steps.py-changed.outputs.changed-files != ''}}
+          run: pipenv install --dev
+
+        # For GitHub output format, see [3]
+        - name: Run Pylint
+          if: ${{ steps.py-changed.outputs.changed-files != ''}}
+          run: |
+            echo "🚨 Running Pylint version: $(pipenv run python3 -m pylint --version)"
+            pipenv run python3 -m pylint ${{ steps.py-changed.outputs.changed-files }}
+
+
+# [1] https://github.com/orgs/community/discussions/26366
+# [2] https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md#caching-packages
+# [3] https://github.com/pylint-dev/pylint/issues/9443

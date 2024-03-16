@@ -1,0 +1,73 @@
+# See the specification of the pyproject.toml file at:
+# https://packaging.python.org/en/latest/specifications/pyproject-toml/
+
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["api", "application", "domain", "resultwizard"]
+namespaces = true
+
+[project]
+name = "resultwizard"
+version = "0.1"
+authors = [
+    { name = "Paul Obernolte (paul019)" },
+    { name = "Dominic Plein (Splines)" },
+]
+description = "Intelligent interface between Python-computed values and your LaTeX work"
+keywords = [
+    "latex",
+    "variable",
+    "science",
+    "result",
+    "value",
+    "rounding",
+    "significant figures",
+    "jupyter",
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Text Processing :: Markup :: LaTeX",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "plum-dispatch ~= 2.3"
+]
+
+[project.urls]
+Homepage = "https://github.com/paul019/ResultWizard"
+Repository = "https://github.com/paul019/ResultWizard"
+Issues = "https://github.com/paul019/ResultWizard/issues"
+Changelog = "https://github.com/paul019/ResultWizard/blob/main/CHANGELOG.md"
+
+# TODO: Add these checks back
+[tool.pylint."messages control"]
+disable = [
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "fixme",
+    "too-few-public-methods",
+]
+
+[tool.pylint.format]
+max-line-length = 100
+max-module-lines = 500
+
+[tool.black]
+line-length = 100
