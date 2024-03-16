@@ -48,6 +48,7 @@ class Stringifier(Protocol):
     def __init__(self, config: StringifierConfig):
         self.config = config
 
+    # pylint: disable-next=too-many-locals
     def create_str(self, value: Value, uncertainties: List[Uncertainty], unit: str) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
