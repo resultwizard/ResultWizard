@@ -111,7 +111,7 @@ def res(
         name_res, value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res
     )
     Rounder.round_result(result, c.configuration.to_rounding_config())
-    _res_cache.add(name, result)
+    _res_cache.add(name_res, result)
 
     printable_result = PrintableResult(result)
     if c.configuration.print_auto:
