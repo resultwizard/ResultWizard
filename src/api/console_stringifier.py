@@ -10,6 +10,9 @@ class ConsoleStringifier(Stringifier):
     left_parenthesis = "("
     right_parenthesis = ")"
 
+    value_prefix = r""
+    value_suffix = r""
+
     error_name_prefix = " ("
     error_name_suffix = ")"
 

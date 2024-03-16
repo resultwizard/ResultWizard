@@ -33,6 +33,9 @@ class Stringifier(Protocol):
     left_parenthesis: ClassVar[str]
     right_parenthesis: ClassVar[str]
 
+    value_prefix: ClassVar[str]
+    value_suffix: ClassVar[str]
+
     error_name_prefix: ClassVar[str]
     error_name_suffix: ClassVar[str]
 
@@ -69,7 +72,7 @@ class Stringifier(Protocol):
             string += self.left_parenthesis
         string += sign
         value_str = Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
-        string += self._modify_value(value_str)
+        string += self.value_prefix + value_str + self.value_suffix
 
         for u in uncertainties:
             uncertainty_normalized = u.uncertainty.get_abs() * factor
@@ -80,7 +83,7 @@ class Stringifier(Protocol):
             )
             string += self.plus_minus
             uncert_str = Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
-            string += self._modify_value(uncert_str)
+            string += self.value_prefix + uncert_str + self.value_suffix
             if len(uncertainties) > 1:
                 string += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
 
