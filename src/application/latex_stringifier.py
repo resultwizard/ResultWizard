@@ -73,6 +73,7 @@ class LatexStringifier(Stringifier):
         # Unit
         if result.unit != "":
             builder.add_branch("unit", rf"\unit{{{result.unit}}}")
+            builder.add_branch("withoutUnit", self.result_to_latex_str_without_unit(result))
 
         # Error message
         keywords = builder.keywords
@@ -106,3 +107,9 @@ class LatexStringifier(Stringifier):
         Returns the result without error as LaTeX string making use of the siunitx package.
         """
         return self.create_str(result.value, [], result.unit)
+
+    def result_to_latex_str_without_unit(self, result: Result) -> str:
+        """
+        Returns the result without unit as LaTeX string making use of the siunitx package.
+        """
+        return self.create_str(result.value, result.uncertainties, "")
