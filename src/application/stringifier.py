@@ -51,7 +51,7 @@ class Stringifier(Protocol):
 
         This string does not yet contain "\newcommand*{}".
         """
-        latex_str = ""
+        string = ""
 
         use_scientific_notation = self._should_use_scientific_notation(value, uncertainties)
         has_unit = unit != ""
@@ -66,10 +66,10 @@ class Stringifier(Protocol):
         )
 
         if should_use_parentheses:
-            latex_str += self.left_parenthesis
-        latex_str += sign
+            string += self.left_parenthesis
+        string += sign
         value_str = Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
-        latex_str += self._modify_value(value_str)
+        string += self._modify_value(value_str)
 
         for u in uncertainties:
             uncertainty_normalized = u.uncertainty.get_abs() * factor
@@ -78,22 +78,22 @@ class Stringifier(Protocol):
                 if use_scientific_notation
                 else u.uncertainty.get_decimal_place()
             )
-            latex_str += self.plus_minus
+            string += self.plus_minus
             uncert_str = Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
-            latex_str += self._modify_value(uncert_str)
+            string += self._modify_value(uncert_str)
             if len(uncertainties) > 1:
-                latex_str += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
+                string += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
 
         if should_use_parentheses:
-            latex_str += self.right_parenthesis
+            string += self.right_parenthesis
         if use_scientific_notation:
-            latex_str += (
+            string += (
                 f"{self.scientific_notation_prefix}{str(exponent)}{self.scientific_notation_suffix}"
             )
         if has_unit:
-            latex_str += f"{self.unit_prefix}{self._modify_unit(unit)}{self.unit_suffix}"
+            string += f"{self.unit_prefix}{self._modify_unit(unit)}{self.unit_suffix}"
 
-        return latex_str
+        return string
 
     def _should_use_scientific_notation(
         self, value: Value, uncertainties: List[Uncertainty]
