@@ -126,7 +126,9 @@ class Rounder:
             value.set_min_exponent(min_exponent)
 
         else:
-            raise RuntimeError  # TODO: add message (!)
+            # This branch cannot be reached, because the config makes sure that
+            # either`sigfigs_fallback` or `decimal_places_fallback` is set.
+            raise RuntimeError("An unexpected error occurred. Please report this bug.")
 
     @classmethod
     def _uncertainties_set_min_exponents(
