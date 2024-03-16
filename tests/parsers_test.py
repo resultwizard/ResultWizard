@@ -16,7 +16,7 @@ class TestNameParser:
             ("a_5_6b7_$5", "aFiveSixBSevenFive"),
         ],
     )
-    def test_number_substitution(self, name: str, expected: str):
+    def test_substitutes_numbers(self, name: str, expected: str):
         assert parsers.parse_name(name) == expected
 
     @pytest.mark.parametrize(
@@ -35,5 +35,22 @@ class TestNameParser:
             ("GIEẞEN", "GIESsEN"),
         ],
     )
-    def test_umlaut_replacement(self, name: str, expected: str):
+    def test_replaces_umlauts(self, name: str, expected: str):
         assert parsers.parse_name(name) == expected
+
+    @pytest.mark.parametrize(
+        "name, expected",
+        [
+            ("!a$", "a"),
+            ("!a$b", "ab"),
+            ("!a$b", "ab"),
+            ("!%a&/(=*)s.,'@\"§d", "asd"),
+        ],
+    )
+    def test_strips_invalid_chars(self, name: str, expected: str):
+        assert parsers.parse_name(name) == expected
+
+    @pytest.mark.parametrize("name", ["", "!", "    ", "_  ", "§ _ '*"])
+    def test_empty_name_fails(self, name):
+        with pytest.raises(ValueError):
+            parsers.parse_name(name)
