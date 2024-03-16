@@ -58,8 +58,6 @@ class Rounder:
 
         8. Is fallback for decimal places given (not -1) (see config)?
            Round value according to number of decimal places.
-
-        TODO: Warning message if user specifies exact value and sigfigs etc.
         """
         cls._round_result(result, config)
 

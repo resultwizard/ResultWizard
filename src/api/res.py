@@ -90,6 +90,16 @@ def res(
             "Please choose one or the other."
         )
 
+    if sigfigs is not None and isinstance(value, str):
+        raise ValueError(
+            "You can't set sigfigs and supply an exact value. Please do one or the other."
+        )
+
+    if decimal_places is not None and isinstance(value, str):
+        raise ValueError(
+            "You can't set decimal places and supply an exact value. Please do one or the other."
+        )
+
     # Parse user input
     name_res = parsers.parse_name(name)
     value_res = parsers.parse_value(value)
