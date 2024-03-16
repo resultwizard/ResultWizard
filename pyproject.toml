@@ -17,7 +17,7 @@ authors = [
     { name = "Paul Obernolte (paul019)" },
     { name = "Dominic Plein (Splines)" },
 ]
-description = "Python to LaTeX variable conversion"
+description = "Intelligent interface between Python-computed values and your LaTeX work"
 keywords = [
     "latex",
     "variable",
@@ -29,11 +29,11 @@ keywords = [
     "jupyter",
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 license = { file = "LICENSE" }
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 3 - Alpha",
     "Topic :: Scientific/Engineering :: Physics",
     "Topic :: Software Development :: Build Tools",
     "Topic :: Text Processing :: Markup :: LaTeX",
