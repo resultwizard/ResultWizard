@@ -52,8 +52,7 @@ wiz.res("f", "1.0e1", 25e-1).print()
 
 wiz.res("g", 42).print()
 
-wiz.res("h", 42, 13)
-# TODO: 13 is misinterpreted as number of sigfigs
+wiz.res("h", 42, 13.0, 24.0)
 
 
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()

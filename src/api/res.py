@@ -28,7 +28,6 @@ def res(
     value: Union[float, int, str],
     uncert: Union[
         float,
-        int,
         str,
         Tuple[Union[float, int, str], str],
         List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
@@ -55,8 +54,8 @@ def res(
 def res(
     name: str,
     value: Union[float, int, str],
-    sys: Union[float, int],
-    stat: Union[float, int],
+    sys: float,
+    stat: float,
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
@@ -71,7 +70,6 @@ def res(
     value: Union[float, int, str],
     uncert: Union[
         float,
-        int,
         str,
         Tuple[Union[float, int, str], str],
         List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
