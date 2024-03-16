@@ -7,13 +7,13 @@
 </div>
 
 > [!important]  
-> ResultWizard is currently fully functional but still in its *alpha* stage. We're happy to receive your feedback. Basic usage is as follows:
+> ResultWizard is currently fully functional but still in its *alpha* stage. We're happy to receive your feedback. Basic usage is as follows. A more comprehensive documentation will be available as soon as the package is stable.
 
 
 ## Installation & usage
+Install the package via pip.
 
 ```sh
-# Install the package via pip
 pip install resultwizard
 ```
 
@@ -38,6 +38,8 @@ Then add the following line to your LaTeX document right before `\begin{document
 \input{results.tex}
 ```
 
+Note that `ResultWizard` requires the following LaTeX packages: [`siunitx`](https://ctan.org/pkg/siunitx) and [`ifthen`](https://ctan.org/pkg/ifthen). They are imported in the `results.tex` file via `\usepackage{...}` statements. The package `ifthen` is always presented in a LaTeX distribution. You may have to install the `siunitx` package, which is a widely used package in the scientific community to typeset units, e.g. you can use strings like `\kg\per\cm`.
+
 You can now go ahead and reference the variable in your LaTeX document in any math environment, e.g.:
 
 ```latex
@@ -53,5 +55,3 @@ You can also only use a specific part of the result, e.g. the unit, the value it
     \resLengthAtom[unit]
 \end{align}
 ```
-
-A more comprehensive documentation will be available as soon as the package is stable.

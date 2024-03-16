@@ -19,6 +19,7 @@ def export(filepath: str):
         r"%",
         r"",
         r"% Import required package:",
+        r"\usepackage{siunitx}",
         r"\usepackage{ifthen}",
         r"",
         r"% Define commands to print the results:",
