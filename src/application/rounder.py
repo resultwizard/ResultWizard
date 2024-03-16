@@ -128,7 +128,7 @@ class Rounder:
         else:
             # This branch cannot be reached, because the config makes sure that
             # either`sigfigs_fallback` or `decimal_places_fallback` is set.
-            raise RuntimeError("An unexpected error occurred. Please report this bug.")
+            raise RuntimeError("Internal rounder hierarchy error. Please report this bug.")
 
     @classmethod
     def _uncertainties_set_min_exponents(
