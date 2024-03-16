@@ -103,3 +103,6 @@ class LatexStringifier(Stringifier):
         Returns the result without error as LaTeX string making use of the siunitx package.
         """
         return self.create_str(result.value, [], result.unit)
+
+    def _modify_value(self, value: str) -> str:
+        return rf"\num{{{value}}}"

@@ -68,7 +68,8 @@ class Stringifier(Protocol):
         if should_use_parentheses:
             latex_str += self.left_parenthesis
         latex_str += sign
-        latex_str += Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
+        value_str = Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
+        latex_str += self._modify_value(value_str)
 
         for u in uncertainties:
             uncertainty_normalized = u.uncertainty.get_abs() * factor
@@ -78,18 +79,19 @@ class Stringifier(Protocol):
                 else u.uncertainty.get_decimal_place()
             )
             latex_str += self.plus_minus
-            latex_str += Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
+            uncert_str = Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
+            latex_str += self._modify_value(uncert_str)
             if len(uncertainties) > 1:
-                latex_str += self.error_name_prefix + u.name + self.error_name_suffix
+                latex_str += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
 
         if should_use_parentheses:
             latex_str += self.right_parenthesis
         if use_scientific_notation:
             latex_str += (
-                self.scientific_notation_prefix + str(exponent) + self.scientific_notation_suffix
+                f"{self.scientific_notation_prefix}{str(exponent)}{self.scientific_notation_suffix}"
             )
         if has_unit:
-            latex_str += self.unit_prefix + self._modify_unit(unit) + self.unit_suffix
+            latex_str += f"{self.unit_prefix}{self._modify_unit(unit)}{self.unit_suffix}"
 
         return latex_str
 
@@ -120,3 +122,9 @@ class Stringifier(Protocol):
         Returns the modified unit.
         """
         return unit
+
+    def _modify_value(self, value: str) -> str:
+        """
+        Returns the modified value (as string).
+        """
+        return value
