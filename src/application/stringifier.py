@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 from typing import Protocol, ClassVar
 
 # for why we use a Protocol instead of a ABC class, see
@@ -55,49 +55,59 @@ class Stringifier(Protocol):
 
         This string does not yet contain "\newcommand*{}".
         """
-        string = ""
-
-        use_scientific_notation = self._should_use_scientific_notation(value, uncertainties)
         has_unit = unit != ""
+        use_scientific_notation = self._should_use_scientific_notation(value, uncertainties)
         should_use_parentheses = len(uncertainties) > 0 and (use_scientific_notation or has_unit)
 
-        sign = self.negative_sign if value.get() < 0 else self.positive_sign
-        exponent = value.get_exponent()
-        factor = 10 ** (-exponent) if use_scientific_notation else 1.0
-        value_normalized = value.get_abs() * factor
-        decimal_places = (
-            value.get_sig_figs() - 1 if use_scientific_notation else value.get_decimal_place()
-        )
+        sign = self._value_to_sign_str(value)
+        value_rounded, exponent, factor = self._value_to_str(value, use_scientific_notation)
 
-        if should_use_parentheses:
-            string += self.left_parenthesis
-        string += sign
-        value_str = Helpers.round_to_n_decimal_places(value_normalized, decimal_places)
-        string += self.value_prefix + value_str + self.value_suffix
-
+        uncertainties_rounded = []
         for u in uncertainties:
-            uncertainty_normalized = u.uncertainty.get_abs() * factor
-            decimal_places = (
-                exponent - u.uncertainty.get_min_exponent()
-                if use_scientific_notation
-                else u.uncertainty.get_decimal_place()
-            )
-            string += self.plus_minus
-            uncert_str = Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
-            string += self.value_prefix + uncert_str + self.value_suffix
+            u_rounded = self._uncertainty_to_str(u, use_scientific_notation, exponent, factor)
+            u_rounded = f"{self.plus_minus}{self.value_prefix}{u_rounded}{self.value_suffix}"
             if u.name != "":
-                string += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
+                u_rounded += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
+            uncertainties_rounded.append(u_rounded)
 
+        # Assemble everything together
+        string = f"{sign}{value_rounded} {' '.join(uncertainties_rounded)}"
         if should_use_parentheses:
-            string += self.right_parenthesis
+            string = f"{self.left_parenthesis}{string}{self.right_parenthesis}"
+
         if use_scientific_notation:
             string += (
                 f"{self.scientific_notation_prefix}{str(exponent)}{self.scientific_notation_suffix}"
             )
         if has_unit:
-            string += f"{self.unit_prefix}{self._modify_unit(unit)}{self.unit_suffix}"
+            string += f" {self.unit_prefix}{self._modify_unit(unit)}{self.unit_suffix}"
 
         return string
+
+    def _value_to_sign_str(self, value: Value) -> str:
+        return self.negative_sign if value.get() < 0 else self.positive_sign
+
+    def _value_to_str(self, value: Value, use_scientific_notation: bool) -> Tuple[str, int, float]:
+        exponent = value.get_exponent()
+        factor = 10 ** (-exponent) if use_scientific_notation else 1.0
+
+        value_normalized = value.get_abs() * factor
+        decimal_places = (
+            value.get_sig_figs() - 1 if use_scientific_notation else value.get_decimal_place()
+        )
+
+        return Helpers.round_to_n_decimal_places(value_normalized, decimal_places), exponent, factor
+
+    def _uncertainty_to_str(
+        self, u: Uncertainty, use_scientific_notation: bool, exponent: int, factor: float
+    ) -> str:
+        uncertainty_normalized = u.uncertainty.get_abs() * factor
+        decimal_places = (
+            exponent - u.uncertainty.get_min_exponent()
+            if use_scientific_notation
+            else u.uncertainty.get_decimal_place()
+        )
+        return Helpers.round_to_n_decimal_places(uncertainty_normalized, decimal_places)
 
     def _should_use_scientific_notation(
         self, value: Value, uncertainties: List[Uncertainty]

@@ -20,5 +20,6 @@ class PrintableResult:
         all your results to a file, which can then be included in your LaTeX
         document.
         """
-        latexer = LatexStringifier(c.configuration.to_stringifier_config())
+        use_fallback = c.configuration.siunitx_fallback
+        latexer = LatexStringifier(c.configuration.to_stringifier_config(), use_fallback)
         return latexer.result_to_latex_str(self._result)

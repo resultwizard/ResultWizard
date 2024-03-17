@@ -1,7 +1,10 @@
+from typing import List
 from domain.result import Result
 from application.helpers import Helpers
 from application.latex_ifelse import LatexIfElseBuilder
-from application.stringifier import Stringifier
+from application.stringifier import Stringifier, StringifierConfig
+from domain.uncertainty import Uncertainty
+from domain.value import Value
 
 
 class LatexStringifier(Stringifier):
@@ -11,7 +14,7 @@ class LatexStringifier(Stringifier):
     We assume the result to already be correctly rounded at this point.
     """
 
-    plus_minus = r" \pm "
+    plus_minus = r"\pm"
     negative_sign = "-"
     positive_sign = ""
 
@@ -29,6 +32,16 @@ class LatexStringifier(Stringifier):
 
     unit_prefix = r"\, \unit{"
     unit_suffix = "}"
+
+    siunitx_fallback: bool
+
+    def __init__(self, config: StringifierConfig, siunitx_fallback: bool):
+        super().__init__(config)
+        self.siunitx_fallback = siunitx_fallback
+
+    @classmethod
+    def uncertainty_name_to_cmd_name(cls, name: str) -> str:
+        return f"\\Uncert{Helpers.capitalize(name)}"
 
     def result_to_latex_cmd(self, result: Result) -> str:
         """
@@ -90,26 +103,72 @@ class LatexStringifier(Stringifier):
 
         return latex_str
 
+    def create_str_tailored_to_siunitx(
+        self, value: Value, uncertainties: List[Uncertainty], unit: str
+    ) -> str:
+        """
+        Returns the result as LaTeX string making use of the siunitx package.
+
+        This string does not yet contain "\newcommand*{}".
+        """
+        has_unit = unit != ""
+        use_scientific_notation = self._should_use_scientific_notation(value, uncertainties)
+
+        sign = self._value_to_sign_str(value)
+        value_rounded, exponent, factor = self._value_to_str(value, use_scientific_notation)
+
+        uncertainties_rounded = []
+        for u in uncertainties:
+            u_rounded = self._uncertainty_to_str(u, use_scientific_notation, exponent, factor)
+            u_rounded = f" {self.plus_minus} {u_rounded}"
+            if u.name != "":
+                u_rounded += self.uncertainty_name_to_cmd_name(u.name)
+            uncertainties_rounded.append(u_rounded)
+
+        # Assemble everything together
+        num_part = f"{sign}{value_rounded}{''.join(uncertainties_rounded)}"
+        if use_scientific_notation:
+            num_part += f" e{str(exponent)}"
+
+        if has_unit:
+            string = rf"\qty{{{num_part}}}{{{unit}}}"
+        else:
+            string = rf"\num{{{num_part}}}"
+
+        return string
+
+    def create_str_possible_fallback(
+        self, value: Value, uncertainties: List[Uncertainty], unit: str
+    ) -> str:
+        """
+        Returns the result as LaTeX string making use of the siunitx package.
+
+        This string does not yet contain "\newcommand*{}".
+        """
+        if self.siunitx_fallback:
+            return self.create_str(value, uncertainties, unit)
+        return self.create_str_tailored_to_siunitx(value, uncertainties, unit)
+
     def result_to_latex_str(self, result: Result) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
         """
-        return self.create_str(result.value, result.uncertainties, result.unit)
+        return self.create_str_possible_fallback(result.value, result.uncertainties, result.unit)
 
     def result_to_latex_str_value(self, result: Result) -> str:
         """
         Returns only the value as LaTeX string making use of the siunitx package.
         """
-        return self.create_str(result.value, [], "")
+        return self.create_str_possible_fallback(result.value, [], "")
 
     def result_to_latex_str_without_error(self, result: Result) -> str:
         """
         Returns the result without error as LaTeX string making use of the siunitx package.
         """
-        return self.create_str(result.value, [], result.unit)
+        return self.create_str_possible_fallback(result.value, [], result.unit)
 
     def result_to_latex_str_without_unit(self, result: Result) -> str:
         """
         Returns the result without unit as LaTeX string making use of the siunitx package.
         """
-        return self.create_str(result.value, result.uncertainties, "")
+        return self.create_str_possible_fallback(result.value, result.uncertainties, "")

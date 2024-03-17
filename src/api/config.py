@@ -24,6 +24,9 @@ class Config:
             fallback if other rounding rules don't apply.
         decimal_places_fallback (int): The number of decimal places to use as
             a fallback if other rounding rules don't apply.
+        siunitx_fallback (bool): Whether to use a fallback logic such that LaTeX
+            commands still work with an older version of siunitx. See
+            the docs for more information: TODO.
     """
 
     sigfigs: int
@@ -34,6 +37,7 @@ class Config:
     identifier: str
     sigfigs_fallback: int
     decimal_places_fallback: int
+    siunitx_fallback: bool
 
     def to_stringifier_config(self) -> StringifierConfig:
         return StringifierConfig(
@@ -87,6 +91,7 @@ def config_init(
     identifier: str = "res",
     sigfigs_fallback: int = 2,
     decimal_places_fallback: int = -1,  # -1: "per default use sigfigs as fallback instead"
+    siunitx_fallback: bool = False,
 ) -> None:
     global configuration  # pylint: disable=global-statement
 
@@ -99,6 +104,7 @@ def config_init(
         identifier,
         sigfigs_fallback,
         decimal_places_fallback,
+        siunitx_fallback,
     )
 
     _check_config()
