@@ -11,6 +11,7 @@ class LatexBetterSiunitxStringifier(Stringifier):
     We assume the result to already be correctly rounded at this point.
     """
 
+    # pylint: disable=duplicate-code
     plus_minus = r"\pm"
     negative_sign = "-"
     positive_sign = ""
@@ -29,6 +30,7 @@ class LatexBetterSiunitxStringifier(Stringifier):
 
     unit_prefix = ""
     unit_suffix = ""
+    # pylint: enable=duplicate-code
 
     def _modify_uncertainty_name(self, name) -> str:
         return Helpers.capitalize(name)

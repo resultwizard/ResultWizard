@@ -26,6 +26,7 @@ class Stringifier(Protocol):
 
     config: StringifierConfig
 
+    # pylint: disable=duplicate-code
     plus_minus: ClassVar[str]
     negative_sign: ClassVar[str]
     positive_sign: ClassVar[str]
@@ -44,6 +45,7 @@ class Stringifier(Protocol):
 
     unit_prefix: ClassVar[str]
     unit_suffix: ClassVar[str]
+    # pylint: enable=duplicate-code
 
     def __init__(self, config: StringifierConfig):
         self.config = config
@@ -59,7 +61,6 @@ class Stringifier(Protocol):
 
         sign = self._value_to_sign_str(value)
         value_rounded, exponent, factor = self._value_to_str(value, use_scientific_notation)
-        value_rounded = f"{self.value_prefix}{value_rounded}{self.value_suffix}"
 
         uncertainties_rounded = []
         for u in uncertainties:

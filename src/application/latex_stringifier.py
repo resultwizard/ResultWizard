@@ -8,6 +8,7 @@ class LatexStringifier(Stringifier):
     We assume the result to already be correctly rounded at this point.
     """
 
+    # pylint: disable=duplicate-code
     plus_minus = r"\pm"
     negative_sign = "-"
     positive_sign = ""
@@ -26,3 +27,4 @@ class LatexStringifier(Stringifier):
 
     unit_prefix = r" \, \unit{"
     unit_suffix = "}"
+    # pylint: enable=duplicate-code
