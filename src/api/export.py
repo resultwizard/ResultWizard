@@ -1,7 +1,8 @@
 from typing import Set
+from api.latexer import get_latexer
 from api.res import _res_cache
 import api.config as c
-from application.latex_stringifier import LatexStringifier
+from application.helpers import Helpers
 
 
 def export(filepath: str):
@@ -25,8 +26,7 @@ def export(filepath: str):
         r"",
     ]
 
-    use_fallback = c.configuration.siunitx_fallback
-    latexer = LatexStringifier(c.configuration.to_stringifier_config(), use_fallback)
+    latexer = get_latexer()
 
     uncertainty_names = set()
     result_lines = []
@@ -42,7 +42,7 @@ def export(filepath: str):
             lines.append(siunitx_setup)
             lines.append("")
 
-    lines.append("% Commands to print the results. Use them in your document")
+    lines.append("% Commands to print the results. Use them in your document.")
     lines.extend(result_lines)
 
     # Write to file
@@ -61,7 +61,7 @@ def _uncertainty_names_to_siunitx_setup(uncert_names: Set[str]) -> str:
     cmd_names = []
     cmds = []
     for name in uncert_names:
-        cmd_name = LatexStringifier.uncertainty_name_to_cmd_name(name)
+        cmd_name = f"\\Uncert{Helpers.capitalize(name)}"
         cmd_names.append(cmd_name)
         cmds.append(rf"\NewDocumentCommand{{{cmd_name}}}{{}}{{_{{\text{{{name}}}}}}}")
 

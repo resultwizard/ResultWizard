@@ -48,39 +48,62 @@ class Stringifier(Protocol):
     def __init__(self, config: StringifierConfig):
         self.config = config
 
-    # pylint: disable-next=too-many-locals
     def create_str(self, value: Value, uncertainties: List[Uncertainty], unit: str) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
 
         This string does not yet contain "\newcommand*{}".
         """
-        has_unit = unit != ""
         use_scientific_notation = self._should_use_scientific_notation(value, uncertainties)
-        should_use_parentheses = len(uncertainties) > 0 and (use_scientific_notation or has_unit)
+        should_use_parentheses = len(uncertainties) > 0 and (use_scientific_notation or unit != "")
 
         sign = self._value_to_sign_str(value)
         value_rounded, exponent, factor = self._value_to_str(value, use_scientific_notation)
+        value_rounded = f"{self.value_prefix}{value_rounded}{self.value_suffix}"
 
         uncertainties_rounded = []
         for u in uncertainties:
             u_rounded = self._uncertainty_to_str(u, use_scientific_notation, exponent, factor)
-            u_rounded = f"{self.plus_minus}{self.value_prefix}{u_rounded}{self.value_suffix}"
+            u_rounded = f" {self.plus_minus} {self.value_prefix}{u_rounded}{self.value_suffix}"
             if u.name != "":
-                u_rounded += f"{self.error_name_prefix}{u.name}{self.error_name_suffix}"
+                u_rounded += self.error_name_prefix
+                u_rounded += self._modify_uncertainty_name(u.name)
+                u_rounded += self.error_name_suffix
             uncertainties_rounded.append(u_rounded)
 
         # Assemble everything together
-        string = f"{sign}{value_rounded} {' '.join(uncertainties_rounded)}"
+        return self._assemble_str_parts(
+            sign,
+            value_rounded,
+            uncertainties_rounded,
+            should_use_parentheses,
+            use_scientific_notation,
+            exponent,
+            unit,
+        )
+
+    # pylint: disable-next=too-many-arguments
+    def _assemble_str_parts(
+        self,
+        sign: str,
+        value_rounded: str,
+        uncertainties_rounded: List[str],
+        should_use_parentheses: bool,
+        use_scientific_notation: bool,
+        exponent: int,
+        unit: str,
+    ):
+        string = f"{sign}{value_rounded}{''.join(uncertainties_rounded)}"
+
         if should_use_parentheses:
             string = f"{self.left_parenthesis}{string}{self.right_parenthesis}"
 
         if use_scientific_notation:
-            string += (
-                f"{self.scientific_notation_prefix}{str(exponent)}{self.scientific_notation_suffix}"
-            )
-        if has_unit:
-            string += f" {self.unit_prefix}{self._modify_unit(unit)}{self.unit_suffix}"
+            e = f"{self.scientific_notation_prefix}{str(exponent)}{self.scientific_notation_suffix}"
+            string += e
+
+        if unit != "":
+            string += f"{self.unit_prefix}{self._modify_unit(unit)}{self.unit_suffix}"
 
         return string
 
@@ -137,8 +160,8 @@ class Stringifier(Protocol):
         """
         return unit
 
-    def _modify_value(self, value: str) -> str:
+    def _modify_uncertainty_name(self, name: str) -> str:
         """
         Returns the modified value (as string).
         """
-        return value
+        return name

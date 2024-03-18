@@ -1,6 +1,6 @@
 from api.console_stringifier import ConsoleStringifier
 import api.config as c
-from application.latex_stringifier import LatexStringifier
+from api.latexer import get_latexer
 from domain.result import Result
 
 
@@ -20,6 +20,5 @@ class PrintableResult:
         all your results to a file, which can then be included in your LaTeX
         document.
         """
-        use_fallback = c.configuration.siunitx_fallback
-        latexer = LatexStringifier(c.configuration.to_stringifier_config(), use_fallback)
+        latexer = get_latexer()
         return latexer.result_to_latex_str(self._result)

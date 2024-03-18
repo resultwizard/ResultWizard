@@ -61,6 +61,7 @@
     // Spell Checker
     //////////////////////////////////////
     "cSpell.words": [
+        "Commandifier",
         "github",
         "ifthen",
         "ifthenelse",

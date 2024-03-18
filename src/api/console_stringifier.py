@@ -3,15 +3,15 @@ from application.stringifier import Stringifier
 
 
 class ConsoleStringifier(Stringifier):
-    plus_minus = " ± "
+    plus_minus = "±"
     negative_sign = "-"
     positive_sign = ""
 
     left_parenthesis = "("
     right_parenthesis = ")"
 
-    value_prefix = r""
-    value_suffix = r""
+    value_prefix = ""
+    value_suffix = ""
 
     error_name_prefix = " ("
     error_name_suffix = ")"
