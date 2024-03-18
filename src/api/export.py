@@ -10,6 +10,10 @@ def export(filepath: str):
     Rounds all results according to the significant figures and writes them
     to a .tex file at the given filepath.
     """
+    return _export(filepath, print_completed=True)
+
+
+def _export(filepath: str, print_completed: bool):
     results = _res_cache.get_all_results()
     print(f"Processing {len(results)} result(s)")
 
@@ -48,6 +52,7 @@ def export(filepath: str):
     # Write to file
     with open(filepath, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+    if print_completed:
         print(f'Exported to "{filepath}"')
 
 

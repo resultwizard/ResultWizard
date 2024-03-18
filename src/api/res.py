@@ -10,6 +10,9 @@ from domain.result import Result
 
 _res_cache = ResultsCache()
 
+# "Wrong" import position to avoid circular imports (export needs the _res_cache)
+from api.export import _export  # pylint: disable=wrong-import-position,ungrouped-imports
+
 
 @overload
 def res(
@@ -113,9 +116,15 @@ def res(
     Rounder.round_result(result, c.configuration.to_rounding_config())
     _res_cache.add(name_res, result)
 
+    # Print automatically
     printable_result = PrintableResult(result)
     if c.configuration.print_auto:
         printable_result.print()
+
+    # Export automatically
+    immediate_export_path = c.configuration.export_auto_to
+    if immediate_export_path != "":
+        _export(immediate_export_path, print_completed=False)
 
     return printable_result
 

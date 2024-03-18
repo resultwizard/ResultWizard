@@ -14,6 +14,12 @@ class Config:
         sigfigs (int): The number of significant figures to round to.
         decimal_places (int): The number of decimal places to round to.
         print_auto (bool): Whether to print each result directly to the console.
+        export_auto_to (str): If not empty, each `res()` call will automatically
+            export all results to the file you specify with this keyword. You can
+            still use the `export()` method to export results to other files as well.
+            This option might be particularly useful when working in a Jupyter
+            notebook. This way, you don't have to call `export()` manually each time
+            you want to export results.
         min_exponent_for_non_scientific_notation (int): The minimum exponent
             for non-scientific notation.
         max_exponent_for_non_scientific_notation (int): The maximum exponent
@@ -32,6 +38,7 @@ class Config:
     sigfigs: int
     decimal_places: int
     print_auto: bool
+    export_auto_to: str
     min_exponent_for_non_scientific_notation: int
     max_exponent_for_non_scientific_notation: int
     identifier: str
@@ -86,6 +93,7 @@ def config_init(
     sigfigs: int = -1,  # -1: "per default use rounding rules instead"
     decimal_places: int = -1,  # -1: "per default use rounding rules instead"
     print_auto: bool = False,
+    export_auto_to: str = "",
     min_exponent_for_non_scientific_notation: int = -2,
     max_exponent_for_non_scientific_notation: int = 3,
     identifier: str = "result",
@@ -99,6 +107,7 @@ def config_init(
         sigfigs,
         decimal_places,
         print_auto,
+        export_auto_to,
         min_exponent_for_non_scientific_notation,
         max_exponent_for_non_scientific_notation,
         identifier,

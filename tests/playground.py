@@ -14,8 +14,12 @@ print("### Playground")
 print("#############################")
 print()
 
-
-wiz.config_init(print_auto=True, decimal_places=3, siunitx_fallback=False)
+wiz.config_init(
+    print_auto=True,
+    export_auto_to="results-immediate.tex",
+    decimal_places=3,
+    siunitx_fallback=False,
+)
 # wiz.config(sigfigs=2)
 # wiz.config(decimal_places=2)
 
