@@ -88,7 +88,7 @@ def config_init(
     print_auto: bool = False,
     min_exponent_for_non_scientific_notation: int = -2,
     max_exponent_for_non_scientific_notation: int = 3,
-    identifier: str = "res",
+    identifier: str = "result",
     sigfigs_fallback: int = 2,
     decimal_places_fallback: int = -1,  # -1: "per default use sigfigs as fallback instead"
     siunitx_fallback: bool = False,
