@@ -36,8 +36,10 @@ class ConsoleStringifier(Stringifier):
         unit = (
             unit.replace(r"\squared", "^2")
             .replace(r"\cubed", "^3")
+            .replace("\\per\\", "/")
             .replace(r"\per", "/")
-            .replace("\\", "")
+            .replace("\\", " ")
+            .strip()
         )
 
         if unit[0] == "/":
