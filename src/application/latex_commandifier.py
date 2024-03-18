@@ -60,9 +60,8 @@ class LatexCommandifier:
         # Error message
         keywords = builder.keywords
         if len(keywords) > 0:
-            error_message = "Please specify one of the following keywords: "
+            error_message = "Use one of these keywords (or no keyword at all): "
             error_message += ", ".join([rf"\texttt{{{k}}}" for k in keywords])
-            error_message += " or don't use any keyword at all."
         else:
             error_message = "This variable can only be used without keywords."
         builder.add_else(rf"\scriptsize{{\textbf{{{error_message}}}}}")
