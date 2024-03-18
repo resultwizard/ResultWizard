@@ -1,4 +1,5 @@
 from typing import Union, List, Tuple
+from decimal import Decimal
 
 from application.helpers import Helpers
 from domain.value import Value
@@ -136,7 +137,7 @@ def parse_value(value: Union[float, int, str]) -> Value:
     if isinstance(value, int):
         value = float(value)
 
-    return Value(value)
+    return Value(Decimal(value))
 
 
 def parse_exact_value(value: str) -> Value:
@@ -152,7 +153,7 @@ def parse_exact_value(value: str) -> Value:
     else:
         min_exponent = exponent_offset
 
-    return Value(float(value), min_exponent)
+    return Value(Decimal(value), min_exponent)
 
 
 def parse_uncertainties(
@@ -202,9 +203,7 @@ def _parse_uncertainty_value(value: Union[float, int, str]) -> Value:
         check_if_number_string(value)
         return_value = parse_exact_value(value)
     else:
-        if isinstance(value, int):
-            value = float(value)
-        return_value = Value(value)
+        return_value = Value(Decimal(value))
 
     if return_value.get() <= 0:
         raise ValueError("Uncertainty must be positive.")

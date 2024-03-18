@@ -1,4 +1,5 @@
 from typing import List
+from decimal import Decimal
 
 from dataclasses import dataclass
 from domain.result import Result
@@ -104,9 +105,8 @@ class Rounder:
                 if u.uncertainty.is_exact():
                     continue
 
-                normalized_value = abs(u.uncertainty.get()) * 10 ** (
-                    -Helpers.get_exponent(u.uncertainty.get())
-                )
+                shift = Decimal(f"1e{-Helpers.get_exponent(u.uncertainty.get())}")
+                normalized_value = abs(u.uncertainty.get()) * shift
 
                 if round(normalized_value, 1) >= 3.0:
                     u.uncertainty.set_sigfigs(1)

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Tuple
 from typing import Protocol, ClassVar
+from decimal import Decimal
 
 # for why we use a Protocol instead of a ABC class, see
 # https://github.com/microsoft/pyright/issues/2601#issuecomment-977053380
@@ -111,9 +112,11 @@ class Stringifier(Protocol):
     def _value_to_sign_str(self, value: Value) -> str:
         return self.negative_sign if value.get() < 0 else self.positive_sign
 
-    def _value_to_str(self, value: Value, use_scientific_notation: bool) -> Tuple[str, int, float]:
+    def _value_to_str(
+        self, value: Value, use_scientific_notation: bool
+    ) -> Tuple[str, int, Decimal]:
         exponent = value.get_exponent()
-        factor = 10 ** (-exponent) if use_scientific_notation else 1.0
+        factor = Decimal(f"1e{-exponent}") if use_scientific_notation else Decimal("1.0")
 
         value_normalized = value.get_abs() * factor
         decimal_places = (
@@ -123,7 +126,7 @@ class Stringifier(Protocol):
         return Helpers.round_to_n_decimal_places(value_normalized, decimal_places), exponent, factor
 
     def _uncertainty_to_str(
-        self, u: Uncertainty, use_scientific_notation: bool, exponent: int, factor: float
+        self, u: Uncertainty, use_scientific_notation: bool, exponent: int, factor: Decimal
     ) -> str:
         uncertainty_normalized = u.uncertainty.get_abs() * factor
         decimal_places = (

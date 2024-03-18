@@ -1,24 +1,25 @@
 from typing import Union
+from decimal import Decimal
 
 from application.helpers import Helpers
 
 
 class Value:
     """
-    A floating-point value represented as string that is either treated as exact
-    (does not have any uncertainties) or as inexact (has uncertainties).
-    Values that are exact will be exempt from significant figures rounding.
+    A decimal value.
 
-    Note that is_exact signifies if the value is to be taken as a *literal* value,
-    i.e. "3.14000" will be output as "3.14000" and not "3.14" if is_exact is True.
+    It is either exact or inexact. Values that are set as exact
+    will be exempt form any rounding. If the value is set as exact, it will be
+    treated as a *literal* value, i.e. "3.14000" will be output as "3.14000"
+    and not "3.14".
     """
 
-    _value: float
+    _value: Decimal
     _is_exact: bool
     _max_exponent: int
     _min_exponent: int
 
-    def __init__(self, value: float, min_exponent: Union[int, None] = None):
+    def __init__(self, value: Decimal, min_exponent: Union[int, None] = None):
         self._value = value
 
         if min_exponent is not None:
@@ -41,10 +42,10 @@ class Value:
     def is_exact(self) -> bool:
         return self._is_exact
 
-    def get(self) -> float:
+    def get(self) -> Decimal:
         return self._value
 
-    def get_abs(self) -> float:
+    def get_abs(self) -> Decimal:
         return abs(self._value)
 
     def get_exponent(self) -> int:

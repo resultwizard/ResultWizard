@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Union
 from copy import copy
+from decimal import Decimal
 
 from domain.uncertainty import Uncertainty
 from domain.value import Value
@@ -29,10 +30,10 @@ class Result:
             self.total_uncertainty = None
 
     def _calculate_total_uncertainty(self) -> Uncertainty:
-        total = 0
+        total = Decimal("0")
         for u in self.uncertainties:
             total += u.uncertainty.get() ** 2
-        return Uncertainty(Value(total**0.5))
+        return Uncertainty(Value(total.sqrt()))
 
     def get_short_result(self) -> Union["Result", None]:
         if self.total_uncertainty is None:

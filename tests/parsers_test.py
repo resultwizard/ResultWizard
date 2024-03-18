@@ -1,3 +1,4 @@
+from decimal import Decimal
 import pytest
 
 from api import parsers
@@ -63,24 +64,27 @@ class TestValueParser:
         "value, expected",
         [
             # plain numbers
-            ("012", Value(12.0, min_exponent=0)),
-            ("12", Value(12.0, min_exponent=0)),
-            ("-42", Value(-42.0, min_exponent=0)),
-            ("10050", Value(10050, min_exponent=0)),
+            ("012", Value(Decimal("12.00000000000"), min_exponent=0)),
+            ("12", Value(Decimal("12.0"), min_exponent=0)),
+            ("-42", Value(Decimal("-42"), min_exponent=0)),
+            ("10050", Value(Decimal("10050"), min_exponent=0)),
             # plain numbers scientific
-            ("13e3", Value(13000.0, min_exponent=3)),
+            ("13e3", Value(Decimal("13000.0"), min_exponent=3)),
             # plain decimal
-            ("3.1415", Value(3.1415, min_exponent=-4)),
-            ("0.005", Value(0.005, min_exponent=-3)),
-            ("0.010", Value(0.01, min_exponent=-3)),
+            ("3.1415", Value(Decimal("3.1415"), min_exponent=-4)),
+            ("0.005", Value(Decimal("0.005"), min_exponent=-3)),
+            ("0.010", Value(Decimal("0.01"), min_exponent=-3)),
             # decimal & scientific
-            ("3.1415e3", Value(3141.5, min_exponent=-1)),
-            ("2.71828e2", Value(271.828, min_exponent=-3)),
-            ("2.5e-1", Value(0.25, min_exponent=-2)),
-            ("0.1e2", Value(10.0, min_exponent=1)),
-            ("1.2e5", Value(120000.0, min_exponent=4)),
-            ("1.20e5", Value(120000.0, min_exponent=3)),
-            ("103.1570e-30", Value(0.0000000000000000000000000001031570, min_exponent=-34)),
+            ("3.1415e3", Value(Decimal("3141.5"), min_exponent=-1)),
+            ("2.71828e2", Value(Decimal("271.828"), min_exponent=-3)),
+            ("2.5e-1", Value(Decimal("0.25"), min_exponent=-2)),
+            ("0.1e2", Value(Decimal("10.0"), min_exponent=1)),
+            ("1.2e5", Value(Decimal("120000.0"), min_exponent=4)),
+            ("1.20e5", Value(Decimal("120000.0"), min_exponent=3)),
+            (
+                "103.1570e-30",
+                Value(Decimal("0.0000000000000000000000000001031570"), min_exponent=-34),
+            ),
         ],
     )
     def test_parse_exact_value(self, value: str, expected: Value):

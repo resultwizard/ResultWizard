@@ -1,4 +1,5 @@
 import math
+from decimal import Decimal
 
 _NUMBER_TO_WORD = {
     0: "zero",
@@ -34,17 +35,19 @@ _NUMBER_TO_WORD = {
 
 class Helpers:
     @classmethod
-    def get_exponent(cls, value: float) -> int:
+    def get_exponent(cls, value: Decimal) -> int:
         return math.floor(math.log10(abs(value)))
 
     @classmethod
-    def get_first_digit(cls, value: float) -> int:
+    def get_first_digit(cls, value: Decimal) -> int:
         n = abs(value) * 10 ** (-cls.get_exponent(value))
         return math.floor(n)
 
     @classmethod
-    def round_to_n_decimal_places(cls, value: float, n: int):
-        return f"{value:.{int(abs(n))}f}"
+    def round_to_n_decimal_places(cls, value: Decimal, n: int) -> str:
+        decimal_compare = f"1.{'0' * abs(n)}"
+        decimal = value.quantize(Decimal(decimal_compare))
+        return str(decimal)
 
     @classmethod
     def number_to_word(cls, number: int) -> str:
