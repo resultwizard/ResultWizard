@@ -15,7 +15,9 @@ def export(filepath: str):
 
 def _export(filepath: str, print_completed: bool):
     results = _res_cache.get_all_results()
-    print(f"Processing {len(results)} result(s)")
+
+    if print_completed:
+        print(f"Processing {len(results)} result(s)")
 
     # Round and convert to LaTeX commands
     lines = [
