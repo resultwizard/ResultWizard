@@ -7,6 +7,7 @@ from api import parsers
 import api.config as c
 from application.cache import ResultsCache
 from application.rounder import Rounder
+import application.error_messages as error_messages
 from domain.result import Result
 
 _res_cache = ResultsCache()
@@ -89,20 +90,13 @@ def res(
         uncert = []
 
     if sigfigs is not None and decimal_places is not None:
-        raise ValueError(
-            "You can't set both sigfigs and decimal places at the same time. "
-            "Please choose one or the other."
-        )
+        raise ValueError(error_messages.SIGFIGS_AND_DECIMAL_PLACES_AT_SAME_TIME)
 
     if sigfigs is not None and isinstance(value, str):
-        raise ValueError(
-            "You can't set sigfigs and supply an exact value. Please do one or the other."
-        )
+        raise ValueError(error_messages.SIGFIGS_AND_EXACT_VALUE_AT_SAME_TIME)
 
     if decimal_places is not None and isinstance(value, str):
-        raise ValueError(
-            "You can't set decimal places and supply an exact value. Please do one or the other."
-        )
+        raise ValueError(error_messages.DECIMAL_PLACES_AND_EXACT_VALUE_AT_SAME_TIME)
 
     # Parse user input
     name_res = parsers.parse_name(name)

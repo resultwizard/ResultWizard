@@ -2,6 +2,7 @@ from typing import Union
 from decimal import Decimal
 
 from application.helpers import Helpers
+import application.error_messages as error_messages
 
 
 class Value:
@@ -62,5 +63,5 @@ class Value:
         if self._min_exponent is None:
             # This should not happen as `_min_exponent` should be set
             # by the time this method is called.
-            raise RuntimeError("Internal min_exponent not set error. Please report this bug.")
+            raise RuntimeError(error_messages.INTERNAL_MIN_EXPONENT_ERROR)
         return -self._min_exponent

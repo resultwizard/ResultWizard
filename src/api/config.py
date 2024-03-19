@@ -4,6 +4,7 @@ from typing import Union, cast
 from dataclasses import dataclass
 from application.stringifier import StringifierConfig
 from application.rounder import RoundingConfig
+import application.error_messages as error_messages
 
 
 @dataclass
@@ -69,28 +70,21 @@ class Config:
 
 def _check_config() -> None:
     if configuration.sigfigs > -1 and configuration.decimal_places > -1:
-        raise ValueError(
-            "You can't set both sigfigs and decimal places at the same time. "
-            "Please choose one or the other."
-        )
+        raise ValueError(error_messages.SIGFIGS_AND_DECIMAL_PLACES_AT_SAME_TIME)
 
     if configuration.sigfigs_fallback > -1 and configuration.decimal_places_fallback > -1:
-        raise ValueError(
-            "You can't set both sigfigs_fallback and decimal_places_fallback at the same time. "
-            "Please choose one or the other."
-        )
+        raise ValueError(error_messages.SIGFIGS_FALLBACK_AND_DECIMAL_PLACES_FALLBACK_AT_SAME_TIME)
 
     if configuration.sigfigs_fallback <= -1 and configuration.decimal_places_fallback <= -1:
         raise ValueError(
-            "You need to set either sigfigs_fallback or decimal_places_fallback. "
-            "Please choose one."
+            error_messages.ONE_OF_SIGFIGS_FALLBACK_AND_DECIMAL_PLACES_FALLBACK_MUST_BE_SET
         )
 
     if configuration.sigfigs == 0:
-        raise ValueError("sigfigs must be greater than 0 (or -1).")
+        raise ValueError(error_messages.CONFIG_SIGFIGS_VALID_RANGE)
 
     if configuration.sigfigs_fallback == 0:
-        raise ValueError("sigfigs_fallback must be greater than 0 (or -1).")
+        raise ValueError(error_messages.CONFIG_SIGFIGS_FALLBACK_VALID_RANGE)
 
 
 # pylint: disable-next=too-many-arguments

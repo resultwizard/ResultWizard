@@ -1,6 +1,7 @@
 from application.stringifier import Stringifier
 from application.helpers import Helpers
 from application.latex_ifelse import LatexIfElseBuilder
+import application.error_messages as error_messages
 from domain.result import Result
 
 
@@ -43,9 +44,7 @@ class LatexCommandifier:
         if len(result.uncertainties) >= 2:
             short_result = result.get_short_result()
             if short_result is None:
-                raise RuntimeError(
-                    "Short result is None, but there should be at least two uncertainties."
-                )
+                raise RuntimeError(error_messages.SHORT_RESULT_IS_NONE)
             error_latex_str = self.s.create_str(
                 short_result.uncertainties[0].uncertainty, [], result.unit
             )

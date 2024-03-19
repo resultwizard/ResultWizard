@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from domain.result import Result
 from domain.uncertainty import Uncertainty
 from application.helpers import Helpers
+import application.error_messages as error_messages
 
 
 @dataclass
@@ -128,7 +129,7 @@ class Rounder:
         else:
             # This branch cannot be reached, because the config makes sure that
             # either`sigfigs_fallback` or `decimal_places_fallback` is set.
-            raise RuntimeError("Internal rounder hierarchy error. Please report this bug.")
+            raise RuntimeError(error_messages.INTERNAL_ROUNDER_HIERARCHY_ERROR)
 
     @classmethod
     def _uncertainties_set_min_exponents(

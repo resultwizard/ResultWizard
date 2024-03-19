@@ -2,6 +2,8 @@ import math
 import decimal
 from decimal import Decimal
 
+import application.error_messages as error_messages
+
 _NUMBER_TO_WORD = {
     0: "zero",
     1: "one",
@@ -50,11 +52,7 @@ class Helpers:
             decimal_value = value.quantize(Decimal(f"1.{'0' * n}"))
             return f"{decimal_value:.{n}f}"
         except decimal.InvalidOperation as exc:
-            raise ValueError(
-                "Your precision is set too low to be able to process the given value without any"
-                + " loss of precision. Set a higher precision via: `wiz.config_init"
-                + "(precision=<a-high-enough-number>)`."
-            ) from exc
+            raise ValueError(error_messages.PRECISION_TOO_LOW) from exc
 
     @classmethod
     def number_to_word(cls, number: int) -> str:
@@ -73,7 +71,7 @@ class Helpers:
                 return _NUMBER_TO_WORD[hundreds] + "Hundred"
             return _NUMBER_TO_WORD[hundreds] + "Hundred" + cls.capitalize(cls.number_to_word(tens))
 
-        raise ValueError(f"For variable names, only use numbers between 0 and 999. Got {number}.")
+        raise ValueError(error_messages.NUMBER_TO_WORD_TOO_HIGH.format(number=number))
 
     @classmethod
     def capitalize(cls, s: str) -> str:
