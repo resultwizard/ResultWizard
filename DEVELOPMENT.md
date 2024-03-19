@@ -66,3 +66,15 @@ Also try adding `import pytest` as first line of a test file. Does it give you a
 Note that tests are also run on every commit via a GitHub action.
 
 In order to learn how to write the tests with pytest, start with the [`Get Started` guide](https://docs.pytest.org/en/8.0.x/getting-started.html#create-your-first-test). Probably also relevant: ["How to use fixtures"](https://docs.pytest.org/en/8.0.x/how-to/fixtures.html). There are lots of [How-to guides](https://docs.pytest.org/en/8.0.x/how-to/index.html) available.
+
+
+## Release to PyPI
+
+To release a new version to [PyPI](https://pypi.org/project/resultwizard/), do the following:
+
+- Create a PR that is going to get merged into `main`. Name it "Continuous Release <version number, e.g. 1.0.0-alpha.42>".
+- Make sure all tests pass and review the PR. Merge it into `main` via a *Merge commit*
+<br>(from `dev` to `main` always via *Merge commit*, not *Rebase* or *Squash and merge*).
+- On `main`, create a new release on GitHub. In this process (via the GitHub UI), create a new tag named "v<version number>", e.g. "v1.0.0-alpha.42".
+- The tag creation will trigger a GitHub action that builds and uploads the package to PyPI. As this action uses a special "release" environment, code owners have to approve this step.
+- Make sure the new version is available on PyPI [here](https://pypi.org/project/resultwizard/).
