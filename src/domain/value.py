@@ -43,7 +43,7 @@ class Value:
             # Check if the value is too small to be rounded to the specified number of decimal
             # places:
             rounded = Helpers.round_to_n_decimal_places(self._value, -min_exponent)
-            if float(rounded) == 0 and self._value != 0:
+            if Decimal(rounded) == 0 and self._value != 0:
                 raise DecimalPlacesError()
 
     def get_min_exponent(self) -> int:
