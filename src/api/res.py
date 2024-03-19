@@ -59,8 +59,8 @@ def res(
 def res(
     name: str,
     value: Union[float, int, str, Decimal],
-    sys: float,
-    stat: float,
+    sys: Union[float, Decimal],
+    stat: Union[float, Decimal],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,

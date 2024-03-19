@@ -46,6 +46,7 @@ wiz.res("g", 42)
 wiz.res("h", 42, 13.0, 24.0)
 wiz.res("h&", 42, 13.0, 24.0)
 wiz.res("i", Decimal("42.0e-30"), Decimal("0.1e-31"), r"\m")
+wiz.res("i", Decimal("42.0e-30"), Decimal("0.1e-31"), Decimal("0.05e-31"), r"\m\per\s\squared")
 
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()
 # g: (1.0 ± 0.01 sys ± 0.02 stat) \mm
