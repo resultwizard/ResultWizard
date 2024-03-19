@@ -32,6 +32,10 @@ class Value:
 
     def set_min_exponent(self, min_exponent: int):
         self._min_exponent = min_exponent
+        if min_exponent > self._max_exponent:
+            self._max_exponent = min_exponent
+            # TODO: Raise a warning here? However, a warning should be raised on application level
+            # rather than here.
 
     def get_min_exponent(self) -> int:
         return self._min_exponent

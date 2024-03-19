@@ -47,8 +47,8 @@ class Helpers:
     @classmethod
     def round_to_n_decimal_places(cls, value: Decimal, n: int) -> str:
         try:
-            decimal_value = value.quantize(Decimal(f"1.{'0' * abs(n)}"))
-            return f"{decimal_value:.{abs(n)}f}"
+            decimal_value = value.quantize(Decimal(f"1.{'0' * n}"))
+            return f"{decimal_value:.{n}f}"
         except decimal.InvalidOperation as exc:
             raise ValueError(
                 "Your precision is set too low to be able to process the given value without any"
