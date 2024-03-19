@@ -140,30 +140,13 @@ def config(
     sigfigs_fallback: Union[int, None] = None,
     decimal_places_fallback: Union[int, None] = None,
 ):
-    if sigfigs is not None and sigfigs > -1 and decimal_places is not None and decimal_places > -1:
-        raise ValueError(
-            "You can't set both sigfigs and decimal places at the same time. "
-            "Please choose one or the other."
-        )
-
-    if (
-        sigfigs_fallback is not None
-        and sigfigs_fallback > -1
-        and decimal_places_fallback is not None
-        and decimal_places_fallback > -1
-    ):
-        raise ValueError(
-            "You can't set both sigfigs_fallback and decimal_places_fallback at the same time. "
-            "Please choose one or the other."
-        )
-
     if sigfigs is not None:
         configuration.sigfigs = sigfigs
-        if sigfigs > -1:
+        if sigfigs > -1 and decimal_places is None:
             configuration.decimal_places = -1
     if decimal_places is not None:
         configuration.decimal_places = decimal_places
-        if decimal_places > -1:
+        if decimal_places > -1 and sigfigs is None:
             configuration.sigfigs = -1
 
     if print_auto is not None:
@@ -171,11 +154,11 @@ def config(
 
     if sigfigs_fallback is not None:
         configuration.sigfigs_fallback = sigfigs_fallback
-        if sigfigs_fallback > -1:
+        if sigfigs_fallback > -1 and decimal_places_fallback is None:
             configuration.decimal_places_fallback = -1
     if decimal_places_fallback is not None:
         configuration.decimal_places_fallback = decimal_places_fallback
-        if decimal_places_fallback > -1:
+        if decimal_places_fallback > -1 and sigfigs_fallback is None:
             configuration.sigfigs_fallback = -1
 
     _check_config()
