@@ -47,6 +47,9 @@ NUMBER_TO_WORD_TOO_HIGH = "For variable names, only use numbers between 0 and 99
 SHORT_RESULT_IS_NONE = "Short result is None, but there should be at least two uncertainties."
 INTERNAL_ROUNDER_HIERARCHY_ERROR = "Internal rounder hierarchy error. Please report this bug."
 INTERNAL_MIN_EXPONENT_ERROR = "Internal min_exponent not set error. Please report this bug."
+ROUND_TO_NEGATIVE_DECIMAL_PLACES = (
+    "Internal rounding to negative decimal places. Please report this bug."
+)
 
 # Warnings:
 INVALID_CHARS_IGNORED = "Invalid characters in name were ignored: {chars}"

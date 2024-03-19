@@ -50,6 +50,9 @@ class Helpers:
 
     @classmethod
     def round_to_n_decimal_places(cls, value: Decimal, n: int) -> str:
+        if n < 0:
+            raise RuntimeError(error_messages.ROUND_TO_NEGATIVE_DECIMAL_PLACES)
+
         try:
             decimal_value = value.quantize(Decimal(f"1.{'0' * n}"))
             return f"{decimal_value:.{n}f}"
