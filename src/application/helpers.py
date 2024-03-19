@@ -2,7 +2,7 @@ import math
 import decimal
 from decimal import Decimal
 
-import application.error_messages as error_messages
+from application import error_messages
 
 _NUMBER_TO_WORD = {
     0: "zero",

@@ -2,7 +2,7 @@ from typing import Union
 from decimal import Decimal
 
 from application.helpers import Helpers
-import application.error_messages as error_messages
+from application import error_messages
 
 
 class DecimalPlacesError(Exception):

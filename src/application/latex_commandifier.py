@@ -1,7 +1,7 @@
 from application.stringifier import Stringifier
 from application.helpers import Helpers
 from application.latex_ifelse import LatexIfElseBuilder
-import application.error_messages as error_messages
+from application import error_messages
 from domain.result import Result
 
 

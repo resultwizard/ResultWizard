@@ -6,7 +6,7 @@ from domain.result import Result
 from domain.uncertainty import Uncertainty
 from domain.value import Value, DecimalPlacesError
 from application.helpers import Helpers
-import application.error_messages as error_messages
+from application import error_messages
 
 
 @dataclass

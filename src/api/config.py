@@ -4,7 +4,7 @@ from typing import Union, cast
 from dataclasses import dataclass
 from application.stringifier import StringifierConfig
 from application.rounder import RoundingConfig
-import application.error_messages as error_messages
+from application import error_messages
 
 
 @dataclass

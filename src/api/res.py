@@ -7,7 +7,7 @@ from api import parsers
 import api.config as c
 from application.cache import ResultsCache
 from application.rounder import Rounder
-import application.error_messages as error_messages
+from application import error_messages
 from domain.result import Result
 
 _res_cache = ResultsCache()
