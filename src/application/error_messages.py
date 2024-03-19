@@ -50,3 +50,7 @@ INTERNAL_MIN_EXPONENT_ERROR = "Internal min_exponent not set error. Please repor
 
 # Warnings:
 INVALID_CHARS_IGNORED = "Invalid characters in name were ignored: {chars}"
+NUM_OF_DECIMAL_PLACES_TOO_LOW = (
+    "Warning: At least one of the specified values is out of range of the specified "
+    "number of decimal places. Thus, the exported value will be 0."
+)

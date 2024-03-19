@@ -39,6 +39,8 @@ _NUMBER_TO_WORD = {
 class Helpers:
     @classmethod
     def get_exponent(cls, value: Decimal) -> int:
+        if value == 0:
+            return 0
         return math.floor(math.log10(abs(value)))
 
     @classmethod

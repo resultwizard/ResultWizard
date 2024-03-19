@@ -5,6 +5,10 @@ from application.helpers import Helpers
 import application.error_messages as error_messages
 
 
+class DecimalPlacesError(Exception):
+    pass
+
+
 class Value:
     """
     A decimal value.
@@ -35,8 +39,12 @@ class Value:
         self._min_exponent = min_exponent
         if min_exponent > self._max_exponent:
             self._max_exponent = min_exponent
-            # TODO: Raise a warning here? However, a warning should be raised on application level
-            # rather than here.
+
+            # Check if the value is too small to be rounded to the specified number of decimal
+            # places:
+            rounded = Helpers.round_to_n_decimal_places(self._value, -min_exponent)
+            if float(rounded) == 0 and self._value != 0:
+                raise DecimalPlacesError()
 
     def get_min_exponent(self) -> int:
         return self._min_exponent
