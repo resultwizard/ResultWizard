@@ -51,7 +51,9 @@ class Helpers:
             return f"{decimal_value:.{abs(n)}f}"
         except decimal.InvalidOperation as exc:
             raise ValueError(
-                "Your precision is set too low to be able to process the given value without any loss of precision. Set a higher precision via: `wiz.config_init(precision=<a-high-enough-number>)`."
+                "Your precision is set too low to be able to process the given value without any"
+                + " loss of precision. Set a higher precision via: `wiz.config_init"
+                + "(precision=<a-high-enough-number>)`."
             ) from exc
 
     @classmethod
