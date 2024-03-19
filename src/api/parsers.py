@@ -125,17 +125,14 @@ def parse_decimal_places(decimal_places: Union[int, None]) -> Union[int, None]:
     return decimal_places
 
 
-def parse_value(value: Union[float, int, str]) -> Value:
+def parse_value(value: Union[float, int, str, Decimal]) -> Value:
     """Converts the value to a _Value object."""
-    if not isinstance(value, (float, int, str)):
-        raise TypeError(f"`value` must be a float, int or string, not {type(value)}")
+    if not isinstance(value, (float, int, str, Decimal)):
+        raise TypeError(f"`value` must be a float, int, Decimal or string, not {type(value)}")
 
     if isinstance(value, str):
         check_if_number_string(value)
         return parse_exact_value(value)
-
-    if isinstance(value, int):
-        value = float(value)
 
     return Value(Decimal(value))
 
@@ -161,28 +158,27 @@ def parse_uncertainties(
         float,
         int,
         str,
-        Tuple[Union[float, int, str], str],
-        List[Union[float, str, Tuple[Union[float, int, str], str]]],
+        Decimal,
+        Tuple[Union[float, int, str, Decimal], str],
+        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
     ]
 ) -> List[Uncertainty]:
     """Converts the uncertainties to a list of _Uncertainty objects."""
     uncertainties_res = []
 
     # no list, but a single value was given
-    if isinstance(uncertainties, (float, int, str, Tuple)):
+    if isinstance(uncertainties, (float, int, str, Decimal, Tuple)):
         uncertainties = [uncertainties]
 
-    assert isinstance(uncertainties, List)
-
     for uncert in uncertainties:
-        if isinstance(uncert, (float, int, str)):
+        if isinstance(uncert, (float, int, str, Decimal)):
             uncertainties_res.append(Uncertainty(_parse_uncertainty_value(uncert)))
 
         elif isinstance(uncert, Tuple):
-            if not isinstance(uncert[0], (float, int, str)):
+            if not isinstance(uncert[0], (float, int, str, Decimal)):
                 raise TypeError(
                     "First argument of uncertainty-tuple must be a float,"
-                    + f" int or a string, not {type(uncert[0])}"
+                    + f" int, Decimal or a string, not {type(uncert[0])}"
                 )
             uncertainties_res.append(
                 Uncertainty(_parse_uncertainty_value(uncert[0]), parse_name(uncert[1]))
@@ -196,7 +192,7 @@ def parse_uncertainties(
     return uncertainties_res
 
 
-def _parse_uncertainty_value(value: Union[float, int, str]) -> Value:
+def _parse_uncertainty_value(value: Union[float, int, str, Decimal]) -> Value:
     """Parses the value of an uncertainty."""
 
     if isinstance(value, str):

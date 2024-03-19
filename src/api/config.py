@@ -1,3 +1,4 @@
+import decimal
 from typing import Union, cast
 
 from dataclasses import dataclass
@@ -33,6 +34,9 @@ class Config:
         siunitx_fallback (bool): Whether to use a fallback logic such that LaTeX
             commands still work with an older version of siunitx. See
             the docs for more information: TODO.
+        precision (int): The precision to use for the decimal module. Defaults to
+            40 in ResultsWizard. You may have to increase this if you get the error
+            "Your precision is set too low".
     """
 
     sigfigs: int
@@ -45,6 +49,7 @@ class Config:
     sigfigs_fallback: int
     decimal_places_fallback: int
     siunitx_fallback: bool
+    precision: int
 
     def to_stringifier_config(self) -> StringifierConfig:
         return StringifierConfig(
@@ -100,8 +105,12 @@ def config_init(
     sigfigs_fallback: int = 2,
     decimal_places_fallback: int = -1,  # -1: "per default use sigfigs as fallback instead"
     siunitx_fallback: bool = False,
+    precision: int = 100,
 ) -> None:
     global configuration  # pylint: disable=global-statement
+
+    decimal.DefaultContext.prec = precision
+    decimal.setcontext(decimal.DefaultContext)
 
     configuration = Config(
         sigfigs,
@@ -114,6 +123,7 @@ def config_init(
         sigfigs_fallback,
         decimal_places_fallback,
         siunitx_fallback,
+        precision,
     )
 
     _check_config()

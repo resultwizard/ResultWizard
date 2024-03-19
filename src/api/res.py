@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Union, List, Tuple
 from plum import dispatch, overload
 
@@ -17,7 +18,7 @@ from api.export import _export  # pylint: disable=wrong-import-position,ungroupe
 @overload
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
@@ -28,12 +29,13 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     uncert: Union[
         float,
         str,
-        Tuple[Union[float, int, str], str],
-        List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
+        Decimal,
+        Tuple[Union[float, int, str, Decimal], str],
+        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
         None,
     ] = None,
     sigfigs: Union[int, None] = None,
@@ -45,7 +47,7 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
@@ -56,7 +58,7 @@ def res(
 # pylint: disable=too-many-arguments
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     sys: float,
     stat: float,
     unit: str = "",
@@ -70,12 +72,13 @@ def res(
 # pylint: disable=too-many-arguments
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     uncert: Union[
         float,
         str,
-        Tuple[Union[float, int, str], str],
-        List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
+        Decimal,
+        Tuple[Union[float, int, str, Decimal], str],
+        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
         None,
     ] = None,
     unit: str = "",

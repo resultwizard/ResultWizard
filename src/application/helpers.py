@@ -1,4 +1,5 @@
 import math
+import decimal
 from decimal import Decimal
 
 _NUMBER_TO_WORD = {
@@ -45,9 +46,13 @@ class Helpers:
 
     @classmethod
     def round_to_n_decimal_places(cls, value: Decimal, n: int) -> str:
-        decimal_compare = f"1.{'0' * abs(n)}"
-        decimal = value.quantize(Decimal(decimal_compare))
-        return str(decimal)
+        try:
+            decimal_value = value.quantize(Decimal(f"1.{'0' * abs(n)}"))
+            return f"{decimal_value:.{abs(n)}f}"
+        except decimal.InvalidOperation as exc:
+            raise ValueError(
+                "Your precision is set too low to be able to process the given value without any loss of precision. Set a higher precision via: `wiz.config_init(precision=<a-high-enough-number>)`."
+            ) from exc
 
     @classmethod
     def number_to_word(cls, number: int) -> str:
