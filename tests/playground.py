@@ -51,6 +51,10 @@ wiz.res("i", Decimal("42.0e-30"), Decimal("0.1e-31"), Decimal("0.05e-31"), r"\m\
 wiz.res("j", 0.009, None, None, 2)
 # wiz.res("k", 1.55, 0.0, r"\tesla")  # -> uncertainty must be positive
 
+# wiz.res("k", 3, 1, r"\tesla")  # -> plum: Could not be resolved
+# TODO: Find out if one can adjust the plum.resolver.NotFoundLookupError such that
+# we can give better hints, e.g. "you cannot pass in value and uncertainty as integers"
+
 # wiz.res("g", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()
 # g: (1.0 ± 0.01 sys ± 0.02 stat) \mm
 # TODO: Why does this not work?

@@ -14,8 +14,10 @@
 - how to use the unit string. explain that strings from `siunitx` can be passed in, e.g. `\cm \per \N` etc. Explain how python raw strings can help, e.g. `r"\cm \per \N"` instead of having to do `\\cm` etc. all the time. However, `r'\\tesla'` will fail as the double backslash is treated a raw string and not as an escape character. Use `r'\tesla'` instead.
 - possible ways to print a result. Recommended: activate `print_auto`. Other way: call `print()` on result object. Users can also call `resVariable.to_latex_str()` to retrieve the LaTeX representation. This can be useful to plot the result in a matplotlib figure, e.g. the fit parameter of a curve fit.
 - Suggest some good initial configuration for Jupyter notebook, e.g. `print_auto=True` and `ignore_result_overwrite=True`.
+- Naming: we call it "uncertainty". Give a hint that others might also call it "error" interchangeably.
 
 ## Other
 
 - Setup issue template and contribution guide. Clean up `DEVELOPMENT.md`.
 - Long-term: Ask real users what they really need in the scientific day-to-day life, see [here](https://github.com/paul019/ResultWizard/issues/9).
+- If user enters an uncertainty of `0.0`, don't just issue warning "Uncertainty must be positive", but also give a hint that the user might want to use a different caller syntax for `res` which does not even have the uncertainty as argument.
