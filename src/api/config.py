@@ -1,7 +1,8 @@
 import decimal
 from typing import Union, cast
-
 from dataclasses import dataclass
+
+from api.res import _res_cache
 from application.stringifier import StringifierConfig
 from application.rounder import RoundingConfig
 from application import error_messages
@@ -38,6 +39,11 @@ class Config:
         precision (int): The precision to use for the decimal module. Defaults to
             40 in ResultsWizard. You may have to increase this if you get the error
             "Your precision is set too low".
+        ignore_result_overwrite (bool): If True, you won't get any warnings if you
+            overwrite a result with the same name. Defaults to False. This option
+            might be useful for Jupyter notebooks when you want to re-run cells
+            without getting any warnings that a result with the same name already
+            exists.
     """
 
     sigfigs: int
@@ -51,6 +57,7 @@ class Config:
     decimal_places_fallback: int
     siunitx_fallback: bool
     precision: int
+    ignore_result_overwrite: bool
 
     def to_stringifier_config(self) -> StringifierConfig:
         return StringifierConfig(
@@ -100,6 +107,7 @@ def config_init(
     decimal_places_fallback: int = -1,  # -1: "per default use sigfigs as fallback instead"
     siunitx_fallback: bool = False,
     precision: int = 100,
+    ignore_result_overwrite: bool = False,
 ) -> None:
     global configuration  # pylint: disable=global-statement
 
@@ -118,7 +126,10 @@ def config_init(
         decimal_places_fallback,
         siunitx_fallback,
         precision,
+        ignore_result_overwrite,
     )
+
+    _res_cache.configure(not ignore_result_overwrite)
 
     _check_config()
 

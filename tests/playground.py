@@ -18,6 +18,7 @@ wiz.config_init(
     print_auto=True,
     export_auto_to="results-immediate.tex",
     siunitx_fallback=False,
+    ignore_result_overwrite=False,
 )
 # wiz.config(sigfigs=2)
 # wiz.config(decimal_places=2)

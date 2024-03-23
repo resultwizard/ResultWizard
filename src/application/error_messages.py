@@ -57,3 +57,4 @@ NUM_OF_DECIMAL_PLACES_TOO_LOW = (
     "Warning: At least one of the specified values is out of range of the specified "
     "number of decimal places. Thus, the exported value will be 0."
 )
+RESULT_SHADOWED = "Warning: A result with the name '{name}' already exists and will be overwritten."

@@ -4,7 +4,6 @@ from plum import dispatch, overload
 
 from api.printable_result import PrintableResult
 from api import parsers
-import api.config as c
 from application.cache import ResultsCache
 from application.rounder import Rounder
 from application import error_messages
@@ -12,8 +11,9 @@ from domain.result import Result
 
 _res_cache = ResultsCache()
 
-# "Wrong" import position to avoid circular imports (export needs the _res_cache)
+# "Wrong" import position to avoid circular imports
 from api.export import _export  # pylint: disable=wrong-import-position,ungrouped-imports
+import api.config as c  # pylint: disable=wrong-import-position,ungrouped-imports
 
 
 @overload

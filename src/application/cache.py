@@ -1,3 +1,4 @@
+from application.error_messages import RESULT_SHADOWED
 from domain.result import Result
 
 
@@ -10,12 +11,15 @@ class ResultsCache:
 
     def __init__(self):
         self.cache: dict[str, Result] = {}
+        self.issue_result_overwrite_warning = True
+
+    def configure(self, issue_result_overwrite_warning: bool):
+        self.issue_result_overwrite_warning = issue_result_overwrite_warning
 
     def add(self, name, result: Result):
-        if name in self.cache:
-            print(
-                f"Warning: A result with the name '{name}' already exists and will be overwritten."
-            )
+
+        if self.issue_result_overwrite_warning and name in self.cache:
+            print(RESULT_SHADOWED.format(name=name))
 
         self.cache[name] = result
 
