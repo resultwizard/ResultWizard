@@ -11,9 +11,9 @@
 - how to pass in uncertainties. How to pass in one? What about systematic and statistical ones. What if I want to add my own name for the uncertainty? How can I control that output.
 - a list of all possible keys for `config_init` including their default values, e.g. `identifier`. In-depth explanation especially for sigfigs and decimal places and how they differ from respective fallback options
 - a hint that the output is completely customizable and that the user can change it with the `\sisetup{...}`, e.g. `\cdot` vs. `\times` for exponent, etc.
-- how to use the unit string. explain that strings from `siunitx` can be passed in, e.g. `\cm \per \N` etc.
+- how to use the unit string. explain that strings from `siunitx` can be passed in, e.g. `\cm \per \N` etc. Explain how python raw strings can help, e.g. `r"\cm \per \N"` instead of having to do `\\cm` etc. all the time. However, `r'\\tesla'` will fail as the double backslash is treated a raw string and not as an escape character. Use `r'\tesla'` instead.
 - possible ways to print a result. Recommended: activate `print_auto`. Other way: call `print()` on result object. Users can also call `resVariable.to_latex_str()` to retrieve the LaTeX representation. This can be useful to plot the result in a matplotlib figure, e.g. the fit parameter of a curve fit.
-
+- Suggest some good initial configuration for Jupyter notebook, e.g. `print_auto=True` and `ignore_result_overwrite=True`.
 
 ## Other
 
