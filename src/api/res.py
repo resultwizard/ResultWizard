@@ -1,20 +1,25 @@
+from decimal import Decimal
 from typing import Union, List, Tuple
 from plum import dispatch, overload
 
 from api.printable_result import PrintableResult
 from api import parsers
-import api.config as c
 from application.cache import ResultsCache
 from application.rounder import Rounder
+from application import error_messages
 from domain.result import Result
 
 _res_cache = ResultsCache()
+
+# "Wrong" import position to avoid circular imports
+from api.export import _export  # pylint: disable=wrong-import-position,ungrouped-imports
+import api.config as c  # pylint: disable=wrong-import-position,ungrouped-imports
 
 
 @overload
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
@@ -25,12 +30,13 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     uncert: Union[
         float,
         str,
-        Tuple[Union[float, int, str], str],
-        List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
+        Decimal,
+        Tuple[Union[float, int, str, Decimal], str],
+        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
         None,
     ] = None,
     sigfigs: Union[int, None] = None,
@@ -42,7 +48,7 @@ def res(
 @overload
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ) -> PrintableResult:
@@ -53,9 +59,9 @@ def res(
 # pylint: disable=too-many-arguments
 def res(
     name: str,
-    value: Union[float, int, str],
-    sys: float,
-    stat: float,
+    value: Union[float, int, str, Decimal],
+    sys: Union[float, Decimal],
+    stat: Union[float, Decimal],
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
@@ -67,12 +73,13 @@ def res(
 # pylint: disable=too-many-arguments
 def res(
     name: str,
-    value: Union[float, int, str],
+    value: Union[float, int, str, Decimal],
     uncert: Union[
         float,
         str,
-        Tuple[Union[float, int, str], str],
-        List[Union[float, int, str, Tuple[Union[float, int, str], str]]],
+        Decimal,
+        Tuple[Union[float, int, str, Decimal], str],
+        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
         None,
     ] = None,
     unit: str = "",
@@ -83,20 +90,13 @@ def res(
         uncert = []
 
     if sigfigs is not None and decimal_places is not None:
-        raise ValueError(
-            "You can't set both sigfigs and decimal places at the same time. "
-            "Please choose one or the other."
-        )
+        raise ValueError(error_messages.SIGFIGS_AND_DECIMAL_PLACES_AT_SAME_TIME)
 
     if sigfigs is not None and isinstance(value, str):
-        raise ValueError(
-            "You can't set sigfigs and supply an exact value. Please do one or the other."
-        )
+        raise ValueError(error_messages.SIGFIGS_AND_EXACT_VALUE_AT_SAME_TIME)
 
     if decimal_places is not None and isinstance(value, str):
-        raise ValueError(
-            "You can't set decimal places and supply an exact value. Please do one or the other."
-        )
+        raise ValueError(error_messages.DECIMAL_PLACES_AND_EXACT_VALUE_AT_SAME_TIME)
 
     # Parse user input
     name_res = parsers.parse_name(name)
@@ -113,9 +113,15 @@ def res(
     Rounder.round_result(result, c.configuration.to_rounding_config())
     _res_cache.add(name_res, result)
 
+    # Print automatically
     printable_result = PrintableResult(result)
     if c.configuration.print_auto:
         printable_result.print()
+
+    # Export automatically
+    immediate_export_path = c.configuration.export_auto_to
+    if immediate_export_path != "":
+        _export(immediate_export_path, print_completed=False)
 
     return printable_result
 

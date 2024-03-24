@@ -1,24 +1,30 @@
 from typing import Union
+from decimal import Decimal
 
 from application.helpers import Helpers
+from application import error_messages
+
+
+class DecimalPlacesError(Exception):
+    pass
 
 
 class Value:
     """
-    A floating-point value represented as string that is either treated as exact
-    (does not have any uncertainties) or as inexact (has uncertainties).
-    Values that are exact will be exempt from significant figures rounding.
+    A decimal value.
 
-    Note that is_exact signifies if the value is to be taken as a *literal* value,
-    i.e. "3.14000" will be output as "3.14000" and not "3.14" if is_exact is True.
+    It is either exact or inexact. Values that are set as exact
+    will be exempt form any rounding. If the value is set as exact, it will be
+    treated as a *literal* value, i.e. "3.14000" will be output as "3.14000"
+    and not "3.14".
     """
 
-    _value: float
+    _value: Decimal
     _is_exact: bool
     _max_exponent: int
     _min_exponent: int
 
-    def __init__(self, value: float, min_exponent: Union[int, None] = None):
+    def __init__(self, value: Decimal, min_exponent: Union[int, None] = None):
         self._value = value
 
         if min_exponent is not None:
@@ -31,6 +37,14 @@ class Value:
 
     def set_min_exponent(self, min_exponent: int):
         self._min_exponent = min_exponent
+        if min_exponent > self._max_exponent:
+            self._max_exponent = min_exponent
+
+            # Check if the value is too small to be rounded to the specified number of decimal
+            # places:
+            rounded = Helpers.round_to_n_decimal_places(self._value, -min_exponent)
+            if Decimal(rounded) == 0 and self._value != 0:
+                raise DecimalPlacesError()
 
     def get_min_exponent(self) -> int:
         return self._min_exponent
@@ -41,10 +55,10 @@ class Value:
     def is_exact(self) -> bool:
         return self._is_exact
 
-    def get(self) -> float:
+    def get(self) -> Decimal:
         return self._value
 
-    def get_abs(self) -> float:
+    def get_abs(self) -> Decimal:
         return abs(self._value)
 
     def get_exponent(self) -> int:
@@ -57,5 +71,5 @@ class Value:
         if self._min_exponent is None:
             # This should not happen as `_min_exponent` should be set
             # by the time this method is called.
-            raise RuntimeError("Internal min_exponent not set error. Please report this bug.")
+            raise RuntimeError(error_messages.INTERNAL_MIN_EXPONENT_ERROR)
         return -self._min_exponent

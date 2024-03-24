@@ -1,6 +1,8 @@
 from typing import Union, List, Tuple
+from decimal import Decimal
 
 from application.helpers import Helpers
+from application import error_messages
 from domain.value import Value
 from domain.uncertainty import Uncertainty
 
@@ -10,16 +12,16 @@ def check_if_number_string(value: str) -> None:
     try:
         float(value)
     except ValueError as exc:
-        raise ValueError(f"String value must be a valid number, not {value}") from exc
+        raise ValueError(error_messages.STRING_MUST_BE_NUMBER.format(value)) from exc
 
 
 def parse_name(name: str) -> str:
     """Parses the name."""
     if not isinstance(name, str):
-        raise TypeError(f"`name` must be a string, not {type(name)}")
+        raise TypeError(error_messages.FIELD_MUST_BE_STRING.format(field="`name`", type=type(name)))
 
     if name == "":
-        raise ValueError("`name` must not be empty")
+        raise ValueError(error_messages.FIELD_MUST_NOT_BE_EMPTY.format(field="`name`"))
 
     name = (
         name.replace("ä", "ae")
@@ -64,10 +66,10 @@ def parse_name(name: str) -> str:
         name = name[1:]
 
     if len(ignored_chars) > 0:
-        print(f"Invalid characters in name were ignored: {', '.join(ignored_chars)}")
+        print(error_messages.INVALID_CHARS_IGNORED.format(chars=", ".join(ignored_chars)))
 
     if parsed_name == "":
-        raise ValueError("After ignoring invalid characters, the specified name is empty.")
+        raise ValueError(error_messages.STRING_EMPTY_AFTER_IGNORING_INVALID_CHARS)
 
     return parsed_name
 
@@ -86,7 +88,7 @@ def _greedily_count_digits_at_start_of_str(word: str) -> int:
 def parse_unit(unit: str) -> str:
     """Parses the unit."""
     if not isinstance(unit, str):
-        raise TypeError(f"`unit` must be a string, not {type(unit)}")
+        raise TypeError(error_messages.FIELD_MUST_BE_STRING.format(field="`unit`", type=type(unit)))
 
     # TODO: maybe add some basic checks to catch siunitx errors, e.g.
     # unsupported symbols etc. But maybe leave this to LaTeX and just return
@@ -102,10 +104,12 @@ def parse_sigfigs(sigfigs: Union[int, None]) -> Union[int, None]:
         return None
 
     if not isinstance(sigfigs, int):
-        raise TypeError(f"`sigfigs` must be an int, not {type(sigfigs)}")
+        raise TypeError(
+            error_messages.FIELD_MUST_BE_INT.format(field="`sigfigs`", type=type(sigfigs))
+        )
 
     if sigfigs < 1:
-        raise ValueError("`sigfigs` must be positive")
+        raise ValueError(error_messages.FIELD_MUST_BE_POSITIVE.format(field="`sigfigs`"))
 
     return sigfigs
 
@@ -116,27 +120,28 @@ def parse_decimal_places(decimal_places: Union[int, None]) -> Union[int, None]:
         return None
 
     if not isinstance(decimal_places, int):
-        raise TypeError(f"`decimal_places` must be an int, not {type(decimal_places)}")
+        raise TypeError(
+            error_messages.FIELD_MUST_BE_INT.format(
+                field="`decimal_places`", type=type(decimal_places)
+            )
+        )
 
     if decimal_places < 0:
-        raise ValueError("`decimal_places` must be non-negative")
+        raise ValueError(error_messages.FIELD_MUST_BE_NON_NEGATIVE.format(field="`decimal_places`"))
 
     return decimal_places
 
 
-def parse_value(value: Union[float, int, str]) -> Value:
+def parse_value(value: Union[float, int, str, Decimal]) -> Value:
     """Converts the value to a _Value object."""
-    if not isinstance(value, (float, int, str)):
-        raise TypeError(f"`value` must be a float, int or string, not {type(value)}")
+    if not isinstance(value, (float, int, str, Decimal)):
+        raise TypeError(error_messages.VALUE_TYPE.format(field="`value`", type=type(value)))
 
     if isinstance(value, str):
         check_if_number_string(value)
         return parse_exact_value(value)
 
-    if isinstance(value, int):
-        value = float(value)
-
-    return Value(value)
+    return Value(Decimal(value))
 
 
 def parse_exact_value(value: str) -> Value:
@@ -152,7 +157,7 @@ def parse_exact_value(value: str) -> Value:
     else:
         min_exponent = exponent_offset
 
-    return Value(float(value), min_exponent)
+    return Value(Decimal(value), min_exponent)
 
 
 def parse_uncertainties(
@@ -160,28 +165,28 @@ def parse_uncertainties(
         float,
         int,
         str,
-        Tuple[Union[float, int, str], str],
-        List[Union[float, str, Tuple[Union[float, int, str], str]]],
+        Decimal,
+        Tuple[Union[float, int, str, Decimal], str],
+        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
     ]
 ) -> List[Uncertainty]:
     """Converts the uncertainties to a list of _Uncertainty objects."""
     uncertainties_res = []
 
     # no list, but a single value was given
-    if isinstance(uncertainties, (float, int, str, Tuple)):
+    if isinstance(uncertainties, (float, int, str, Decimal, Tuple)):
         uncertainties = [uncertainties]
 
-    assert isinstance(uncertainties, List)
-
     for uncert in uncertainties:
-        if isinstance(uncert, (float, int, str)):
+        if isinstance(uncert, (float, int, str, Decimal)):
             uncertainties_res.append(Uncertainty(_parse_uncertainty_value(uncert)))
 
         elif isinstance(uncert, Tuple):
-            if not isinstance(uncert[0], (float, int, str)):
+            if not isinstance(uncert[0], (float, int, str, Decimal)):
                 raise TypeError(
-                    "First argument of uncertainty-tuple must be a float,"
-                    + f" int or a string, not {type(uncert[0])}"
+                    error_messages.VALUE_TYPE.format(
+                        field="First argument of uncertainty-tuple", type=type(uncert[0])
+                    )
                 )
             uncertainties_res.append(
                 Uncertainty(_parse_uncertainty_value(uncert[0]), parse_name(uncert[1]))
@@ -189,24 +194,22 @@ def parse_uncertainties(
 
         else:
             raise TypeError(
-                f"Each uncertainty must be a tuple or a float/int/str, not {type(uncert)}"
+                error_messages.UNCERTAINTIES_MUST_BE_TUPLES_OR.format(type=type(uncert))
             )
 
     return uncertainties_res
 
 
-def _parse_uncertainty_value(value: Union[float, int, str]) -> Value:
+def _parse_uncertainty_value(value: Union[float, int, str, Decimal]) -> Value:
     """Parses the value of an uncertainty."""
 
     if isinstance(value, str):
         check_if_number_string(value)
         return_value = parse_exact_value(value)
     else:
-        if isinstance(value, int):
-            value = float(value)
-        return_value = Value(value)
+        return_value = Value(Decimal(value))
 
     if return_value.get() <= 0:
-        raise ValueError("Uncertainty must be positive.")
+        raise ValueError(error_messages.FIELD_MUST_BE_POSITIVE.format(field="Uncertainty"))
 
     return return_value

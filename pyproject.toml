@@ -12,7 +12,7 @@ namespaces = true
 
 [project]
 name = "resultwizard"
-version = "0.1"
+version = "1.0.0-alpha.2"
 authors = [
     { name = "Paul Obernolte (paul019)" },
     { name = "Dominic Plein (Splines)" },
@@ -30,7 +30,6 @@ keywords = [
 ]
 readme = "README.md"
 requires-python = ">=3.8"
-license = { file = "LICENSE" }
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -39,6 +38,7 @@ classifiers = [
     "Topic :: Text Processing :: Markup :: LaTeX",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",

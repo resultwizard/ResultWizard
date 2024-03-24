@@ -6,11 +6,11 @@
   </div>
 </div>
 
-> [!important]  
+> **Warning ⚠**
 > ResultWizard is currently fully functional but still in its *alpha* stage. We're happy to receive your feedback. Basic usage is as follows. A more comprehensive documentation will be available as soon as the package is stable.
 
 
-## Installation & usage
+## Installation & basic usage
 Install the package via pip.
 
 ```sh
@@ -28,19 +28,29 @@ wiz.config_init(print_auto=True)
 value = 42.0
 uncertainty = 3.14
 wiz.res("length atom", value, uncertainty, r"\per\mm\cubed")
+# There are many more ways to call wiz.res(...), try to use
+# IntelliSense in your IDE to see all possibilities.
+# A more in-depth documentation will follow in next releases.
 
-wiz.export("results.tex")
+# Export the result to a LaTeX file. Provide a path as string
+# where the file should be saved.
+wiz.export("./results.tex")
 ```
 
-Then add the following line to your LaTeX document right before `\begin{document}`:
+Now add the following line to your LaTeX document right before `\begin{document}`:
 
+```latex
+% assuming that `results.tex` is located in the same directory
+% as your LaTeX document
+\input{./results.tex}
+
+\begin{document}
+...
 ```
-\input{results.tex}
-```
 
-Note that `ResultWizard` requires the following LaTeX packages: [`siunitx`](https://ctan.org/pkg/siunitx) and [`ifthen`](https://ctan.org/pkg/ifthen). They are imported in the `results.tex` file via `\usepackage{...}` statements. The package `ifthen` is always presented in a LaTeX distribution. You may have to install the `siunitx` package, which is a widely used package in the scientific community to typeset units, e.g. you can use strings like `\kg\per\cm`.
+Note that `ResultWizard` requires the following LaTeX packages: [`siunitx`](https://ctan.org/pkg/siunitx) and [`ifthen`](https://ctan.org/pkg/ifthen). They are imported in the `results.tex` file via `\usepackage{...}` statements. The package `ifthen` is always present in a LaTeX distribution. You may have to install the `siunitx` package, which is a widely used package in the scientific community to typeset units, e.g. you can use strings like `\kg\per\cm`.
 
-You can now go ahead and reference the variable in your LaTeX document in any math environment, e.g.:
+You can now go ahead and **use the variable in your LaTeX document** in any math environment, e.g.:
 
 ```latex
 \begin{align}
@@ -48,7 +58,7 @@ You can now go ahead and reference the variable in your LaTeX document in any ma
 \end{align}
 ```
 
-You can also only use a specific part of the result, e.g. the unit, the value itself etc.
+You can also only use a specific part of the result, e.g. the unit, the value itself etc. (try to use a random key like `\resLengthAtom[x]` and compile your LaTeX document to see more options).
 
 ```latex
 \begin{align}
@@ -56,13 +66,20 @@ You can also only use a specific part of the result, e.g. the unit, the value it
 \end{align}
 ```
 
+---
+
+If your LaTeX document does not compile, try to set
+
+```python
+wiz.config_init(siunitx_fallback=True)
+```
+
+in your `ResultWizard` configuration. If the LaTeX document compiles after this, you have an older version of `siunitx` installed. We recommend to upgrade the package to at least version `v3.1.0` to be able to fully customize the output of the result in your LaTeX document via `\sisetup{...}`. See the troubleshooting section down below for more information.
+
 
 ## Troubleshooting: LaTeX doesn't build
 
 If your LaTeX document doesn't build, there might be several reasons. Try to find out what's wrong by looking at the log file of your LaTeX compiler (sometimes you have to scroll way up to find the error responsible for the failing build). Also open the `results.tex` file to see if your editor/IDE shows any errors there. You might encounter one of the following errors:
-
-> [!WARNING] 
-> This troubleshooting section does not yet apply to the first alpha release of `ResultWizard`. It's just here for one of the next alpha versions.
 
 <details>
 

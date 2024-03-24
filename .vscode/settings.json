@@ -61,6 +61,8 @@
     // Spell Checker
     //////////////////////////////////////
     "cSpell.words": [
+        "Commandifier",
+        "getcontext",
         "github",
         "ifthen",
         "ifthenelse",
@@ -69,12 +71,14 @@
         "newcommand",
         "normalsize",
         "pipenv",
+        "prec",
         "pydantic",
         "pylint",
         "pytest",
         "resultwizard",
         "scriptsize",
         "scriptstyle",
+        "setcontext",
         "sigfigs",
         "siunitx",
         "Stringifier",
