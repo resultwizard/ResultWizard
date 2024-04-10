@@ -45,7 +45,7 @@ In a nutshell, export any variables from Python including possible uncertainties
 # Your Python code
 import resultwizard as wiz
 wiz.res("Tour Eiffel Height", 330.0, 0.5, "\m")
-wiz.res("g", 9.81, 0.01, "\m/\s^2")
+wiz.res("g", 9.81, 0.78, "\m/\s^2")
 wiz.export("./results.tex")
 ```
 
@@ -64,10 +64,15 @@ Then, you can reference the variables in your LaTeX document:
 % Your LaTeX document
 This allowed us to calculate the acceleration due to gravity $g$ as
 \begin{align}
-    g &= \resG
+    g &= \resultG
 \end{align}
-Therefore, the height of the Eiffel Tower is given by $h = \resTourEiffelHeight$.
+Therefore, the height of the Eiffel Tower is given by $h = \resultTourEiffelHeight$.
 ```
+
+It will render as follows:
+
+![result rendered in LaTeX](https://github.com/resultwizard/ResultWizard/assets/37160523/88f91e0d-62f9-4648-9afd-cf856a290d52)
+
 
 That's the gist of `ResultWizard`. Of course, there are many more features and customizations available.
 
