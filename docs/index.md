@@ -16,10 +16,6 @@ between Python code & your LaTeX work.
 <!-- Intelligent interface between Python-computed values<br>and your LaTeX work. -->
 {: .fs-6 .fw-300 }
 
-```
-pip install resultwizard
-```
-
 {% capture intro_link %}{{ site.baseurl }}{% link pages/quickstart.md %}{% endcapture %}
 [Quickstart]({{intro_link}}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [Source Code (GitHub)](https://github.com/resultwizard/ResultWizard){: .btn .fs-5 .mb-4 .mb-md-0 }
@@ -28,7 +24,8 @@ pip install resultwizard
 
 {: .warning }
 ResultWizard is currently fully functional but still in its **alpha stage**, i.e. the API might change. We're happy to receive your feedback until the first stable release.
-<br>Please report any issues on [GitHub](https://github.com/resultwizard/ResultWizard/issues). To get the latest alpha version, you have to install it via `pip install resultwizard==1.0.0a2` (otherwise you end up using the older version `0.1`).
+<br>Please report any issues on [GitHub](https://github.com/resultwizard/ResultWizard/issues). To get the latest alpha version, you have to install it via
+<br>`pip install resultwizard==1.0.0a2` (otherwise you end up using the older version `0.1`).
 
 ---
 
@@ -44,7 +41,7 @@ In a nutshell, export any variables from Python including possible uncertainties
 ```py
 # Your Python code
 import resultwizard as wiz
-wiz.res("Tour Eiffel Height", 330.0, 0.5, "\m")
+wiz.res("Tour Eiffel Height", 330.362019, 0.5, "\m")
 wiz.res("g", 9.81, 0.78, "\m/\s^2")
 wiz.export("./results.tex")
 ```
@@ -71,7 +68,7 @@ Therefore, the height of the Eiffel Tower is given by $h = \resultTourEiffelHeig
 
 It will render as follows:
 
-![result rendered in LaTeX](https://github.com/resultwizard/ResultWizard/assets/37160523/88f91e0d-62f9-4648-9afd-cf856a290d52)
+![result rendered in LaTeX](https://github.com/resultwizard/ResultWizard/assets/37160523/d2b5fcce-fa99-4b6f-b32a-26125e5c6d9b)
 
 
 That's the gist of `ResultWizard`. Of course, there are many more features and customizations available.

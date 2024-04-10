@@ -1,0 +1,25 @@
+---
+layout: default
+title: Troubleshooting
+permalink: trouble
+---
+
+# Troubleshooting
+{: .no_toc }
+
+<details open markdown="block">
+  <summary>
+    Content
+  </summary>
+  {: .text-delta }
+
+- TOC
+{:toc}
+
+</details>
+
+{: .warning}
+This page is currently in construction.
+
+
+## siunitx todo

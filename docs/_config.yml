@@ -10,6 +10,22 @@ aux_links:
   GitHub: https://github.com/resultwizard/ResultWizard
   PyPI: https://pypi.org/project/resultwizard/
 
+collections:
+  api:
+    permalink: "/:collection/:path/"
+    output: true
+  tips:
+    permalink: "/:collection/:path/"
+    output: true
+just_the_docs:
+  collections:
+    api:
+      name: API Reference
+      nav_fold: false
+    tips:
+      name: Tips/Guides
+      nav_fold: false
+
 enable_copy_code_button: true
 
 color_scheme: resultwizard-colors
@@ -18,3 +34,7 @@ callouts:
     title: Warning
     color: resultwizard-warning-purple
     opacity: 0.1
+  tldr:
+    title: TL;DR
+    color: resultwizard-tldr
+    opacity: 0.15
