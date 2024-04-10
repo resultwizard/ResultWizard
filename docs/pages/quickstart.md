@@ -160,6 +160,7 @@ It will render as follows (given respective values for `g` and `Tour Eiffel Heig
 
 If you set up your IDE or your LaTeX editor properly, you can use IntelliSense (`Ctrl + Space`) here as well to see all available results, e.g. type `\resultTo`. Changing the value in Python and re-exporting will automatically update the value in your LaTeX document[^2].
 
+<p id="latex-subset-syntax"/>
 Also try out the following syntax:
 
 ```latex

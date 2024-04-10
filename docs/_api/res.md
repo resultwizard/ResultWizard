@@ -107,6 +107,14 @@ plt.rc('text.latex', preamble=r"""
               per-mode=symbol, separate-uncertainty=true}""")
 ```
 
+
+
+## Tips
+
+You might need a variable in your LaTeX document multiple times: in one place _with_ a unit and in another one _without_ a unit (or uncertainty etc.). Don't define the result twice in this case.
+Instead, call `wiz.res()` once and pass in everything you know about your result, e.g. value, unit, uncertainties. Then use `$$\resultMyVariableName[withoutUnit]$$` or `$$\resultMyVariableName[unit]$$` etc. in the LaTeX document to only use a specific part of the result. See the [quickstart](/quickstart#latex-subset-syntax) for more information.
+
+
 ---
 
 [^1]: For the technically interested: we use [`plum`] to achieve this "multiple dispatch" in Python. Natively, Python does not allow for method overloading, a concept you might know from other programming languages like Java.
