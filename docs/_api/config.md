@@ -7,7 +7,7 @@ nav_order: 1
 # `wiz.config_init` & `wiz.config()`
 {: .no_toc }
 
-<details open markdown="block">
+<details markdown="block">
   <summary>
     Content
   </summary>

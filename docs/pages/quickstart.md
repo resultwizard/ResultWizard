@@ -101,7 +101,7 @@ wiz.export("./results.tex")
 
 ### 1. Declare & export variables in Python
 
-In your Python code, import `ResultWizard` and use the `wiz.res` function to declare your results. Then, export them to a LaTeX file by calling `wiz.export`. For the unit, you must use a [`siunitx`] compatible string, e.g. `\m` for meters or `\kg\per\s^2`. See the [siunitx docs](https://ftp.tu-chemnitz.de/pub/tex/macros/latex/contrib/siunitx/siunitx-code.pdf#page=31) for more information.
+In your Python code, import `ResultWizard` and use the `wiz.res` function to declare your results. Then, export them to a LaTeX file by calling `wiz.export`. For the unit, you must use a [`siunitx`] compatible string, e.g. `\m` for meters or `\kg\per\s^2`. See the [siunitx docs](https://texdoc.org/serve/siunitx/0#page=42) for more information.
 
 ```py
 import resultwizard as wiz

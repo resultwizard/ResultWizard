@@ -8,6 +8,7 @@ url: https://resultwizard.github.io/ResultWizard/
 
 aux_links:
   GitHub: https://github.com/resultwizard/ResultWizard
+  Report a bug: https://github.com/resultwizard/ResultWizard/issues
   PyPI: https://pypi.org/project/resultwizard/
 
 collections:
