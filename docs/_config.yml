@@ -1,0 +1,11 @@
+title: ResultWizard
+description: Documentation for the ResultWizard Python library.
+theme: just-the-docs
+include: ["pages"]
+
+url: https://resultwizard.github.io/ResultWizard/
+
+aux_links:
+  GitHub: https://github.com/resultwizard/ResultWizard
+
+enable_copy_code_button: true
