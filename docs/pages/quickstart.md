@@ -53,7 +53,7 @@ pip show resultwizard | grep Version
 
 ### LaTeX toolchain
 
-To compile the LaTeX document, you need a working LaTeX toolchain. If you don't have one yet, there are many guides available online for different OS, e.g. the [LaTeX project website](https://www.latex-project.org/get/).
+To compile the LaTeX document, you need a working LaTeX toolchain. If you don't have one yet, there are many guides available online for different OS, e.g. on the [LaTeX project website](https://www.latex-project.org/get/).
 - For MacOS, you might want to use [MacTex](https://www.tug.org/mactex/).
 - For Windows, we recommend [MikTex](https://miktex.org/).
 - For Linux (Ubuntu, e.g. also in WSL), we recommend [Tex Live](https://www.tug.org/texlive/)[^1]:
