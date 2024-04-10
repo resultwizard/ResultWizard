@@ -1,7 +1,7 @@
 ---
 layout: default
-title: 1 Quick Start
-permalink: quick-start
+title: Quickstart
+permalink: quickstart
 ---
 
 # 1 Quick Start
