@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Precision
-nav_order: 2
+nav_order: 3
 ---
 
 # Precision

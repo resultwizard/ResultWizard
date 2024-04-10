@@ -7,7 +7,7 @@ nav_order: 2
 # `siunitx` Configuration
 {: .no_toc }
 
-<details open markdown="block">
+<details markdown="block">
   <summary>
     Content
   </summary>
