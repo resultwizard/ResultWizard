@@ -30,7 +30,7 @@ jobs:
       run:
         working-directory: docs
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Ruby
