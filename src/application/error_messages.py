@@ -18,6 +18,10 @@ SIGFIGS_AND_EXACT_VALUE_AT_SAME_TIME = (
 DECIMAL_PLACES_AND_EXACT_VALUE_AT_SAME_TIME = (
     "You can't set decimal places and supply an exact value. Please do one or the other."
 )
+UNCERT_AND_SYS_STAT_AT_SAME_TIME = (
+    "You can't set uncertainties and systematic/statistical uncertainties at the same time. "
+    "Please provide either the `uncert` param or the `sys`/`stat` params."
+)
 
 # Parser error messages (generic)
 STRING_MUST_BE_NUMBER = "String value must be a valid number, not {value}"
@@ -34,6 +38,9 @@ STRING_EMPTY_AFTER_IGNORING_INVALID_CHARS = (
 VALUE_TYPE = "{field} must be a float, int, Decimal or string, not {type}"
 UNCERTAINTIES_MUST_BE_TUPLES_OR = (
     "Each uncertainty must be a tuple or a float/int/Decimal/str, not {type}"
+)
+UNIT_NOT_PASSED_AS_KEYWORD_ARGUMENT = (
+    "Could it be the case you provided a unit but forgot `unit=` in front of it?"
 )
 
 # Helpers:
