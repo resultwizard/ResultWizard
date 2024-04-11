@@ -37,6 +37,7 @@ class ConsoleStringifier(Stringifier):
             unit.replace(" ", "")
             .replace(r"\squared", "^2")
             .replace(r"\cubed", "^3")
+            .replace("\\percent", "\\%")
             .replace("\\per\\", "/")
             .replace(r"\per", "/")
             .replace("\\", " ")
