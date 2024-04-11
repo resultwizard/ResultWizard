@@ -12,7 +12,7 @@ def check_if_number_string(value: str) -> None:
     try:
         float(value)
     except ValueError as exc:
-        raise ValueError(error_messages.STRING_MUST_BE_NUMBER.format(value)) from exc
+        raise ValueError(error_messages.STRING_MUST_BE_NUMBER.format(value=value)) from exc
 
 
 def parse_name(name: str) -> str:

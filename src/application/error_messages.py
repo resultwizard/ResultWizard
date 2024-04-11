@@ -25,8 +25,8 @@ UNCERT_AND_SYS_STAT_AT_SAME_TIME = (
 
 # Parser error messages (generic)
 STRING_MUST_BE_NUMBER = "String value must be a valid number, not {value}"
-FIELD_MUST_BE_STRING = "{field} must be a string, not {type}}"
-FIELD_MUST_BE_INT = "{field} must be an int, not {type}}"
+FIELD_MUST_BE_STRING = "{field} must be a string, not {type}"
+FIELD_MUST_BE_INT = "{field} must be an int, not {type}"
 FIELD_MUST_NOT_BE_EMPTY = "{field} must not be empty"
 FIELD_MUST_BE_POSITIVE = "{field} must be positive"
 FIELD_MUST_BE_NON_NEGATIVE = "{field} must be non-negative"
