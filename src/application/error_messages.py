@@ -43,14 +43,14 @@ UNIT_NOT_PASSED_AS_KEYWORD_ARGUMENT = (
     "Could it be the case you provided a unit but forgot `unit=` in front of it?"
 )
 
-# Helpers:
+# Helpers
 PRECISION_TOO_LOW = (
     "Your precision is set too low to be able to process the given value without any loss of "
     "precision. Set a higher precision via: `wiz.config_init (precision=<a-high-enough-number>)`."
 )
 NUMBER_TO_WORD_TOO_HIGH = "For variable names, only use numbers between 0 and 999. Got {number}."
 
-# Runtime errors:
+# Runtime errors
 SHORT_RESULT_IS_NONE = "Short result is None, but there should be at least two uncertainties."
 INTERNAL_ROUNDER_HIERARCHY_ERROR = "Internal rounder hierarchy error. Please report this bug."
 INTERNAL_MIN_EXPONENT_ERROR = "Internal min_exponent not set error. Please report this bug."
@@ -58,7 +58,7 @@ ROUND_TO_NEGATIVE_DECIMAL_PLACES = (
     "Internal rounding to negative decimal places. Please report this bug."
 )
 
-# Warnings:
+# Warnings
 INVALID_CHARS_IGNORED = "Invalid characters in name were ignored: {chars}"
 NUM_OF_DECIMAL_PLACES_TOO_LOW = (
     "Warning: At least one of the specified values is out of range of the specified "
