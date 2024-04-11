@@ -1,3 +1,4 @@
+import re
 from domain.result import Result
 from application.stringifier import Stringifier
 
@@ -33,18 +34,61 @@ class ConsoleStringifier(Stringifier):
         """
         Returns the modified unit.
         """
-        unit = (
-            unit.replace(" ", "")
-            .replace(r"\squared", "^2")
-            .replace(r"\cubed", "^3")
-            .replace("\\percent", "\\%")
-            .replace("\\per\\", "/")
-            .replace(r"\per", "/")
-            .replace("\\", " ")
-            .strip()
-        )
 
-        if unit[0] == "/":
-            unit = f"1{unit}"
+        # Detect "\squared" etc.:
+        unit = unit.replace(r"\squared", "^2").replace(r"\cubed", "^3")
+        unit = re.sub(r"(\s+)\^", "^", unit)
+
+        # Detect special units:
+        unit = unit.replace(r"\percent", r"\%").replace(r"\degree", "°")
+
+        # Detect "/":
+        unit = unit.replace("/", " / ")
+
+        # Iterate over unit parts:
+        unit_parts = re.split(r"\\|\s", unit)
+        numerator_parts = []
+        denominator_parts = []
+        is_next_part_in_denominator = False
+
+        for unit_part in unit_parts:
+            # Skip empty parts:
+            if unit_part == "":
+                continue
+
+            # If next part is a denominator part:
+            if unit_part == "/" or unit_part == "per":
+                is_next_part_in_denominator = True
+                continue
+
+            # Add part to numerator or denominator:
+            if is_next_part_in_denominator:
+                denominator_parts.append(unit_part)
+                is_next_part_in_denominator = False
+            else:
+                numerator_parts.append(unit_part)
+
+        # Assemble unit:
+        unit = ""
+
+        # Handle empty unit:
+        if len(numerator_parts) == 0 and len(denominator_parts) == 0:
+            return ""
+
+        # Numerator:
+        if len(numerator_parts) == 0:
+            unit += "1"
+        elif len(numerator_parts) == 1 or len(denominator_parts) == 0:
+            unit += " ".join(numerator_parts)
+        else:
+            unit += f"({' '.join(numerator_parts)})"
+
+        # Denominator:
+        if len(denominator_parts) > 0:
+            unit += "/"
+            if len(denominator_parts) == 1:
+                unit += denominator_parts[0]
+            else:
+                unit += f"({' '.join(denominator_parts)})"
 
         return unit
