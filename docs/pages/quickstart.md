@@ -30,6 +30,10 @@ nav_order: 2
 
 Ideally, you'd have a folder structure where `code` (or `python` or `src` or whatever) and `thesis` (or `latex` or `document` or whatever) are folders on the same level. See also the [wiz.export() API](/api/export).
 
+Ideally, you also have used the [`siunitx`] LaTeX package beforehand to know how to format units, e.g. `\m\per\s^2`. But don't worry if you haven't, you can still use `ResultWizard` and learn about `siunitx` along the way. You might also want to check out the [siunitx configuration](/tips/siunitx) page.
+
+
+
 ## 💻 Installation & prerequisites
 
 {: .tldr }

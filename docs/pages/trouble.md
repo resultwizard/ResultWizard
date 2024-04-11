@@ -2,6 +2,7 @@
 layout: default
 title: Troubleshooting
 permalink: trouble
+nav_order: 3
 ---
 
 # Troubleshooting
