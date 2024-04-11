@@ -8,6 +8,17 @@ nav_order: 4
 # About
 {: .no_toc }
 
+<details open markdown="block">
+  <summary>
+    Content
+  </summary>
+  {: .text-delta }
+
+- TOC
+{:toc}
+
+</details>
+
 
 ## Little bit of history
 This project started out at the end of 2023 under the name `python2latex` when [*Paul Obernolte*](https://github.com/paul019) was working on reports for the practical parts of the physics curriculum at the University of Heidelberg. In these reports, experimental data was processed in Python and many results had to be included in LaTeX. The manual copy-paste process was error-prone and took too much time, so he started this project. Originally, it just consisted of one single file, that got the job done.
