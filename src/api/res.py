@@ -33,6 +33,15 @@ def res(
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
 ):
+    """
+    Declares your result. Give it a name and a value. You may also optionally provide
+    uncertainties (via `uncert` or `sys`/`stat`) and a unit in `siunitx` format.
+
+    You may additionally specify the number of significant figures or decimal places
+    to round this specific result to, irrespective of your global configuration.
+
+    TODO: provide a link to the docs for more information and examples.
+    """
     # Verify user input
     if sigfigs is not None and decimal_places is not None:
         raise ValueError(error_messages.SIGFIGS_AND_DECIMAL_PLACES_AT_SAME_TIME)
