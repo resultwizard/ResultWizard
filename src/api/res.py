@@ -71,6 +71,7 @@ def res(
 
 @overload
 # pylint: disable=too-many-arguments
+# pylint: disable=redefined-builtin
 def res(
     name: str,
     value: Union[float, int, str, Decimal],
@@ -85,6 +86,7 @@ def res(
     unit: str = "",
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
+    print: Union[bool, None] = None,
 ) -> PrintableResult:
     if uncert is None:
         uncert = []
@@ -115,7 +117,7 @@ def res(
 
     # Print automatically
     printable_result = PrintableResult(result)
-    if c.configuration.print_auto:
+    if (c.configuration.print_auto and print is not False) or print is True:
         printable_result.print()
 
     # Export automatically
