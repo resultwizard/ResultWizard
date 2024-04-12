@@ -34,10 +34,8 @@ class ConsoleStringifier(Stringifier):
         Returns the modified unit.
         """
         unit = (
-            unit.replace(" ", "")
-            .replace(r"\squared", "^2")
+            unit.replace(r"\squared", "^2")
             .replace(r"\cubed", "^3")
-            .replace("\\percent", "\\%")
             .replace("\\per\\", "/")
             .replace(r"\per", "/")
             .replace("\\", " ")
