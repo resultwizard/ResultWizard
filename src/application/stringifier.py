@@ -77,6 +77,7 @@ class Stringifier(Protocol):
         return self._assemble_str_parts(
             sign,
             value_rounded,
+            uncertainties,
             uncertainties_rounded,
             should_use_parentheses,
             use_scientific_notation,
@@ -89,6 +90,7 @@ class Stringifier(Protocol):
         self,
         sign: str,
         value_rounded: str,
+        uncertainties: List[Uncertainty],
         uncertainties_rounded: List[str],
         should_use_parentheses: bool,
         use_scientific_notation: bool,

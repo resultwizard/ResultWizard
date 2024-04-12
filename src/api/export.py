@@ -1,8 +1,5 @@
-from typing import Set
 from api.latexer import get_latexer
 from api.res import _res_cache
-import api.config as c
-from application.helpers import Helpers
 
 
 def export(filepath: str):
@@ -41,13 +38,6 @@ def _export(filepath: str, print_completed: bool):
         result_str = latexer.result_to_latex_cmd(result)
         result_lines.append(result_str)
 
-    if not c.configuration.siunitx_fallback:
-        siunitx_setup = _uncertainty_names_to_siunitx_setup(uncertainty_names)
-        if siunitx_setup != "":
-            lines.append("% Commands to correctly print the uncertainties in siunitx:")
-            lines.append(siunitx_setup)
-            lines.append("")
-
     lines.append("% Commands to print the results. Use them in your document.")
     lines.extend(result_lines)
 
@@ -56,24 +46,3 @@ def _export(filepath: str, print_completed: bool):
         f.write("\n".join(lines))
     if print_completed:
         print(f'Exported to "{filepath}"')
-
-
-def _uncertainty_names_to_siunitx_setup(uncert_names: Set[str]) -> str:
-    """
-    Returns the preamble for the LaTeX document to use the siunitx package.
-    """
-    if len(uncert_names) == 0:
-        return ""
-
-    cmd_names = []
-    cmds = []
-    for name in uncert_names:
-        cmd_name = f"\\Uncert{Helpers.capitalize(name)}"
-        cmd_names.append(cmd_name)
-        cmds.append(rf"\NewDocumentCommand{{{cmd_name}}}{{}}{{_{{\text{{{name}}}}}}}")
-
-    string = "\n".join(cmds)
-    string += "\n"
-    string += rf"\sisetup{{input-digits=0123456789{''.join(cmd_names)}}}"
-
-    return string
