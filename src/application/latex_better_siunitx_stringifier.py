@@ -33,7 +33,7 @@ class LatexBetterSiunitxStringifier(Stringifier):
     unit_suffix = ""
     # pylint: enable=duplicate-code
 
-    def _modify_uncertainty_name(self, name) -> str:
+    def _modify_uncertainty_name(self, _name) -> str:
         return ""
 
     # pylint: disable-next=too-many-arguments
@@ -43,7 +43,7 @@ class LatexBetterSiunitxStringifier(Stringifier):
         value_rounded: str,
         uncertainties: List[Uncertainty],
         uncertainties_rounded: List[str],
-        should_use_parentheses: bool,
+        _should_use_parentheses: bool,
         use_scientific_notation: bool,
         exponent: int,
         unit: str,
