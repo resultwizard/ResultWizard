@@ -57,7 +57,7 @@ class ConsoleStringifier(Stringifier):
                 continue
 
             # If next part is a denominator part:
-            if unit_part == "/" or unit_part == "per":
+            if unit_part in ("/", "per"):
                 is_next_part_in_denominator = True
                 continue
 
