@@ -28,7 +28,7 @@ class LatexCommandifier:
 
         # Without error
         if len(result.uncertainties) > 0:
-            builder.add_branch("withoutUncert", self.result_to_latex_str_without_uncert(result))
+            builder.add_branch("withoutError", self.result_to_latex_str_without_error(result))
 
         # Single uncertainties
         for i, u in enumerate(result.uncertainties):
@@ -82,7 +82,7 @@ class LatexCommandifier:
         """
         return self.s.create_str(result.value, [], "")
 
-    def result_to_latex_str_without_uncert(self, result: Result) -> str:
+    def result_to_latex_str_without_error(self, result: Result) -> str:
         """
         Returns the result without error as LaTeX string making use of the siunitx package.
         """
