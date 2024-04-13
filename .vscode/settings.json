@@ -20,7 +20,8 @@
     "testExplorer.codeLens": true,
     "testExplorer.errorDecorationHover": true,
     "python.testing.pytestArgs": [
-        "."
+        ".",
+        "--basetemp=${workspaceFolder}/tests/tmp/"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,

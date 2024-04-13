@@ -68,3 +68,7 @@ max-module-lines = 500
 
 [tool.black]
 line-length = 100
+
+# See: https://docs.pytest.org/en/stable/reference/reference.html#confval-pythonpath
+[tool.pytest.ini_options]
+pythonpath = "src/"
