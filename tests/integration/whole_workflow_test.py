@@ -1,4 +1,3 @@
-import json
 import re
 from pathlib import Path
 import pytest
@@ -17,7 +16,7 @@ class TestWholeWorkflow:
     def test_whole_workflow(self, output_file):
         name = "eiffeltower"
 
-        wiz.res("Tour Eiffel Height", 330.362019, 0.5, "\m")
+        wiz.res("Tour Eiffel Height", 330.362019, 0.5, r"\m")
         wiz.export(output_file.as_posix())
 
         # Actual exported text
