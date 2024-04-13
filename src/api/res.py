@@ -21,6 +21,7 @@ def res(
     value: Union[float, int, str, Decimal],
     uncert: Union[
         float,
+        int,
         str,
         Decimal,
         Tuple[Union[float, int, str, Decimal], str],
