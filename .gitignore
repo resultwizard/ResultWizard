@@ -1,8 +1,11 @@
 /test/
 */__pycache__
 __pycache__
-*.tex
 *.egg-info
+
+# Tex Files (only allowed in the tests folder)
+*.tex
+!tests/**/*.tex
 
 # Temporary files from pytest
 tests/tmp/

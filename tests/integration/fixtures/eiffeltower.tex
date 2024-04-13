@@ -1,0 +1,15 @@
+\newcommand*{\resultTourEiffelHeight}[1][]{
+    \ifthenelse{\equal{#1}{}}{
+        \qty{330.4 \pm 0.5}{\m}
+    }{\ifthenelse{\equal{#1}{value}}{
+        \num{330.4}
+    }{\ifthenelse{\equal{#1}{withoutError}}{
+        \qty{330.4}{\m}
+    }{\ifthenelse{\equal{#1}{error}}{
+        \qty{0.5}{\m}
+    }{\ifthenelse{\equal{#1}{unit}}{
+        \unit{\m}
+    }{\ifthenelse{\equal{#1}{withoutUnit}}{
+        \num{330.4 \pm 0.5}
+    }{\scriptsize{\textbf{Use one of these keywords (or no keyword at all): \texttt{value}, \texttt{withoutError}, \texttt{error}, \texttt{unit}, \texttt{withoutUnit}}}}}}}}}
+}
