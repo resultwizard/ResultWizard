@@ -5,6 +5,10 @@ import pytest
 import resultwizard as wiz
 
 
+def eiffeltower():
+    wiz.res("Tour Eiffel Height", 330.362019, 0.5, r"\m")
+
+
 class TestWholeWorkflow:
 
     @pytest.fixture
@@ -13,10 +17,9 @@ class TestWholeWorkflow:
         directory.mkdir()
         return directory / "results.tex"
 
-    def test_whole_workflow(self, output_file):
-        name = "eiffeltower"
-
-        wiz.res("Tour Eiffel Height", 330.362019, 0.5, r"\m")
+    @pytest.mark.parametrize("resCallback", [eiffeltower])
+    def test_whole_workflow(self, output_file, resCallback):
+        resCallback()
         wiz.export(output_file.as_posix())
 
         # Actual exported text
@@ -27,7 +30,8 @@ class TestWholeWorkflow:
         newcommand = matches[0]
 
         # Expected text
-        expected_file = Path("tests/integration/fixtures") / f"{name}.tex"
+        expected_file = Path("tests/integration/fixtures") / f"{resCallback.__name__}.tex"
         expected_text = expected_file.read_text()
 
+        # Compare
         assert newcommand.split() == expected_text.split()
