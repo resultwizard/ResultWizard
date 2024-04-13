@@ -17,9 +17,9 @@ class TestWholeWorkflow:
         directory.mkdir()
         return directory / "results.tex"
 
-    @pytest.mark.parametrize("resCallback", [eiffeltower])
-    def test_whole_workflow(self, output_file, resCallback):
-        resCallback()
+    @pytest.mark.parametrize("res_callback", [eiffeltower])
+    def test_whole_workflow(self, output_file, res_callback):
+        res_callback()
         wiz.export(output_file.as_posix())
 
         # Actual exported text
@@ -30,7 +30,7 @@ class TestWholeWorkflow:
         newcommand = matches[0]
 
         # Expected text
-        expected_file = Path("tests/integration/fixtures") / f"{resCallback.__name__}.tex"
+        expected_file = Path("tests/integration/fixtures") / f"{res_callback.__name__}.tex"
         expected_text = expected_file.read_text()
 
         # Compare
