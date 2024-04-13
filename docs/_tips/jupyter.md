@@ -7,7 +7,7 @@ nav_order: 1
 # Jupyter Notebook
 {: .no_toc }
 
-<details markdown="block">
+<details open markdown="block">
   <summary>
     Content
   </summary>
@@ -38,3 +38,17 @@ wiz.config_init(print_auto=True, export_auto_to="./results.tex", ignore_result_o
 Watch out if you use [`wiz.config()`](/api/config) in a Jupyter Notebook. The order of the cell execution is what matters, not where they appear in the document. E.g. you might call `wiz.config()` somewhere at the end of your notebook. Then go back to the top and execute a cell with `wiz.res()`. The configuration will be applied to this cell as well. This is an inherent limitation/feature of Jupyter Notebooks, just be aware of it.
 
 It might be useful to reset the kernel and clear all outputs from time to time. This way, you can also check if your notebook still runs as expected from top to bottom and exports the results correctly. It can also help get rid of any clutter in `results.tex`, e.g. if you have exported a variable that you deleted later on in the code. This variable will still be in `results.tex` as deleting the `wiz.res()` line in the code doesn't remove the variable from the cache.
+
+
+## Omit output from last line
+
+In interactive python environments like Jupyter Notebooks, the last line of a cell is automatically printed to the console, so you might see something like the following under a cell:
+
+```
+<api.printable_result.PrintableResult at 0x7f3fb0bab300>
+```
+
+If you don't want this, you can add a semicolon `;` at the end of the last line in the cell (also see [this StackOverflow answer](https://stackoverflow.com/a/45519070/)). This will suppress the output. For example, write this:
+```py
+wiz.res("jupyter notebook output", 5.0, 0.1, unit="\m\per\s^2");  # <-- note the semicolon here
+```
