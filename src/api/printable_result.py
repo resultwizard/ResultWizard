@@ -22,3 +22,15 @@ class PrintableResult:
         """
         latexer = get_latexer()
         return latexer.result_to_latex_str(self._result)
+
+    def __repr__(self) -> str:
+        """
+        Jupyter Notebooks automatically print a representation of the last
+        object of a cell. A semicolon ";" can be put at the end of a line
+        to suppress the printing of the output, e.g. see answer [1].
+        However, we don't want this behavior even without the semicolon,
+        that's why we return an empty string here.
+
+        [1] https://stackoverflow.com/a/45519070
+        """
+        return ""
