@@ -35,47 +35,47 @@ class ConsoleStringifier(Stringifier):
         Returns the modified unit.
         """
 
-        # Detect "\squared" etc.:
+        # Detect "\squared" etc.
         unit = unit.replace(r"\squared", "^2").replace(r"\cubed", "^3")
         unit = re.sub(r"(\s+)\^", "^", unit)
 
-        # Detect special units:
+        # Detect special units
         unit = unit.replace(r"\percent", r"\%").replace(r"\degree", "°")
 
-        # Detect "/":
+        # Detect "/"
         unit = unit.replace("/", " / ")
 
-        # Iterate over unit parts:
+        # Iterate over unit parts
         unit_parts = re.split(r"\\|\s", unit)
         numerator_parts = []
         denominator_parts = []
         is_next_part_in_denominator = False
 
         for unit_part in unit_parts:
-            # Skip empty parts:
+            # Skip empty parts
             if unit_part == "":
                 continue
 
-            # If next part is a denominator part:
+            # If next part is a denominator part
             if unit_part in ("/", "per"):
                 is_next_part_in_denominator = True
                 continue
 
-            # Add part to numerator or denominator:
+            # Add part to numerator or denominator
             if is_next_part_in_denominator:
                 denominator_parts.append(unit_part)
                 is_next_part_in_denominator = False
             else:
                 numerator_parts.append(unit_part)
 
-        # Assemble unit:
+        # Assemble unit
         unit = ""
 
-        # Handle empty unit:
+        # Handle empty unit
         if len(numerator_parts) == 0 and len(denominator_parts) == 0:
             return ""
 
-        # Numerator:
+        # Numerator
         if len(numerator_parts) == 0:
             unit += "1"
         elif len(numerator_parts) == 1 or len(denominator_parts) == 0:
@@ -83,7 +83,7 @@ class ConsoleStringifier(Stringifier):
         else:
             unit += f"({' '.join(numerator_parts)})"
 
-        # Denominator:
+        # Denominator
         if len(denominator_parts) > 0:
             unit += "/"
             if len(denominator_parts) == 1:
