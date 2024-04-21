@@ -11,10 +11,12 @@ class PrintableResult:
 
     def print(self):
         """Prints the result to the console."""
-        if not self.has_printed:
-            stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
-            print(stringifier.result_to_str(self._result))
-            self.has_printed = True
+        if self.has_printed:
+            return
+
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
+        print(stringifier.result_to_str(self._result))
+        self.has_printed = True
 
     def to_latex_str(self) -> str:
         """Converts the result to a string that can be used in LaTeX documents.
