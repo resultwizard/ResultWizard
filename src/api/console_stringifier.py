@@ -46,7 +46,7 @@ class ConsoleStringifier(Stringifier):
         unit = unit.replace("/", " / ")
 
         # Iterate over unit parts
-        unit_parts = re.split(r"\\|\s", unit)
+        unit_parts = re.split(r"[\\|\s]+", unit)
         numerator_parts = []
         denominator_parts = []
         is_next_part_in_denominator = False
