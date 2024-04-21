@@ -40,7 +40,7 @@ class ConsoleStringifier(Stringifier):
         unit = re.sub(r"(\s+)\^", "^", unit)
 
         # Detect special units
-        unit = unit.replace(r"\percent", r"\%").replace(r"\degree", "°")
+        unit = unit.replace(r"\percent", r"\%").replace(r"\degree", r"\°")
 
         # Detect "/"
         unit = unit.replace("/", " / ")
