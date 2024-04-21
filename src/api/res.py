@@ -70,9 +70,7 @@ def res(
 
 
 @overload
-# pylint: disable=too-many-arguments
-# pylint: disable=redefined-builtin
-# pylint: disable=too-many-locals
+# pylint: disable=too-many-arguments,redefined-builtin,too-many-locals
 def res(
     name: str,
     value: Union[float, int, str, Decimal],
