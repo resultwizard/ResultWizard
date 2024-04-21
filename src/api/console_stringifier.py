@@ -69,7 +69,7 @@ class ConsoleStringifier(Stringifier):
                 numerator_parts.append(unit_part)
 
         # Assemble unit
-        unit = ""
+        modified_unit = ""
 
         # Handle empty unit
         if len(numerator_parts) == 0 and len(denominator_parts) == 0:
@@ -77,18 +77,18 @@ class ConsoleStringifier(Stringifier):
 
         # Numerator
         if len(numerator_parts) == 0:
-            unit += "1"
+            modified_unit += "1"
         elif len(numerator_parts) == 1 or len(denominator_parts) == 0:
-            unit += " ".join(numerator_parts)
+            modified_unit += " ".join(numerator_parts)
         else:
-            unit += f"({' '.join(numerator_parts)})"
+            modified_unit += f"({' '.join(numerator_parts)})"
 
         # Denominator
         if len(denominator_parts) > 0:
-            unit += "/"
+            modified_unit += "/"
             if len(denominator_parts) == 1:
-                unit += denominator_parts[0]
+                modified_unit += denominator_parts[0]
             else:
-                unit += f"({' '.join(denominator_parts)})"
+                modified_unit += f"({' '.join(denominator_parts)})"
 
-        return unit
+        return modified_unit
