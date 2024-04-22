@@ -19,5 +19,5 @@
 ## Other
 
 - Setup issue template and contribution guide. Clean up `DEVELOPMENT.md`.
-- Long-term: Ask real users what they really need in the scientific day-to-day life, see [here](https://github.com/paul019/ResultWizard/issues/9).
+- Long-term: Ask real users what they really need in the scientific day-to-day life, see [here](https://github.com/resultwizard/ResultWizard/issues/9).
 - If user enters an uncertainty of `0.0`, don't just issue warning "Uncertainty must be positive", but also give a hint that the user might want to use a different caller syntax for `res` which does not even have the uncertainty as argument.

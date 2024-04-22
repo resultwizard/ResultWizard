@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/paul019/ResultWizard/assets/37160523/8576038a-3867-470b-8f42-90b60ea92042" width="120px" />
+  <img src="https://github.com/resultwizard/ResultWizard/assets/37160523/8576038a-3867-470b-8f42-90b60ea92042" width="120px" />
   <div align="center">
     <h3 align="center">ResultWizard</h3>
     <p><strong>Intelligent interface between Python-computed values and your LaTeX work</strong></p>
