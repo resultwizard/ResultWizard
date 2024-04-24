@@ -24,7 +24,7 @@ The API for `wiz.res()` is not yet finalized as of `v1.0.0a2` and might change b
 
 ## Purpose
 
-`wiz.res()` is at the heart of `ResultWizard`. With this method, you define your results, i.e. numerical values with uncertaintie(s) (optional) and a unit (optional). See the [basic usage](/quickstart#-basic-usage) for a first example.
+`wiz.res()` is at the heart of `ResultWizard`. With this method, you define your results, i.e. numerical values with uncertaintie(s) (optional) and a unit (optional). See the [basic usage]({{site.baseurl}}/quickstart#-basic-usage) for a first example.
 
 
 When we talk about a **"measurement result"**, we usually refer to these components:
@@ -80,7 +80,7 @@ wiz.res("abc", "1.2345", str(calculated_uncert)).print()
 # will print: abc = 1.2345 ± 0.063
 ```
 
-You might also use the following keyword arguments with any signature of `wiz.res()`. They will override whatever you have configured via [`config_init()` or `config()`](/api/config), but just for the specific result.
+You might also use the following keyword arguments with any signature of `wiz.res()`. They will override whatever you have configured via [`config_init()` or `config()`]({{site.baseurl}}/api/config), but just for the specific result.
 ```py
 wiz.res(name, ..., sigfigs: int = None, decimal_places: int = None)
 ```
@@ -97,7 +97,7 @@ my_latex_str = my_res.to_latex_str()
 print(my_latex_str)  # will print: \num{1.23 \pm 0.06}
 ```
 
-- `print()` will print the result to the console. If you find yourself using this a lot, consider setting the [`print_auto` config option](/api/config#print_auto) to `True`, which will automatically print the result after each call to `wiz.res()`.
+- `print()` will print the result to the console. If you find yourself using this a lot, consider setting the [`print_auto` config option]({{site.baseurl}}/api/config#print_auto) to `True`, which will automatically print the result after each call to `wiz.res()`.
 - `to_latex_str()` converts the result to a LaTeX string. This might be useful if you want to show the result as label in a `matplotlib` plot. For this to work, you have to tell `matplotlib` that you're using `siunitx` by defining the preamble in your Python script:
 ```py
 import matplotlib.pyplot as plt
@@ -112,7 +112,7 @@ plt.rc('text.latex', preamble=r"""
 ## Tips
 
 You might need a variable in your LaTeX document multiple times: in one place _with_ a unit and in another one _without_ a unit (or uncertainty etc.). Don't define the result twice in this case.
-Instead, call `wiz.res()` once and pass in everything you know about your result, e.g. value, unit, uncertainties. Then use `$$\resultMyVariableName[withoutUnit]$$` or `$$\resultMyVariableName[unit]$$` etc. in the LaTeX document to only use a specific part of the result. See the [quickstart](/quickstart#latex-subset-syntax) for more information.
+Instead, call `wiz.res()` once and pass in everything you know about your result, e.g. value, unit, uncertainties. Then use `$$\resultMyVariableName[withoutUnit]$$` or `$$\resultMyVariableName[unit]$$` etc. in the LaTeX document to only use a specific part of the result. See the [quickstart]({{site.baseurl}}/quickstart#latex-subset-syntax) for more information.
 
 
 ---

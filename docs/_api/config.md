@@ -21,7 +21,7 @@ nav_order: 1
 
 ## Purpose
 
-The methods `wiz.config_init()` and `wiz.config()` allow you to configure `ResultWizard` to your needs. Note that this mainly affects the rounding mechanism as well as convenience features. How the results are formatted in the LaTeX document is mainly controlled by the `siunitx` package and how you set it up in your LaTeX preamble. If this is what you want to configure, then you should take a look [here](/tips/siunitx).
+The methods `wiz.config_init()` and `wiz.config()` allow you to configure `ResultWizard` to your needs. Note that this mainly affects the rounding mechanism as well as convenience features. How the results are formatted in the LaTeX document is mainly controlled by the `siunitx` package and how you set it up in your LaTeX preamble. If this is what you want to configure, then you should take a look [here]({{site.baseurl}}/tips/siunitx).
 
 ## Usage
 
@@ -45,10 +45,10 @@ TODO: sort options alphabetically? Make clearer what the difference between `sig
 | `identifier` (str) | `"result"` | ✔ | | The identifier that will be used in the LaTeX document to reference the result. |
 | `print_auto` (bool) | `False` | ✔ | ✔ | If `True`, every call to `wiz.res()` will automatically print the result to the console, such that you don't have to use `.print()` on every single result. |
 | `export_auto_to` (str) | `""` | ✔ |  | If set to a path, every call to `wiz.res()` will automatically export the result to the specified file. This is especially useful for Jupyter notebooks where every execution of a cell that contains a call to `wiz.res()` will automatically export to the file. |
-| `siunitx_fallback` (bool) | `False` | ✔ | | If `True`, `ResultWizard` will use a fallback for the `siunitx` package if you have an old version installed. See [here](/trouble#package-siunitx-invalid-number) for more information. We don't recommend to use this option and instead upgrade your `siunitx` version to exploit the full power of `ResultWizard`. |
+| `siunitx_fallback` (bool) | `False` | ✔ | | If `True`, `ResultWizard` will use a fallback for the `siunitx` package if you have an old version installed. See [here]({{site.baseurl}}/trouble#package-siunitx-invalid-number) for more information. We don't recommend to use this option and instead upgrade your `siunitx` version to exploit the full power of `ResultWizard`. |
 `precision` (int) | `100` | ✔ | | The precision `ResultWizard` uses internally to handle the floating point numbers. You may have to increase this number if you encounter the error "Your precision is set too low". |
 | `ignore_result_overwrite` (bool) | `False` | ✔ | | If `True`, `ResultWizard` will not raise a warning if you overwrite a result with the same identifier. This is especially useful for Jupyter notebooks where cells are oftentimes run multiple times. |
 | `min_exponent_for_`<br>`non_scientific_notation` (int) | `-2` | ✔ | | The minimum exponent for which `ResultWizard` will use non-scientific notation. If the exponent is smaller than this value, scientific notation will be used. TODO: explain better. |
 | `max_exponent_for_`<br>`non_scientific_notation` (int) | `3` | ✔ | | The maximum exponent for which `ResultWizard` will use non-scientific notation. If the exponent is larger than this value, scientific notation will be used. TODO: explain better. |
 
-If you're using a Jupyter Notebook, you might find [this configuration](/tips/jupyter) useful.
+If you're using a Jupyter Notebook, you might find [this configuration]({{site.baseurl}}/tips/jupyter) useful.

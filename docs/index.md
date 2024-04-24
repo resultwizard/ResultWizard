@@ -16,7 +16,7 @@ between Python code & your LaTeX work.
 <!-- Intelligent interface between Python-computed values<br>and your LaTeX work. -->
 {: .fs-6 .fw-300 }
 
-{% capture intro_link %}{{ site.baseurl }}{% link pages/quickstart.md %}{% endcapture %}
+{% capture intro_link %}{% link pages/quickstart.md %}{% endcapture %}
 [Quickstart]({{intro_link}}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [Source Code (GitHub)](https://github.com/resultwizard/ResultWizard){: .btn .fs-5 .mb-4 .mb-md-0 }
 [PyPI](https://pypi.org/project/resultwizard/){: .btn .fs-5 .mb-4 .mb-md-0 }

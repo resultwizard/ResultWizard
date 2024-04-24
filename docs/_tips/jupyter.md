@@ -35,7 +35,7 @@ wiz.config_init(print_auto=True, export_auto_to="./results.tex", ignore_result_o
 
 ## Cell execution order & cache
 
-Watch out if you use [`wiz.config()`](/api/config) in a Jupyter Notebook. The order of the cell execution is what matters, not where they appear in the document. E.g. you might call `wiz.config()` somewhere at the end of your notebook. Then go back to the top and execute a cell with `wiz.res()`. The configuration will be applied to this cell as well. This is an inherent limitation/feature of Jupyter Notebooks, just be aware of it.
+Watch out if you use [`wiz.config()`]({{site.baseurl}}/api/config) in a Jupyter Notebook. The order of the cell execution is what matters, not where they appear in the document. E.g. you might call `wiz.config()` somewhere at the end of your notebook. Then go back to the top and execute a cell with `wiz.res()`. The configuration will be applied to this cell as well. This is an inherent limitation/feature of Jupyter Notebooks, just be aware of it.
 
 It might be useful to reset the kernel and clear all outputs from time to time. This way, you can also check if your notebook still runs as expected from top to bottom and exports the results correctly. It can also help get rid of any clutter in `results.tex`, e.g. if you have exported a variable that you deleted later on in the code. This variable will still be in `results.tex` as deleting the `wiz.res()` line in the code doesn't remove the variable from the cache.
 

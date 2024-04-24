@@ -19,14 +19,14 @@ nav_order: 3
 
 </details>
 
-There might be several reasons for your LaTeX document not building. **Try to find the root cause** by looking at the **log file** of your LaTeX compiler (sometimes you have to scroll way up to find the error responsible for the failing build). Also open the [exported](/api/export) `results.tex` file to see if your editor/IDE shows any errors there. You might encounter one of the following problems. Please make sure to try the solutions provided here before opening an [issue on GitHub](https://github.com/resultwizard/ResultWizard/issues).
+There might be several reasons for your LaTeX document not building. **Try to find the root cause** by looking at the **log file** of your LaTeX compiler (sometimes you have to scroll way up to find the error responsible for the failing build). Also open the [exported]({{site.baseurl}}/api/export) `results.tex` file to see if your editor/IDE shows any errors there. You might encounter one of the following problems. Please make sure to try the solutions provided here before opening an [issue on GitHub](https://github.com/resultwizard/ResultWizard/issues).
 
 
 
 ## Package siunitx: Invalid number
 
 {: .tldr}
-You have probably specified **multiple uncertainties** in `wiz.res()`, right? If this is the case and you get this error, you have an **old version of `siunitx`** installed. Please update it (recommended) or use the `siunitx_fallback` option in the [`config_init`](/api/config) method.
+You have probably specified **multiple uncertainties** in `wiz.res()`, right? If this is the case and you get this error, you have an **old version of `siunitx`** installed. Please update it (recommended) or use the `siunitx_fallback` option in the [`config_init`]({{site.baseurl}}/api/config) method.
 
 In version [`v3.1.0 (2022-04-25)`](https://github.com/josephwright/siunitx/blob/main/CHANGELOG.md#v310---2022-04-25), `siunitx` introduced "support for multiple uncertainty values in both short and long form input". We make use of this feature in `ResultWizard` when you specify multiple uncertainties for a result.
 
