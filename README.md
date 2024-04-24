@@ -8,8 +8,8 @@
 
 Annoyed of having to copy around values from Python code to your LaTeX work? Think of `ResultWizard` as an interface between the two. Export any variables from Python including possible uncertainties and their units and directly reference them in your LaTeX document.
 
-> [!Warning]  
+> **Warning ⚠**
 > ResultWizard is still in its *alpha* stage. We're happy to receive your feedback, e.g. report any bugs. But note that the API might still change before we hit the first stable release 1.0.0.
 
-> [!IMPORTANT]  
+> **📄**
 > **For installation/usage/API, refer to our [documentation](https://resultwizard.github.io/ResultWizard/).**
