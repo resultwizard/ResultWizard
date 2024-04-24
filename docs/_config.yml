@@ -1,0 +1,41 @@
+title: ResultWizard
+description: Documentation for the ResultWizard Python library.
+theme: just-the-docs
+include: ["pages"]
+logo: "https://github.com/resultwizard/ResultWizard/assets/37160523/e3ce32b9-2e41-4ddc-88e3-c1adadd305e9"
+
+url: https://resultwizard.github.io/ResultWizard/
+
+aux_links:
+  GitHub: https://github.com/resultwizard/ResultWizard
+  Report a bug: https://github.com/resultwizard/ResultWizard/issues
+  PyPI: https://pypi.org/project/resultwizard/
+
+collections:
+  api:
+    permalink: "/:collection/:path/"
+    output: true
+  tips:
+    permalink: "/:collection/:path/"
+    output: true
+just_the_docs:
+  collections:
+    api:
+      name: API Reference
+      nav_fold: false
+    tips:
+      name: Tips/Guides
+      nav_fold: false
+
+enable_copy_code_button: true
+
+color_scheme: resultwizard-colors
+callouts:
+  warning:
+    title: Warning
+    color: resultwizard-warning-purple
+    opacity: 0.1
+  tldr:
+    title: TL;DR
+    color: resultwizard-tldr
+    opacity: 0.15
