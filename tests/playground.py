@@ -47,7 +47,13 @@ wiz.res("g", 42)
 wiz.res("h", 42, 13.0, 24.0)
 wiz.res("h&", 42, 13.0, 24.0)
 wiz.res("i", Decimal("42.0e-30"), Decimal("0.1e-31"), r"\m")
-wiz.res("i", Decimal("42.0e-30"), Decimal("0.1e-31"), Decimal("0.05e-31"), r"\m\per\s\squared")
+wiz.res(
+    "i",
+    Decimal("42.0e-30"),
+    Decimal("0.1e-31"),
+    Decimal("0.05e-31"),
+    r"\m\per\s\squared\newton\per\kg",
+)
 wiz.res("j", 0.009, None, None, 2)
 # wiz.res("k", 1.55, 0.0, r"\tesla")  # -> uncertainty must be positive
 
