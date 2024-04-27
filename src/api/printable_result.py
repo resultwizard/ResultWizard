@@ -7,11 +7,16 @@ from domain.result import Result
 class PrintableResult:
     def __init__(self, result: Result):
         self._result = result
+        self.has_printed = False
 
     def print(self):
         """Prints the result to the console."""
+        if self.has_printed:
+            return
+
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         print(stringifier.result_to_str(self._result))
+        self.has_printed = True
 
     def to_latex_str(self) -> str:
         """Converts the result to a string that can be used in LaTeX documents.
