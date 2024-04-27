@@ -1,6 +1,5 @@
 from decimal import Decimal
 from typing import Union, List, Tuple
-from plum import dispatch, overload
 
 from api.printable_result import PrintableResult
 from api import parsers
@@ -16,66 +15,13 @@ from api.export import _export  # pylint: disable=wrong-import-position,ungroupe
 import api.config as c  # pylint: disable=wrong-import-position,ungrouped-imports
 
 
-@overload
-def res(
-    name: str,
-    value: Union[float, int, str, Decimal],
-    unit: str = "",
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, [], unit, sigfigs, decimal_places)
-
-
-@overload
+# pylint: disable-next=too-many-arguments, too-many-locals
 def res(
     name: str,
     value: Union[float, int, str, Decimal],
     uncert: Union[
         float,
-        str,
-        Decimal,
-        Tuple[Union[float, int, str, Decimal], str],
-        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
-        None,
-    ] = None,
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, uncert, "", sigfigs, decimal_places)
-
-
-@overload
-def res(
-    name: str,
-    value: Union[float, int, str, Decimal],
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, [], "", sigfigs, decimal_places)
-
-
-@overload
-# pylint: disable=too-many-arguments
-def res(
-    name: str,
-    value: Union[float, int, str, Decimal],
-    sys: Union[float, Decimal],
-    stat: Union[float, Decimal],
-    unit: str = "",
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    return res(name, value, [(sys, "sys"), (stat, "stat")], unit, sigfigs, decimal_places)
-
-
-@overload
-# pylint: disable=too-many-arguments
-def res(
-    name: str,
-    value: Union[float, int, str, Decimal],
-    uncert: Union[
-        float,
+        int,
         str,
         Decimal,
         Tuple[Union[float, int, str, Decimal], str],
@@ -83,12 +29,21 @@ def res(
         None,
     ] = None,
     unit: str = "",
+    sys: Union[float, int, str, Decimal, None] = None,
+    stat: Union[float, int, str, Decimal, None] = None,
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-) -> PrintableResult:
-    if uncert is None:
-        uncert = []
+):
+    """
+    Declares your result. Give it a name and a value. You may also optionally provide
+    uncertainties (via `uncert` or `sys`/`stat`) and a unit in `siunitx` format.
 
+    You may additionally specify the number of significant figures or decimal places
+    to round this specific result to, irrespective of your global configuration.
+
+    TODO: provide a link to the docs for more information and examples.
+    """
+    # Verify user input
     if sigfigs is not None and decimal_places is not None:
         raise ValueError(error_messages.SIGFIGS_AND_DECIMAL_PLACES_AT_SAME_TIME)
 
@@ -97,6 +52,20 @@ def res(
 
     if decimal_places is not None and isinstance(value, str):
         raise ValueError(error_messages.DECIMAL_PLACES_AND_EXACT_VALUE_AT_SAME_TIME)
+
+    sys_or_stat_specified = sys is not None or stat is not None
+    if uncert is not None and sys_or_stat_specified:
+        raise ValueError(error_messages.UNCERT_AND_SYS_STAT_AT_SAME_TIME)
+
+    if sys_or_stat_specified:
+        uncert = []
+        if sys is not None:
+            uncert.append((sys, "sys"))
+        if stat is not None:
+            uncert.append((stat, "stat"))
+
+    if uncert is None:
+        uncert = []
 
     # Parse user input
     name_res = parsers.parse_name(name)
@@ -124,13 +93,3 @@ def res(
         _export(immediate_export_path, print_completed=False)
 
     return printable_result
-
-
-# Hack for method "overloading" in Python
-# see https://beartype.github.io/plum/integration.html
-# This is a good writeup: https://stackoverflow.com/a/29091980/
-@dispatch
-def res(*args, **kwargs) -> object:  # pylint: disable=unused-argument
-    # This method only scans for all `overload`-decorated methods
-    # and properly adds them as Plum methods.
-    pass
