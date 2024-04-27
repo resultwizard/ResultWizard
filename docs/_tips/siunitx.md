@@ -23,7 +23,7 @@ nav_order: 2
 
 The [`siunitx`] package offers a wide range of options to configure the formatting of numbers and units in LaTeX. In the exported `results.tex` file, we make use of `siunitx` syntax, e.g. we might transform a `wiz.res()` call into something like `\qty{1.23 \pm 0.05}{\m\per\s^2}` that you also could have written manually. This means, you have full control over how the numbers and units are displayed in your LaTeX document by configuring `siunitx` itself.
 
-If you want to configure `ResultWizard` itself instead, see the [`config_init()` & `config()`](/api/config) methods.
+If you want to configure `ResultWizard` itself instead, see the [`config_init()` & `config()`]({{site.baseurl}}/api/config) methods.
 
 
 ## Important configuration options

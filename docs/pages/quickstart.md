@@ -28,9 +28,9 @@ nav_order: 2
 - It's not primarily for you, if you're writing your LaTeX code in a web-based editor like Overleaf. `ResultWizard` is a Python package that will export a `.tex` file in the end. You have to include this file in your LaTeX project and the closer your Python code is to your LaTeX document, the easier it is to reference it without having to do anything manually in-between. You could still use `ResultWizard` in your Python code and manually copy the contents of the generated `results.tex` file into Overleaf, but this is not the originally intended workflow.
 - The same philosophy applies to Jupyter Notebooks that run in a browser. Instead, you should use a local Jupyter Notebook setup and have your LaTeX project reside next to your Python code. Using VSCode as editor is one way to do this. It has built-in support [for Jupyter Notebooks](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) and with the [LaTeX Workshop extension](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) you can easily compile your LaTeX document and see the changes immediately. For a possible setup within WSL, see [this guide](https://github.com/Splines/vscode-latex-wsl-setup).
 
-Ideally, you'd have a folder structure where `code` (or `python` or `src` or whatever) and `thesis` (or `latex` or `document` or whatever) are folders on the same level. See also the [wiz.export() API](/api/export).
+Ideally, you'd have a folder structure where `code` (or `python` or `src` or whatever) and `thesis` (or `latex` or `document` or whatever) are folders on the same level. See also the [wiz.export() API]({{site.baseurl}}/api/export).
 
-Ideally, you also have used the [`siunitx`] LaTeX package beforehand to know how to format units, e.g. `\m\per\s^2`. But don't worry if you haven't, you can still use `ResultWizard` and learn about `siunitx` along the way. You might also want to check out the [siunitx configuration](/tips/siunitx) page.
+Ideally, you also have used the [`siunitx`] LaTeX package beforehand to know how to format units, e.g. `\m\per\s^2`. But don't worry if you haven't, you can still use `ResultWizard` and learn about `siunitx` along the way. You might also want to check out the [siunitx configuration]({{site.baseurl}}/tips/siunitx) page.
 
 
 
@@ -142,7 +142,7 @@ wiz.config_init(sigfigs_fallback=3, identifier="customResult")
 # default to 2 and "result" respectively
 ```
 
-If you're working in a *Jupyter Notebook*, please see [this page](tips/jupyter) for a suitable configuration of `ResultWizard` that doesn't annoy you with warnings and prints/exports the results automatically.
+If you're working in a *Jupyter Notebook*, please see [this page]({{site.baseurl}}/tips/jupyter) for a suitable configuration of `ResultWizard` that doesn't annoy you with warnings and prints/exports the results automatically.
 
 
 ### 2. Include results in LaTeX
