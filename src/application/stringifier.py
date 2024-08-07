@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 from typing import Protocol, ClassVar
 from decimal import Decimal
+from domain.result import Result
 
 # for why we use a Protocol instead of a ABC class, see
 # https://github.com/microsoft/pyright/issues/2601#issuecomment-977053380
@@ -51,7 +52,7 @@ class Stringifier(Protocol):
     def __init__(self, config: StringifierConfig):
         self.config = config
 
-    def create_str(self, value: Value, uncertainties: List[Uncertainty], unit: str) -> str:
+    def _create_str(self, value: Value, uncertainties: List[Uncertainty], unit: str) -> str:
         """
         Returns the result as LaTeX string making use of the siunitx package.
 
@@ -83,6 +84,26 @@ class Stringifier(Protocol):
             exponent,
             unit,
         )
+
+    def create_str(self, result: Result) -> str:
+        """
+        Returns the result as LaTeX string making use of the siunitx package.
+
+        This string does not yet contain "\newcommand*{}".
+        """
+        return self._create_str(result.value, result.uncertainties, result.unit)
+
+    def create_str_uncert(self, uncertainty: Uncertainty, unit: str) -> str:
+        return self._create_str(uncertainty.uncertainty, [], unit)
+
+    def create_str_value(self, result: Result) -> str:
+        return self._create_str(result.value, [], "")
+
+    def create_str_without_uncert(self, result: Result) -> str:
+        return self._create_str(result.value, [], result.unit)
+
+    def create_str_without_unit(self, result: Result) -> str:
+        return self._create_str(result.value, result.uncertainties, "")
 
     # pylint: disable-next=too-many-arguments
     def _assemble_str_parts(

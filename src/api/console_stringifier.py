@@ -27,7 +27,7 @@ class ConsoleStringifier(Stringifier):
         Returns the result as human-readable string.
         """
 
-        return f"{result.name} = {self.create_str(result.value, result.uncertainties, result.unit)}"
+        return f"{result.name} = {self.create_str(result)}"
 
     def _modify_unit(self, unit: str) -> str:
         """
