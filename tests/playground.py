@@ -14,7 +14,7 @@ print("### Playground")
 print("#############################")
 print()
 
-wiz.config_init(
+wiz.config(
     print_auto=True,
     export_auto_to="results-immediate.tex",
     siunitx_fallback=False,

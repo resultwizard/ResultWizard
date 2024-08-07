@@ -1,11 +1,16 @@
 import decimal
 from typing import Union, cast
 from dataclasses import dataclass
+from enum import Enum
 
 from api.res import _res_cache
 from application.stringifier import StringifierConfig
 from application.rounder import RoundingConfig
 from application import error_messages
+
+
+class ChangeType(Enum):
+    NO_CHANGE = 1
 
 
 @dataclass
@@ -94,22 +99,119 @@ def _check_config() -> None:
         raise ValueError(error_messages.CONFIG_SIGFIGS_FALLBACK_VALID_RANGE)
 
 
-# pylint: disable-next=too-many-arguments
-def config_init(
-    sigfigs: int = -1,  # -1: "per default use rounding rules instead"
-    decimal_places: int = -1,  # -1: "per default use rounding rules instead"
-    print_auto: bool = False,
-    export_auto_to: str = "",
-    min_exponent_for_non_scientific_notation: int = -2,
-    max_exponent_for_non_scientific_notation: int = 3,
-    identifier: str = "result",
-    sigfigs_fallback: int = 2,
-    decimal_places_fallback: int = -1,  # -1: "per default use sigfigs as fallback instead"
-    siunitx_fallback: bool = False,
-    precision: int = 100,
-    ignore_result_overwrite: bool = False,
-) -> None:
+def _set_default_config() -> None:
     global configuration  # pylint: disable=global-statement
+
+    configuration = _default_config
+
+
+_default_config = Config(
+    sigfigs=-1,
+    decimal_places=-1,
+    print_auto=False,
+    export_auto_to="",
+    min_exponent_for_non_scientific_notation=-2,
+    max_exponent_for_non_scientific_notation=3,
+    identifier="result",
+    sigfigs_fallback=2,
+    decimal_places_fallback=-1,
+    siunitx_fallback=False,
+    precision=100,
+    ignore_result_overwrite=False,
+)
+
+
+# pylint: disable-next=too-many-arguments
+def config(
+    sigfigs: Union[
+        int, None, ChangeType
+    ] = ChangeType.NO_CHANGE,  # -1: "per default use rounding rules instead"
+    decimal_places: Union[
+        int, None, ChangeType
+    ] = ChangeType.NO_CHANGE,  # -1: "per default use rounding rules instead"
+    print_auto: Union[bool, None, ChangeType] = ChangeType.NO_CHANGE,
+    export_auto_to: Union[str, None, ChangeType] = ChangeType.NO_CHANGE,
+    min_exponent_for_non_scientific_notation: Union[int, None, ChangeType] = ChangeType.NO_CHANGE,
+    max_exponent_for_non_scientific_notation: Union[int, None, ChangeType] = ChangeType.NO_CHANGE,
+    identifier: Union[str, None, ChangeType] = ChangeType.NO_CHANGE,
+    sigfigs_fallback: Union[int, None, ChangeType] = ChangeType.NO_CHANGE,
+    decimal_places_fallback: Union[
+        int, None, ChangeType
+    ] = ChangeType.NO_CHANGE,  # -1: "per default use sigfigs as fallback instead"
+    siunitx_fallback: Union[bool, None, ChangeType] = ChangeType.NO_CHANGE,
+    precision: Union[int, None, ChangeType] = ChangeType.NO_CHANGE,
+    ignore_result_overwrite: Union[bool, None, ChangeType] = ChangeType.NO_CHANGE,
+) -> None:
+    """Set the configuration for the application. Pass in the values you want to change. Pass in None for values that you want to reset."""
+    global configuration  # pylint: disable=global-statement
+
+    if sigfigs == ChangeType.NO_CHANGE:
+        sigfigs = configuration.sigfigs
+    if sigfigs is None:
+        sigfigs = _default_config.sigfigs
+
+    if decimal_places == ChangeType.NO_CHANGE:
+        decimal_places = configuration.decimal_places
+    if decimal_places is None:
+        decimal_places = _default_config.decimal_places
+
+    if print_auto == ChangeType.NO_CHANGE:
+        print_auto = configuration.print_auto
+    if print_auto is None:
+        print_auto = _default_config.print_auto
+
+    if export_auto_to == ChangeType.NO_CHANGE:
+        export_auto_to = configuration.export_auto_to
+    if export_auto_to is None:
+        export_auto_to = _default_config.export_auto_to
+
+    if min_exponent_for_non_scientific_notation == ChangeType.NO_CHANGE:
+        min_exponent_for_non_scientific_notation = (
+            configuration.min_exponent_for_non_scientific_notation
+        )
+    if min_exponent_for_non_scientific_notation is None:
+        min_exponent_for_non_scientific_notation = (
+            _default_config.min_exponent_for_non_scientific_notation
+        )
+
+    if max_exponent_for_non_scientific_notation == ChangeType.NO_CHANGE:
+        max_exponent_for_non_scientific_notation = (
+            configuration.max_exponent_for_non_scientific_notation
+        )
+    if max_exponent_for_non_scientific_notation is None:
+        max_exponent_for_non_scientific_notation = (
+            _default_config.max_exponent_for_non_scientific_notation
+        )
+
+    if identifier == ChangeType.NO_CHANGE:
+        identifier = configuration.identifier
+    if identifier is None:
+        identifier = _default_config.identifier
+
+    if sigfigs_fallback == ChangeType.NO_CHANGE:
+        sigfigs_fallback = configuration.sigfigs_fallback
+    if sigfigs_fallback is None:
+        sigfigs_fallback = _default_config.sigfigs_fallback
+
+    if decimal_places_fallback == ChangeType.NO_CHANGE:
+        decimal_places_fallback = configuration.decimal_places_fallback
+    if decimal_places_fallback is None:
+        decimal_places_fallback = _default_config.decimal_places_fallback
+
+    if siunitx_fallback == ChangeType.NO_CHANGE:
+        siunitx_fallback = configuration.siunitx_fallback
+    if siunitx_fallback is None:
+        siunitx_fallback = _default_config.siunitx_fallback
+
+    if precision == ChangeType.NO_CHANGE:
+        precision = configuration.precision
+    if precision is None:
+        precision = _default_config.precision
+
+    if ignore_result_overwrite == ChangeType.NO_CHANGE:
+        ignore_result_overwrite = configuration.ignore_result_overwrite
+    if ignore_result_overwrite is None:
+        ignore_result_overwrite = _default_config.ignore_result_overwrite
 
     decimal.DefaultContext.prec = precision
     decimal.setcontext(decimal.DefaultContext)
@@ -135,35 +237,4 @@ def config_init(
 
 
 configuration = cast(Config, None)  # pylint: disable=invalid-name
-config_init()
-
-
-def config(
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-    print_auto: Union[bool, None] = None,
-    sigfigs_fallback: Union[int, None] = None,
-    decimal_places_fallback: Union[int, None] = None,
-):
-    if sigfigs is not None:
-        configuration.sigfigs = sigfigs
-        if sigfigs > -1 and decimal_places is None:
-            configuration.decimal_places = -1
-    if decimal_places is not None:
-        configuration.decimal_places = decimal_places
-        if decimal_places > -1 and sigfigs is None:
-            configuration.sigfigs = -1
-
-    if print_auto is not None:
-        configuration.print_auto = print_auto
-
-    if sigfigs_fallback is not None:
-        configuration.sigfigs_fallback = sigfigs_fallback
-        if sigfigs_fallback > -1 and decimal_places_fallback is None:
-            configuration.decimal_places_fallback = -1
-    if decimal_places_fallback is not None:
-        configuration.decimal_places_fallback = decimal_places_fallback
-        if decimal_places_fallback > -1 and sigfigs_fallback is None:
-            configuration.sigfigs_fallback = -1
-
-    _check_config()
+_set_default_config()
