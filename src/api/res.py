@@ -19,7 +19,7 @@ import api.config as c  # pylint: disable=wrong-import-position,ungrouped-import
 def res(
     name: str,
     value: Union[float, int, str, Decimal],
-    uncert: Union[
+    uncerts: Union[
         float,
         int,
         str,
@@ -54,23 +54,23 @@ def res(
         raise ValueError(error_messages.DECIMAL_PLACES_AND_EXACT_VALUE_AT_SAME_TIME)
 
     sys_or_stat_specified = sys is not None or stat is not None
-    if uncert is not None and sys_or_stat_specified:
+    if uncerts is not None and sys_or_stat_specified:
         raise ValueError(error_messages.UNCERT_AND_SYS_STAT_AT_SAME_TIME)
 
     if sys_or_stat_specified:
-        uncert = []
+        uncerts = []
         if sys is not None:
-            uncert.append((sys, "sys"))
+            uncerts.append((sys, "sys"))
         if stat is not None:
-            uncert.append((stat, "stat"))
+            uncerts.append((stat, "stat"))
 
-    if uncert is None:
-        uncert = []
+    if uncerts is None:
+        uncerts = []
 
     # Parse user input
     name_res = parsers.parse_name(name)
     value_res = parsers.parse_value(value)
-    uncertainties_res = parsers.parse_uncertainties(uncert)
+    uncertainties_res = parsers.parse_uncertainties(uncerts)
     unit_res = parsers.parse_unit(unit)
     sigfigs_res = parsers.parse_sigfigs(sigfigs)
     decimal_places_res = parsers.parse_decimal_places(decimal_places)

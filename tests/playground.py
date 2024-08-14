@@ -60,7 +60,7 @@ wiz.res("j", 0.009, None, "", 2)  # really bad, but this is valid
 # wiz.res("k", 1.55, 0.0, unit=r"\tesla")  # -> uncertainty must be positive
 wiz.res("k", 3, 1, r"\tesla")  # integers work as well, yeah
 wiz.res("l", 1.0, sys=0.01, stat=0.02, unit=r"\mm").print()
-wiz.res("m", 1.0, uncert=[(0.01, "systematic"), (0.02, "stat")], unit=r"\mm").print()
+wiz.res("m", 1.0, uncerts=[(0.01, "systematic"), (0.02, "stat")], unit=r"\mm").print()
 
 # wiz.table(
 #     "name",
