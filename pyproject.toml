@@ -47,10 +47,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/paul019/ResultWizard"
-Repository = "https://github.com/paul019/ResultWizard"
-Issues = "https://github.com/paul019/ResultWizard/issues"
-Changelog = "https://github.com/paul019/ResultWizard/blob/main/CHANGELOG.md"
+Homepage = "https://resultwizard.github.io/ResultWizard/"
+Repository = "https://github.com/resultwizard/ResultWizard"
+Issues = "https://github.com/resultwizard/ResultWizard/issues"
+Changelog = "https://github.com/resultwizard/ResultWizard/blob/main/CHANGELOG.md"
 
 # TODO: Add these checks back
 [tool.pylint."messages control"]

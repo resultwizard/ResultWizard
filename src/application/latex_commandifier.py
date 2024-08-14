@@ -26,29 +26,29 @@ class LatexCommandifier:
         builder.add_branch("", self.result_to_latex_str(result))
         builder.add_branch("value", self.result_to_latex_str_value(result))
 
-        # Without error
+        # Without uncertainty
         if len(result.uncertainties) > 0:
-            builder.add_branch("withoutError", self.result_to_latex_str_without_error(result))
+            builder.add_branch("withoutUncert", self.result_to_latex_str_without_uncert(result))
 
         # Single uncertainties
         for i, u in enumerate(result.uncertainties):
             if len(result.uncertainties) == 1:
-                uncertainty_name = "error"
+                uncertainty_name = "uncert"
             else:
                 uncertainty_name = u.name if u.name != "" else Helpers.number_to_word(i + 1)
-                uncertainty_name = f"error{Helpers.capitalize(uncertainty_name)}"
-            error_latex_str = self.s.create_str(u.uncertainty, [], result.unit)
-            builder.add_branch(uncertainty_name, error_latex_str)
+                uncertainty_name = f"uncert{Helpers.capitalize(uncertainty_name)}"
+            uncertainty_latex_str = self.s.create_str(u.uncertainty, [], result.unit)
+            builder.add_branch(uncertainty_name, uncertainty_latex_str)
 
         # Total uncertainty and short result
         if len(result.uncertainties) >= 2:
             short_result = result.get_short_result()
             if short_result is None:
                 raise RuntimeError(error_messages.SHORT_RESULT_IS_NONE)
-            error_latex_str = self.s.create_str(
+            uncertainty_latex_str = self.s.create_str(
                 short_result.uncertainties[0].uncertainty, [], result.unit
             )
-            builder.add_branch("errorTotal", error_latex_str)
+            builder.add_branch("uncertTotal", uncertainty_latex_str)
             builder.add_branch("short", self.result_to_latex_str(short_result))
 
         # Unit
@@ -82,9 +82,9 @@ class LatexCommandifier:
         """
         return self.s.create_str(result.value, [], "")
 
-    def result_to_latex_str_without_error(self, result: Result) -> str:
+    def result_to_latex_str_without_uncert(self, result: Result) -> str:
         """
-        Returns the result without error as LaTeX string making use of the siunitx package.
+        Returns the result without uncertainty as LaTeX string making use of the siunitx package.
         """
         return self.s.create_str(result.value, [], result.unit)
 
