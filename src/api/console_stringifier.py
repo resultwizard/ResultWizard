@@ -35,9 +35,11 @@ class ConsoleStringifier(Stringifier):
         Returns the modified unit.
         """
 
+        # Remove all whitespace characters (space, tab, newline etc.)
+        unit = "".join(unit.split())
+
         # Detect "\squared" etc.
         unit = unit.replace(r"\squared", "^2").replace(r"\cubed", "^3")
-        unit = re.sub(r"(\s+)\^", "^", unit)
 
         # Detect special units
         unit = unit.replace(r"\percent", r"\%").replace(r"\degree", r"\°")
