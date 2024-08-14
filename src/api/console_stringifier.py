@@ -72,19 +72,19 @@ class ConsoleStringifier(Stringifier):
         modified_unit = ""
 
         # Handle empty unit
-        if len(numerator_parts) == 0 and len(denominator_parts) == 0:
+        if not numerator_parts and not denominator_parts:
             return ""
 
         # Numerator
-        if len(numerator_parts) == 0:
+        if not numerator_parts:
             modified_unit += "1"
-        elif len(numerator_parts) == 1 or len(denominator_parts) == 0:
+        elif len(numerator_parts) == 1 or not denominator_parts:
             modified_unit += " ".join(numerator_parts)
         else:
             modified_unit += f"({' '.join(numerator_parts)})"
 
         # Denominator
-        if len(denominator_parts) > 0:
+        if denominator_parts:
             modified_unit += "/"
             if len(denominator_parts) == 1:
                 modified_unit += denominator_parts[0]
