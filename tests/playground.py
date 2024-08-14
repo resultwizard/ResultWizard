@@ -34,9 +34,11 @@ print("### RESULTS API")
 
 wiz.res("a911", 1.05, r"\mm\s\per\N\kg")
 # wiz.res("a911", "1.052", 0.25, r"\mm\s\per\N\kg")
-
+wiz.res("a911_2", 1.05, r"\mm\s\per(\N\kg)")
 wiz.res("a_unit_parsing", "1.0", r"\per\percent")
 wiz.res("a_unit_parsing_only_numerator", "1.0", r"\m\N\kg")
+wiz.res("a_unit_squared", "1.0", r"\m \squared")
+wiz.res("a_unit_custom_slash", "1.0", r"\m\squared/\s")
 
 wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed")
 
