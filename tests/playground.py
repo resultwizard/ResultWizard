@@ -35,6 +35,8 @@ print("### RESULTS API")
 wiz.res("a911", 1.05, r"\mm\s\per\N\kg")
 # wiz.res("a911", "1.052", 0.25, r"\mm\s\per\N\kg")
 
+wiz.res("a_unit_parsing", "1.0", r"\per\percent")
+
 wiz.res("1 b", 1.0, 0.01, r"\per\mm\cubed")
 
 # wiz.config(decimal_places=-1, sigfigs_fallback=3)
