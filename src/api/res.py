@@ -33,7 +33,7 @@ def res(
     stat: Union[float, int, str, Decimal, None] = None,
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-):
+) -> PrintableResult:
     """
     Declares your result. Give it a name and a value. You may also optionally provide
     uncertainties (via `uncert` or `sys`/`stat`) and a unit in `siunitx` format.
