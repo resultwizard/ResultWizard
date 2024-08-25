@@ -14,19 +14,23 @@ class PrintableResult:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         print(stringifier.result_to_str(self._result))
 
-    def get_str(self) -> str:
+    @property
+    def string(self) -> str:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         return stringifier.create_str(self._result)
 
-    def get_str_value(self) -> str:
+    @property
+    def string_value(self) -> str:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         return stringifier.create_str_value(self._result)
 
-    def get_str_without_uncert(self) -> str:
+    @property
+    def string_without_uncert(self) -> str:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         return stringifier.create_str_without_uncert(self._result)
 
-    def get_uncerts(self) -> list[dict[str, str]]:
+    @property
+    def uncerts(self) -> list[dict[str, str]]:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         return [
             {
@@ -36,21 +40,24 @@ class PrintableResult:
             for u in self._result.uncertainties
         ]
 
-    def get_str_uncert_total(self) -> str:
+    @property
+    def string_uncert_total(self) -> str:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         short_result = self._result.get_short_result()
         if short_result is None:
             raise RuntimeError(error_messages.SHORT_RESULT_IS_NONE)
         return stringifier.create_str_uncert(short_result.uncertainties[0], self._result.unit)
 
-    def get_str_short(self) -> str:
+    @property
+    def string_short(self) -> str:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         short_result = self._result.get_short_result()
         if short_result is None:
             raise RuntimeError(error_messages.SHORT_RESULT_IS_NONE)
         return stringifier.create_str(short_result)
 
-    def get_str_without_unit(self) -> str:
+    @property
+    def string_without_unit(self) -> str:
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         return stringifier.create_str_without_unit(self._result)
 
