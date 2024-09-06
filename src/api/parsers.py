@@ -12,7 +12,7 @@ def check_if_number_string(value: str) -> None:
     try:
         float(value)
     except ValueError as exc:
-        raise ValueError(error_messages.STRING_MUST_BE_NUMBER.format(value)) from exc
+        raise ValueError(error_messages.STRING_MUST_BE_NUMBER.format(value=value)) from exc
 
 
 def parse_name(name: str) -> str:
@@ -204,7 +204,12 @@ def _parse_uncertainty_value(value: Union[float, int, str, Decimal]) -> Value:
     """Parses the value of an uncertainty."""
 
     if isinstance(value, str):
-        check_if_number_string(value)
+        try:
+            check_if_number_string(value)
+        except Exception as exc:
+            msg = error_messages.STRING_MUST_BE_NUMBER.format(value=value)
+            msg += ". " + error_messages.UNIT_NOT_PASSED_AS_KEYWORD_ARGUMENT
+            raise ValueError(msg) from exc
         return_value = parse_exact_value(value)
     else:
         return_value = Value(Decimal(value))
