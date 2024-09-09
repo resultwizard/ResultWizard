@@ -6,6 +6,7 @@
 # (e.g. the site-packages directory)."
 # From: https://setuptools.pypa.io/en/latest/userguide/quickstart.html#development-mode
 
+from random import random
 from decimal import Decimal
 import resultwizard as wiz
 

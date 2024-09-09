@@ -1,12 +1,12 @@
 from typing import List, Union
 
-from domain.tables.column import _Column
-from domain.result import _Result
+from domain.tables.column import Column
+from domain.result import Result
 
 
 def column(
     title: str,
-    cells: List[Union[_Result, str]],
+    cells: List[Union[Result, str]],
     concentrate_units_if_possible: Union[bool, None] = None,
-) -> _Column:
-    return _Column(title, cells, concentrate_units_if_possible)
+) -> Column:
+    return Column(title, cells, concentrate_units_if_possible)

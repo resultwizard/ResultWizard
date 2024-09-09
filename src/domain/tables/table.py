@@ -1,17 +1,17 @@
 from dataclasses import dataclass
 from typing import List, Union
 
-from domain.tables.column import _Column
+from domain.tables.column import Column
 
 
 @dataclass
-class _Table:
+class Table:
     """
     A table.
     """
 
     name: str
-    columns: List[_Column]
+    columns: List[Column]
     caption: str
     label: Union[str, None]
     resize_to_fit_page: bool

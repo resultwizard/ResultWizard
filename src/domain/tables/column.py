@@ -1,24 +1,24 @@
 from dataclasses import dataclass
 from typing import Union, List
 
-from domain.result import _Result
+from domain.result import Result
 
 
 @dataclass
-class _Column:
+class Column:
     """
     A table column.
     """
 
     title: str
-    cells: List[Union[_Result, str]]
+    cells: List[Union[Result, str]]
     unit: str
     concentrate_units_if_possible: Union[bool, None]
 
     def __init__(
         self,
         title: str,
-        cells: List[Union[_Result, str]],
+        cells: List[Union[Result, str]],
         concentrate_units_if_possible: Union[bool, None] = None,
     ):
         """
@@ -46,7 +46,7 @@ class _Column:
         # Check if concentration of units is possible given the cell values:
         unit = None
         for cell in self.cells:
-            if isinstance(cell, _Result):
+            if isinstance(cell, Result):
                 if unit is None:
                     unit = cell.unit
                 elif unit != cell.unit:
@@ -56,6 +56,5 @@ class _Column:
                 should_concentrate_units = False
                 break
 
-        
         if should_concentrate_units and unit is not None:
             self.unit = unit

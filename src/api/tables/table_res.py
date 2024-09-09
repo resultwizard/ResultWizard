@@ -1,102 +1,36 @@
+from decimal import Decimal
 from typing import Union, List, Tuple
-from plum import dispatch, overload
 
-from application.rounder import _Rounder
-import api.parsers as parsers
-from domain.result import _Result
+from domain.result import Result
+from api.res import _res
 
 
-# TODO: import types from typing to ensure backwards compatibility down to Python 3.8
-
-# TODO: use pydantic instead of manual and ugly type checking
-# see: https://docs.pydantic.dev/latest/
-# This way we can code as if the happy path is the only path, and let pydantic
-# handle the error checking and reporting.
-
-
-@overload
 def table_res(
-    value: Union[float, str],
-    unit: str = "",
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> _Result:
-    return table_res(value, [], unit, sigfigs, decimal_places)
-
-
-@overload
-def table_res(
-    value: Union[float, str],
-    uncert: Union[
+    value: Union[float, int, str, Decimal],
+    uncerts: Union[
         float,
+        int,
         str,
-        Tuple[Union[float, str], str],
-        List[Union[float, str, Tuple[Union[float, str], str]]],
-        None,
-    ] = None,
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> _Result:
-    return table_res(value, uncert, "", sigfigs, decimal_places)
-
-
-@overload
-def table_res(
-    value: Union[float, str],
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> _Result:
-    return table_res(value, [], "", sigfigs, decimal_places)
-
-
-@overload
-def table_res(
-    value: Union[float, str],
-    sys: float,
-    stat: float,
-    unit: str = "",
-    sigfigs: Union[int, None] = None,
-    decimal_places: Union[int, None] = None,
-) -> _Result:
-    return table_res(value, [(sys, "sys"), (stat, "stat")], unit, sigfigs, decimal_places)
-
-
-@overload
-def table_res(
-    value: Union[float, str],
-    uncert: Union[
-        float,
-        str,
-        Tuple[Union[float, str], str],
-        List[Union[float, str, Tuple[Union[float, str], str]]],
+        Decimal,
+        Tuple[Union[float, int, str, Decimal], str],
+        List[Union[float, int, str, Decimal, Tuple[Union[float, int, str, Decimal], str]]],
         None,
     ] = None,
     unit: str = "",
+    sys: Union[float, int, str, Decimal, None] = None,
+    stat: Union[float, int, str, Decimal, None] = None,
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-) -> _Result:
-    if uncert is None:
-        uncert = []
+) -> Result:
+    """
+    Declares your result. Give it a name and a value. You may also optionally provide
+    uncertainties (via `uncert` or `sys`/`stat`) and a unit in `siunitx` format.
 
-    # Parse user input
-    value_res = parsers.parse_value(value)
-    uncertainties_res = parsers.parse_uncertainties(uncert)
-    unit_res = parsers.parse_unit(unit)
-    sigfigs_res = parsers.parse_sigfigs(sigfigs)
-    decimal_places_res = parsers.parse_decimal_places(decimal_places)
+    You may additionally specify the number of significant figures or decimal places
+    to round this specific result to, irrespective of your global configuration.
 
-    # Assemble the result
-    result = _Result("", value_res, unit_res, uncertainties_res, sigfigs_res, decimal_places_res)
-    _Rounder.round_result(result)
+    TODO: provide a link to the docs for more information and examples.
+    """
+    _, result = _res(None, value, uncerts, unit, sys, stat, sigfigs, decimal_places)
 
     return result
-
-
-# Hack for method "overloading" in Python
-# see https://beartype.github.io/plum/integration.html
-# This is a good writeup: https://stackoverflow.com/a/29091980/
-@dispatch
-def table_res(*args, **kwargs) -> object:
-    # This method only scans for all `overload`-decorated methods
-    # and properly adds them as Plum methods.
-    pass

@@ -2,13 +2,17 @@ from typing import List, Union
 
 from application.cache import _res_cache
 import api.parsers as parsers
-from domain.tables.column import _Column
-from domain.tables.table import _Table
+from domain.tables.column import Column
+from domain.tables.table import Table
+
+# "Wrong" import position to avoid circular imports
+from api.export import _export  # pylint: disable=wrong-import-position,ungrouped-imports
+import api.config as c  # pylint: disable=wrong-import-position,ungrouped-imports
 
 
 def table(
     name: str,
-    columns: List[_Column],
+    columns: List[Column],
     caption: str,
     label: Union[str, None] = None,
     resize_to_fit_page_: bool = False,
@@ -37,7 +41,7 @@ def table(
         column.concentrate_units(concentrate_units_if_possible)
 
     # Assemble the table
-    _table = _Table(
+    _table = Table(
         name_res,
         columns,
         caption,
@@ -47,5 +51,10 @@ def table(
         concentrate_units_if_possible,
     )
     _res_cache.add_table(name, _table)
+
+    # Export automatically
+    immediate_export_path = c.configuration.export_auto_to
+    if immediate_export_path != "":
+        _export(immediate_export_path, print_completed=False)
 
     return

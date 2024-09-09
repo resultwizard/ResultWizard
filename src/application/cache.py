@@ -1,5 +1,6 @@
 from application.error_messages import RESULT_SHADOWED
 from domain.result import Result
+from domain.tables.table import Table
 
 
 class ResultsCache:
@@ -10,7 +11,8 @@ class ResultsCache:
     """
 
     def __init__(self):
-        self.cache: dict[str, Result] = {}
+        self.results: dict[str, Result] = {}
+        self.tables: dict[str, Table] = {}
         self.issue_result_overwrite_warning = True
 
     def configure(self, issue_result_overwrite_warning: bool):
@@ -18,10 +20,23 @@ class ResultsCache:
 
     def add(self, name, result: Result):
 
-        if self.issue_result_overwrite_warning and name in self.cache:
+        if self.issue_result_overwrite_warning and name in self.results:
             print(RESULT_SHADOWED.format(name=name))
 
-        self.cache[name] = result
+        self.results[name] = result
+
+    def add_table(self, name, table: Table):
+
+        if self.issue_result_overwrite_warning and name in self.tables:
+            print(RESULT_SHADOWED.format(name=name))
+
+        self.tables[name] = table
 
     def get_all_results(self) -> list[Result]:
-        return list(self.cache.values())
+        return list(self.results.values())
+
+    def get_all_tables(self) -> list[Table]:
+        return list(self.tables.values())
+
+
+_res_cache = ResultsCache()
