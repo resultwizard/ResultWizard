@@ -1,5 +1,5 @@
 from typing import Set
-from api.latexer import get_latexer
+from api.latexer import get_latexer, get_table_latexer
 from api.res import _res_cache
 import api.config as c
 from application.helpers import Helpers
@@ -15,6 +15,7 @@ def export(filepath: str):
 
 def _export(filepath: str, print_completed: bool):
     results = _res_cache.get_all_results()
+    tables = _res_cache.get_all_tables()
 
     if print_completed:
         print(f"Processing {len(results)} result(s)")
@@ -33,6 +34,7 @@ def _export(filepath: str, print_completed: bool):
     ]
 
     latexer = get_latexer()
+    table_latexer = get_table_latexer()
 
     uncertainty_names = set()
     result_lines = []
@@ -40,6 +42,11 @@ def _export(filepath: str, print_completed: bool):
         uncertainty_names.update(u.name for u in result.uncertainties if u.name != "")
         result_str = latexer.result_to_latex_cmd(result)
         result_lines.append(result_str)
+
+    table_lines = []
+    for table in tables:
+        table_str = table_latexer.table_to_latex_cmd(table)
+        table_lines.append(table_str)
 
     if not c.configuration.siunitx_fallback:
         siunitx_setup = _uncertainty_names_to_siunitx_setup(uncertainty_names)
@@ -50,6 +57,11 @@ def _export(filepath: str, print_completed: bool):
 
     lines.append("% Commands to print the results. Use them in your document.")
     lines.extend(result_lines)
+
+    lines.append("")
+
+    lines.append("% Commands to print the tables. Use them in your document.")
+    lines.extend(table_lines)
 
     # Write to file
     with open(filepath, "w", encoding="utf-8") as f:

@@ -16,6 +16,7 @@ class StringifierConfig:
     min_exponent_for_non_scientific_notation: int
     max_exponent_for_non_scientific_notation: int
     identifier: str
+    table_identifier: str
 
 
 class Stringifier(Protocol):

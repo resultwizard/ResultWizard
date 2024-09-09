@@ -65,6 +65,7 @@ class Config:
             self.min_exponent_for_non_scientific_notation,
             self.max_exponent_for_non_scientific_notation,
             self.identifier,
+            self.table_identifier,
         )
 
     def to_rounding_config(self) -> RoundingConfig:

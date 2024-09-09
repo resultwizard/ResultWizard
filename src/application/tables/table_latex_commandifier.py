@@ -1,22 +1,21 @@
-from domain.tables.table import _Table
-from domain.result import _Result
-from application.latexer import _LaTeXer
+from application.stringifier import Stringifier
+from application.helpers import Helpers
+from domain.result import Result
+from domain.tables.table import Table
 
 
-# Config values:
-min_exponent_for_non_scientific_notation = -2
-max_exponent_for_non_scientific_notation = 3
-table_identifier = "table"
+class TableLatexCommandifier:
+    """Makes use of a LaTeX stringifier to embed a table into a LaTeX command."""
 
+    def __init__(self, stringifier: Stringifier):
+        self.s = stringifier
 
-class _TableLaTeXer:
-    @classmethod
-    def table_to_latex_cmd(cls, table: _Table) -> str:
+    def table_to_latex_cmd(self, table: Table) -> str:
         """
         Returns the table as LaTeX command to be used in a .tex file.
         """
 
-        cmd_name = table_identifier + table.name[0].upper() + table.name[1:]
+        cmd_name = f"{self.s.config.table_identifier}{Helpers.capitalize(table.name)}"
 
         # New command:
         latex_str = rf"\newcommand*{{\{cmd_name}}}[1][]{{" + "\n"
@@ -28,9 +27,9 @@ class _TableLaTeXer:
             latex_str += r"\resizebox{\textwidth}{!}{"
 
         if table.horizontal:
-            latex_str += cls._table_to_latex_tabular_horizontal(table)
+            latex_str += self._table_to_latex_tabular_horizontal(table)
         else:
-            latex_str += cls._table_to_latex_tabular_vertical(table)
+            latex_str += self._table_to_latex_tabular_vertical(table)
 
         # Table footer:
         if table.resize_to_fit_page:
@@ -44,8 +43,7 @@ class _TableLaTeXer:
 
         return latex_str
 
-    @classmethod
-    def _table_to_latex_tabular_vertical(cls, table: _Table) -> str:
+    def _table_to_latex_tabular_vertical(self, table: Table) -> str:
         latex_str = r"\begin{tabular}{|"
         for _ in range(len(table.columns)):
             latex_str += r"c|"
@@ -62,7 +60,7 @@ class _TableLaTeXer:
             latex_str += rf"\textbf{{{column.title}}}"
 
         # Unit row:
-        if cls._exist_units(table):
+        if self._exist_units(table):
             latex_str += "\\\\\n"
             is_first_column = True
             for column in table.columns:
@@ -84,8 +82,8 @@ class _TableLaTeXer:
 
                 cell = column.cells[i]
 
-                if isinstance(cell, _Result):
-                    value_str = _LaTeXer.create_latex_str(
+                if isinstance(cell, Result):
+                    value_str = self.s.create_str(
                         cell.value, cell.uncertainties, cell.unit if column.unit == "" else ""
                     )
                     latex_str += f"${value_str}$"
@@ -99,10 +97,9 @@ class _TableLaTeXer:
 
         return latex_str
 
-    @classmethod
-    def _table_to_latex_tabular_horizontal(cls, table: _Table) -> str:
+    def _table_to_latex_tabular_horizontal(self, table: Table) -> str:
         latex_str = r"\begin{tabular}{|l"
-        if cls._exist_units(table):
+        if self._exist_units(table):
             latex_str += r"c||"
         else:
             latex_str += r"||"
@@ -117,7 +114,7 @@ class _TableLaTeXer:
             latex_str += rf"\textbf{{{row.title}}}"
 
             # Unit column:
-            if cls._exist_units(table):
+            if self._exist_units(table):
                 if row.unit != "":
                     latex_str += rf" & $[\unit{{{row.unit}}}]$"
                 else:
@@ -125,8 +122,8 @@ class _TableLaTeXer:
 
             # Value columns:
             for cell in row.cells:
-                if isinstance(cell, _Result):
-                    value_str = _LaTeXer.create_latex_str(
+                if isinstance(cell, Result):
+                    value_str = self.s.create_str(
                         cell.value, cell.uncertainties, cell.unit if row.unit == "" else ""
                     )
                     latex_str += f" & ${value_str}$"
@@ -138,8 +135,7 @@ class _TableLaTeXer:
 
         return latex_str
 
-    @classmethod
-    def _exist_units(cls, table: _Table) -> bool:
+    def _exist_units(self, table: Table) -> bool:
         for column in table.columns:
             if column.unit != "":
                 return True

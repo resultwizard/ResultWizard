@@ -3,10 +3,15 @@ from application.latex_better_siunitx_stringifier import LatexBetterSiunitxStrin
 from application.latex_commandifier import LatexCommandifier
 from application.latex_stringifier import LatexStringifier
 from application.stringifier import Stringifier
+from application.tables.table_latex_commandifier import TableLatexCommandifier
 
 
 def get_latexer() -> LatexCommandifier:
     return LatexCommandifier(_choose_latex_stringifier())
+
+
+def get_table_latexer() -> TableLatexCommandifier:
+    return TableLatexCommandifier(_choose_latex_stringifier())
 
 
 def _choose_latex_stringifier() -> Stringifier:
