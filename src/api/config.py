@@ -53,6 +53,7 @@ class Config:
     min_exponent_for_non_scientific_notation: int
     max_exponent_for_non_scientific_notation: int
     identifier: str
+    table_identifier: str
     sigfigs_fallback: int
     decimal_places_fallback: int
     siunitx_fallback: bool
@@ -103,6 +104,7 @@ def config_init(
     min_exponent_for_non_scientific_notation: int = -2,
     max_exponent_for_non_scientific_notation: int = 3,
     identifier: str = "result",
+    table_identifier: str = "table",
     sigfigs_fallback: int = 2,
     decimal_places_fallback: int = -1,  # -1: "per default use sigfigs as fallback instead"
     siunitx_fallback: bool = False,
@@ -122,6 +124,7 @@ def config_init(
         min_exponent_for_non_scientific_notation,
         max_exponent_for_non_scientific_notation,
         identifier,
+        table_identifier,
         sigfigs_fallback,
         decimal_places_fallback,
         siunitx_fallback,
