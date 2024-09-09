@@ -15,7 +15,7 @@ from api.export import _export  # pylint: disable=wrong-import-position,ungroupe
 import api.config as c  # pylint: disable=wrong-import-position,ungrouped-imports
 
 
-# pylint: disable-next=too-many-arguments,redefined-builtin,too-many-locals
+# pylint: disable-next=too-many-arguments,too-many-locals
 def res(
     name: str,
     value: Union[float, int, str, Decimal],
@@ -33,7 +33,7 @@ def res(
     stat: Union[float, int, str, Decimal, None] = None,
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
-    print: Union[bool, None] = None,
+    print: Union[bool, None] = None,  # pylint: disable=redefined-builtin
 ) -> PrintableResult:
     """
     Declares your result. Give it a name and a value. You may also optionally provide
