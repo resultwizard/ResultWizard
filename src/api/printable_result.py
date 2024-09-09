@@ -1,6 +1,7 @@
 from api.console_stringifier import ConsoleStringifier
 import api.config as c
 from api.latexer import get_latexer
+from api.printable_uncertainty import PrintableUncertainty
 from domain.result import Result
 from application import error_messages
 
@@ -30,15 +31,8 @@ class PrintableResult:
         return stringifier.create_str_without_uncert(self._result)
 
     @property
-    def uncerts(self) -> list[dict[str, str]]:
-        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
-        return [
-            {
-                "name": u.name,
-                "string": stringifier.create_str_uncert(u, self._result.unit),
-            }
-            for u in self._result.uncertainties
-        ]
+    def uncerts(self) -> list[PrintableUncertainty]:
+        return [PrintableUncertainty(u, self._result.unit) for u in self._result.uncertainties]
 
     @property
     def string_uncert_total(self) -> str:
