@@ -1,9 +1,7 @@
-from typing import Union
-
-from domain.value import _Value
+from domain.value import Value
 
 
-class _Uncertainty:
+class Uncertainty:
     """
     A named uncertainty value, e.g. a systematic uncertainty of ±0.1cm
     when measuring a length. In this case the uncertainty would be 0.1 and the name
@@ -15,9 +13,6 @@ class _Uncertainty:
     interchangeably.
     """
 
-    def __init__(self, uncertainty: Union[float, str], name: str = ""):
-        self.uncertainty = _Value(uncertainty)
+    def __init__(self, uncertainty: Value, name: str = ""):
+        self.uncertainty = uncertainty
         self.name = name
-
-    def value(self) -> _Value:
-        return self.uncertainty

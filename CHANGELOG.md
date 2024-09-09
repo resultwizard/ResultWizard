@@ -1,3 +1,3 @@
-# Changelog of ResultWizard
+# Changelog
 
-TODO
+👀 Nothing here yet

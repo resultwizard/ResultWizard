@@ -1,30 +1,27 @@
-from domain.result import _Result
-from domain.tables.table import _Table
+from application.error_messages import RESULT_SHADOWED
+from domain.result import Result
 
 
-class _ResultsCache:
+class ResultsCache:
     """
     A cache for all user-defined results. Results are hashed by their name.
     If the user tries to add a result with a name that already exists in the cache,
     the new result will replace the old one ("shadowing").
-    # TODO: is this the wanted behavior? Maybe print a warning in this case.
     """
 
     def __init__(self):
-        self.res_cache: dict[str, _Result] = {}
-        self.table_cache: dict[str, _Table] = {}
+        self.cache: dict[str, Result] = {}
+        self.issue_result_overwrite_warning = True
 
-    def add_res(self, name: str, result: _Result):
-        self.res_cache[name] = result
+    def configure(self, issue_result_overwrite_warning: bool):
+        self.issue_result_overwrite_warning = issue_result_overwrite_warning
 
-    def add_table(self, name: str, table: _Table):
-        self.table_cache[name] = table
+    def add(self, name, result: Result):
 
-    def get_all_results(self) -> list[_Result]:
-        return list(self.res_cache.values())
-    
-    def get_all_tables(self) -> list[_Table]:
-        return list(self.table_cache.values())
+        if self.issue_result_overwrite_warning and name in self.cache:
+            print(RESULT_SHADOWED.format(name=name))
 
+        self.cache[name] = result
 
-_res_cache = _ResultsCache()
+    def get_all_results(self) -> list[Result]:
+        return list(self.cache.values())

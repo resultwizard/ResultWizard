@@ -1,5 +1,8 @@
 import math
+import decimal
+from decimal import Decimal
 
+from application import error_messages
 
 _NUMBER_TO_WORD = {
     0: "zero",
@@ -33,34 +36,48 @@ _NUMBER_TO_WORD = {
 }
 
 
-class _Helpers:
+class Helpers:
     @classmethod
-    def get_exponent(cls, value: float) -> int:
+    def get_exponent(cls, value: Decimal) -> int:
+        if value == 0:
+            return 0
         return math.floor(math.log10(abs(value)))
 
     @classmethod
-    def get_first_digit(cls, value: float) -> int:
+    def get_first_digit(cls, value: Decimal) -> int:
         n = abs(value) * 10 ** (-cls.get_exponent(value))
         return math.floor(n)
 
     @classmethod
-    def round_to_n_decimal_places(cls, value: float, n: int):
-        return f"{value:.{int(abs(n))}f}"
+    def round_to_n_decimal_places(cls, value: Decimal, n: int) -> str:
+        if n < 0:
+            raise RuntimeError(error_messages.ROUND_TO_NEGATIVE_DECIMAL_PLACES)
+
+        try:
+            decimal_value = value.quantize(Decimal(f"1.{'0' * n}"))
+            return f"{decimal_value:.{n}f}"
+        except decimal.InvalidOperation as exc:
+            raise ValueError(error_messages.PRECISION_TOO_LOW) from exc
 
     @classmethod
     def number_to_word(cls, number: int) -> str:
-        if number >= 0 and number <= 19:
+        if 0 <= number <= 19:
             return _NUMBER_TO_WORD[number]
-        elif number >= 0 and number <= 99:
+        if 0 <= number <= 99:
             tens = number // 10 * 10
             ones = number % 10
             if ones == 0:
                 return _NUMBER_TO_WORD[tens]
-            else:
-                return (
-                    _NUMBER_TO_WORD[tens]
-                    + _NUMBER_TO_WORD[ones][0].upper()
-                    + _NUMBER_TO_WORD[ones][1:]
-                )
-        else:
-            raise RuntimeError("Runtime error.")
+            return _NUMBER_TO_WORD[tens] + cls.capitalize(_NUMBER_TO_WORD[ones])
+        if 0 <= number <= 999:
+            hundreds = number // 100
+            tens = number % 100
+            if tens == 0:
+                return _NUMBER_TO_WORD[hundreds] + "Hundred"
+            return _NUMBER_TO_WORD[hundreds] + "Hundred" + cls.capitalize(cls.number_to_word(tens))
+
+        raise ValueError(error_messages.NUMBER_TO_WORD_TOO_HIGH.format(number=number))
+
+    @classmethod
+    def capitalize(cls, s: str) -> str:
+        return s[0].upper() + s[1:]
