@@ -42,7 +42,7 @@ jobs:
           if: ${{ steps.py-changed.outputs.changed-files != ''}}
           run: |
             echo "🚨 Running Pylint version: $(pipenv run python3 -m pylint --version)"
-            pipenv run python3 -m pylint ${{ steps.py-changed.outputs.changed-files }}
+            pipenv run python3 -m pylint --output-format=github ${{ steps.py-changed.outputs.changed-files }}
 
 
 # [1] https://github.com/orgs/community/discussions/26366
