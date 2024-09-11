@@ -38,8 +38,8 @@ class Stringifier(Protocol):
     value_prefix: ClassVar[str]
     value_suffix: ClassVar[str]
 
-    error_name_prefix: ClassVar[str]
-    error_name_suffix: ClassVar[str]
+    uncertainty_name_prefix: ClassVar[str]
+    uncertainty_name_suffix: ClassVar[str]
 
     scientific_notation_prefix: ClassVar[str]
     scientific_notation_suffix: ClassVar[str]
@@ -68,9 +68,9 @@ class Stringifier(Protocol):
             u_rounded = self._uncertainty_to_str(u, use_scientific_notation, exponent, factor)
             u_rounded = f" {self.plus_minus} {self.value_prefix}{u_rounded}{self.value_suffix}"
             if u.name != "":
-                u_rounded += self.error_name_prefix
+                u_rounded += self.uncertainty_name_prefix
                 u_rounded += self._modify_uncertainty_name(u.name)
-                u_rounded += self.error_name_suffix
+                u_rounded += self.uncertainty_name_suffix
             uncertainties_rounded.append(u_rounded)
 
         # Assemble everything together
