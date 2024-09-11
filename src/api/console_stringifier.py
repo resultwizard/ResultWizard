@@ -93,4 +93,8 @@ class ConsoleStringifier(Stringifier):
             else:
                 modified_unit += f"({' '.join(denominator_parts)})"
 
+        modified_unit = self.strip_whitespaces_around_parentheses(modified_unit)
         return modified_unit
+
+    def strip_whitespaces_around_parentheses(self, string: str) -> str:
+        return string.replace(" (", "(").replace("( ", "(").replace(" )", ")").replace(") ", ")")
