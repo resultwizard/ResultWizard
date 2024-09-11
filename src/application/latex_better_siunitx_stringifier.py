@@ -1,7 +1,7 @@
 from typing import List
 
-from application.helpers import Helpers
 from application.stringifier import Stringifier
+from domain.uncertainty import Uncertainty
 
 
 class LatexBetterSiunitxStringifier(Stringifier):
@@ -22,7 +22,7 @@ class LatexBetterSiunitxStringifier(Stringifier):
     value_prefix = ""
     value_suffix = ""
 
-    uncertainty_name_prefix = r"\Uncert"
+    uncertainty_name_prefix = ""
     uncertainty_name_suffix = ""
 
     scientific_notation_prefix = "e"
@@ -32,16 +32,17 @@ class LatexBetterSiunitxStringifier(Stringifier):
     unit_suffix = ""
     # pylint: enable=duplicate-code
 
-    def _modify_uncertainty_name(self, name) -> str:
-        return Helpers.capitalize(name)
+    def _modify_uncertainty_name(self, _name) -> str:
+        return ""
 
     # pylint: disable-next=too-many-arguments
     def _assemble_str_parts(
         self,
         sign: str,
         value_rounded: str,
+        uncertainties: List[Uncertainty],
         uncertainties_rounded: List[str],
-        should_use_parentheses: bool,
+        _should_use_parentheses: bool,
         use_scientific_notation: bool,
         exponent: int,
         unit: str,
@@ -51,9 +52,14 @@ class LatexBetterSiunitxStringifier(Stringifier):
         if use_scientific_notation:
             num_part += f" e{str(exponent)}"
 
+        uncert_descriptors = [u.name for u in uncertainties if u.name != ""]
+        uncert_descriptors_str = ""
+        if len(uncert_descriptors) > 0:
+            uncert_descriptors_str = f"[uncertainty-descriptors={{{','.join(uncert_descriptors)}}}]"
+
         if unit != "":
-            string = rf"\qty{{{num_part}}}{{{unit}}}"
+            string = rf"\qty{uncert_descriptors_str}{{{num_part}}}{{{unit}}}"
         else:
-            string = rf"\num{{{num_part}}}"
+            string = rf"\num{uncert_descriptors_str}{{{num_part}}}"
 
         return string
