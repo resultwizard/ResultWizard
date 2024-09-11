@@ -34,6 +34,13 @@ print("### RESULTS API")
 
 wiz.res("a911", 1.05, unit=r"\mm\s\per\N\kg")
 # wiz.res("a911", "1.052", 0.25, r"\mm\s\per\N\kg")
+wiz.res("a911_2", 1.05, unit=r"\mm\s\per(\N\kg)")
+wiz.res("more parentheses", 1.05, unit=r"\mm\s\per((\N\kg))")
+wiz.res("wrong parentheses", 1.05, unit=r"\mm\s\per(((\N\kg)\T")
+wiz.res("a_unit_parsing", "1.0", unit=r"\per\percent")
+wiz.res("a_unit_parsing_only_numerator", "1.0", unit=r"\m\N\kg")
+wiz.res("a_unit_squared", "1.0", unit=r"\m \squared")
+wiz.res("a_unit_custom_slash", "1.0", unit=r"\m\squared/\s")
 
 wiz.res("1 b", 1.0, 0.01, unit=r"\per\mm\cubed")
 
@@ -54,7 +61,7 @@ wiz.res(
     Decimal("42.0e-30"),
     sys=Decimal("0.1e-31"),
     stat=Decimal("0.05e-31"),
-    unit=r"\m\per\s\squared",
+    unit=r"\m\per\s\squared\newton\per\kg",
 )
 wiz.res("j", 0.009, None, "", 2)  # really bad, but this is valid
 # wiz.res("k", 1.55, 0.0, unit=r"\tesla")  # -> uncertainty must be positive

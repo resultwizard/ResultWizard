@@ -16,6 +16,8 @@
 - Suggest some good initial configuration for Jupyter notebook, e.g. `print_auto=True` and `ignore_result_overwrite=True`.
 - Naming: we call it "uncertainty". Give a hint that others might also call it "error" interchangeably.
 - Jupyter Notebook tip to avoid
+- Add warning that users should not rely on console stringified output for further processing since that might change more often in the future, e.g. better formatting of units or whitespaces etc. Only rely on the final LaTeX output written to the external file.
+
 
 ```
 <api.printable_result.PrintableResult at 0x7f35beb20510>
