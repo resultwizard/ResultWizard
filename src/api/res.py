@@ -33,6 +33,7 @@ def res(
     stat: Union[float, int, str, Decimal, None] = None,
     sigfigs: Union[int, None] = None,
     decimal_places: Union[int, None] = None,
+    print: Union[bool, None] = None,  # pylint: disable=redefined-builtin
 ) -> PrintableResult:
     """
     Declares your result. Give it a name and a value. You may also optionally provide
@@ -84,7 +85,7 @@ def res(
 
     # Print automatically
     printable_result = PrintableResult(result)
-    if c.configuration.print_auto:
+    if (c.configuration.print_auto and print is not False) or print is True:
         printable_result.print()
 
     # Export automatically
