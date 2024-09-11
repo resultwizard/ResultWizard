@@ -19,8 +19,8 @@ class LatexStringifier(Stringifier):
     value_prefix = r"\num{"
     value_suffix = r"}"
 
-    uncertainty_name_prefix = r"_{\text{"
-    uncertainty_name_suffix = r"}}"
+    error_name_prefix = r"_{\text{"
+    error_name_suffix = r"}}"
 
     scientific_notation_prefix = r" \cdot 10^{"
     scientific_notation_suffix = "}"
