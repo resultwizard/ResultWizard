@@ -22,8 +22,8 @@ class LatexBetterSiunitxStringifier(Stringifier):
     value_prefix = ""
     value_suffix = ""
 
-    error_name_prefix = r"\Uncert"
-    error_name_suffix = ""
+    uncertainty_name_prefix = r"\Uncert"
+    uncertainty_name_suffix = ""
 
     scientific_notation_prefix = "e"
     scientific_notation_suffix = ""

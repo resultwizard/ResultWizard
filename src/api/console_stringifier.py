@@ -14,8 +14,8 @@ class ConsoleStringifier(Stringifier):
     value_prefix = ""
     value_suffix = ""
 
-    error_name_prefix = " ("
-    error_name_suffix = ")"
+    uncertainty_name_prefix = " ("
+    uncertainty_name_suffix = ")"
 
     scientific_notation_prefix = "e"
     scientific_notation_suffix = ""
