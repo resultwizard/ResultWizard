@@ -1,7 +1,9 @@
 from api.console_stringifier import ConsoleStringifier
 import api.config as c
 from api.latexer import get_latexer
+from api.printable_uncertainty import PrintableUncertainty
 from domain.result import Result
+from application import error_messages
 
 
 class PrintableResult:
@@ -12,6 +14,46 @@ class PrintableResult:
         """Prints the result to the console."""
         stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
         print(stringifier.result_to_str(self._result))
+
+    @property
+    def string(self) -> str:
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
+        return stringifier.create_str(self._result)
+
+    @property
+    def string_value(self) -> str:
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
+        return stringifier.create_str_value(self._result)
+
+    @property
+    def string_without_uncert(self) -> str:
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
+        return stringifier.create_str_without_uncert(self._result)
+
+    @property
+    def uncerts(self) -> list[PrintableUncertainty]:
+        return [PrintableUncertainty(u, self._result.unit) for u in self._result.uncertainties]
+
+    @property
+    def string_uncert_total(self) -> str:
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
+        short_result = self._result.get_short_result()
+        if short_result is None:
+            raise RuntimeError(error_messages.SHORT_RESULT_IS_NONE)
+        return stringifier.create_str_uncert(short_result.uncertainties[0], self._result.unit)
+
+    @property
+    def string_short(self) -> str:
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
+        short_result = self._result.get_short_result()
+        if short_result is None:
+            raise RuntimeError(error_messages.SHORT_RESULT_IS_NONE)
+        return stringifier.create_str(short_result)
+
+    @property
+    def string_without_unit(self) -> str:
+        stringifier = ConsoleStringifier(c.configuration.to_stringifier_config())
+        return stringifier.create_str_without_unit(self._result)
 
     def to_latex_str(self) -> str:
         """Converts the result to a string that can be used in LaTeX documents.
