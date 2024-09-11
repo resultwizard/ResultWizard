@@ -111,7 +111,7 @@ class ConsoleStringifier(Stringifier):
         is not the scope of this project for now, we just do a simple replacement
         of the `per` that slipped through the above logic.
 
-        Note that at this point, `\percent` was already replaced by `%`, so
+        Note that at this point, `percent` was already replaced by `%`, so
         we can safely replace all occurrences of "per" with "/".
         """
         return string.replace("per", " / ")
