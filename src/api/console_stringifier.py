@@ -94,7 +94,24 @@ class ConsoleStringifier(Stringifier):
                 modified_unit += f"({' '.join(denominator_parts)})"
 
         modified_unit = self.strip_whitespaces_around_parentheses(modified_unit)
+        modified_unit = self.replace_per_by_symbol(modified_unit)
+
         return modified_unit
 
     def strip_whitespaces_around_parentheses(self, string: str) -> str:
         return string.replace(" (", "(").replace("( ", "(").replace(" )", ")").replace(") ", ")")
+
+    def replace_per_by_symbol(self, string: str) -> str:
+        """
+        Replaces all occurrences of `per` with `/`.
+
+        This might be necessary due to limitations of the above parsing method
+        where `per(` is recognized as a single token. For a proper parser, we
+        would have to deal with parentheses in a more sophisticated way. As this
+        is not the scope of this project for now, we just do a simple replacement
+        of the `per` that slipped through the above logic.
+
+        Note that at this point, `\percent` was already replaced by `%`, so
+        we can safely replace all occurrences of "per" with "/".
+        """
+        return string.replace("per", " / ")
