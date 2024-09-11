@@ -214,7 +214,7 @@ def _parse_uncertainty_value(value: Union[float, int, str, Decimal]) -> Value:
     else:
         return_value = Value(Decimal(value))
 
-    if return_value.get() <= 0:
-        raise ValueError(error_messages.FIELD_MUST_BE_POSITIVE.format(field="Uncertainty"))
+    if return_value.get() < 0:
+        raise ValueError(error_messages.FIELD_MUST_BE_NON_NEGATIVE.format(field="Uncertainty"))
 
     return return_value
