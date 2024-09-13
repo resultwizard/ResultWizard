@@ -83,3 +83,10 @@ wiz.res("g Another Test", 9.81, 0.78, unit=r"\m/\s^2")
 print()
 print("### EXPORT")
 wiz.export("results.tex")
+
+
+# New config API design test (not yet implemented)
+wiz.configgg(sigfigs=2)
+wiz.configgg(other="test")
+wiz.configgg(sigfigs=wiz.CONFIG_DEFAULT)
+wiz.configgg()

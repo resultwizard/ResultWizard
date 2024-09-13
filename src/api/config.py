@@ -121,6 +121,36 @@ _default_config = Config(
 )
 
 
+class ConfigDefault:
+    def __init__(self, should_change=True) -> None:
+        self.should_change = should_change
+
+
+CONFIG_DEFAULT = ConfigDefault()
+NO_CHANGE = ConfigDefault(should_change=False)
+
+
+def configgg(
+    sigfigs: Union[int, None, ConfigDefault] = NO_CHANGE,
+    other: Union[str, ConfigDefault] = NO_CHANGE,
+) -> None:
+    print("--- Call to configgg")
+
+    # TODO: outsource behavior to a function
+    if sigfigs is NO_CHANGE:
+        print(f"sigfigs is NO_CHANGE, so will be left at last value")
+    elif sigfigs is CONFIG_DEFAULT:
+        print("sigfigs is CONFIG_DEFAULT: 42")
+        sigfigs = 42  # default value
+    else:
+        print(f"sigfigs set to {sigfigs}")
+
+    # do the same for `other` later on
+
+    # ...
+    return
+
+
 # pylint: disable-next=too-many-arguments
 def config(
     sigfigs: Union[
